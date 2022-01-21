@@ -67,7 +67,7 @@
                  "id":14,
                  "properties":[
                         {
-                         "name":"speechBubbleTrigger",
+                         "name":"trigger",
                          "type":"bool",
                          "value":true
                         }]
