@@ -1,43 +1,46 @@
 import Phaser from 'phaser';
-import MariaHillMap from '../assets/maps/map-maria-hill.json';
-import PlayerRaimu from '../assets/sprites/player-raimu.json';
+import { createTextBox } from '../components/MyTextBox.js';
+import MariaHillJSON from '../assets/maps/map-maria-hill.json';
+import PlayerRaimuJSON from '../assets/sprites/player-raimu.json';
 // import MariaHillImage from '../assets/maps/map-maria-hill-tiles.png'; // not work on images. use require() now.
 // import PlayerRaimuImg from '../assets/sprites/player-raimu.png';
 
 // TODO: change to import consts
 const MARIA_HILL_LAYER_GROUND = 'ground_unwalkable';
-const MARIA_HILL_LAYER_ROAD = 'path_walkable';
+const MARIA_HILL_LAYER_ROAD = 'road_walkable';
+const MARIA_HILL_LAYER_COLLISIONS = 'collisions';
 const MARIA_HILL_TILESET_NAME = 'maria_hill_tiles';
 const PLAYER_ANIM_KEYS = ["walking_down","walking_left","walking_right","walking_up"];
 const GRID_ENGINE_MOVEMENT_DIRECTION = 4;
+const content = `(The hill of Maria...\nI like this place.)`
 
 export default class TheHillOfMariaScene extends Phaser.Scene {
   constructor() {
     super('TheHillOfMariaScene');
     this.mapImgKey = 'hill_tileset';
-    this.tilesetKey = 'map_maria_hill';
-    this.spriteName = 'raimu';
+    this.tileMapKey = 'map_maria_hill';
     this.spriteID = 'player_raimu';
   }
 
   preload() {
     const hillImg = require('../assets/maps/map-maria-hill-tiles.png');
-    this.load.tilemapTiledJSON(this.tilesetKey, MariaHillMap);
+    this.load.tilemapTiledJSON(this.tileMapKey, MariaHillJSON);
     this.load.image(this.mapImgKey, hillImg);
     
     const playerImg = require('../assets/sprites/player-raimu.png');
-    this.load.atlas(this.spriteID, playerImg, PlayerRaimu);
+    this.load.atlas(this.spriteID, playerImg, PlayerRaimuJSON);
   }
 
   create() {
     // init phaser
-    const map = this.getMap();
-    this.setPlayerSprite();
+    const player = this.makePlayerSprite();
+    const tileMap = this.makeTileMap(player);
     this.addAnimationFrames(PLAYER_ANIM_KEYS, 6, -1);
     
     // init grid engine
-    this.initGridEngine(map);
-    this.setMovementSubscribers();
+    this.initGridEngine(tileMap, player);
+    this.setMovementSubscribers(player);
+    this.setPositionSubscribers(tileMap);
 
     // start scene
     this.gridEngine.moveTo(this.spriteID, { x: 1, y: 5 });
@@ -47,18 +50,24 @@ export default class TheHillOfMariaScene extends Phaser.Scene {
 
   }
 
-  getMap() {
-    const map = this.make.tilemap({ key: this.tilesetKey });
-    const tileset = map.addTilesetImage(MARIA_HILL_TILESET_NAME, this.mapImgKey);
-    map.createLayer(MARIA_HILL_LAYER_GROUND, tileset, 0, 0);
-    map.createLayer(MARIA_HILL_LAYER_ROAD, tileset, 0, 0);
+  makeTileMap(player) {
+    const tileMap = this.make.tilemap({ key: this.tileMapKey });
+    const tileset = tileMap.addTilesetImage(MARIA_HILL_TILESET_NAME, this.mapImgKey);
+    tileMap.createLayer(MARIA_HILL_LAYER_GROUND, tileset);
+    tileMap.createLayer(MARIA_HILL_LAYER_ROAD, tileset);
+    tileMap.createLayer(MARIA_HILL_LAYER_COLLISIONS, tileset);
 
-    return map
+    // this.physics.add.collider(player, groundLayer);
+    // groundLayer.setCollisionByProperty({ collides: true });
+
+    return tileMap
   }
 
-  setPlayerSprite() {
-    this.player = this.add.sprite(0, 0, this.spriteID);
-    this.player.scale = 1;
+  makePlayerSprite() {
+    const player = this.add.sprite(0, 0, this.spriteID);
+    player.scale = 1;
+
+    return player
   }
 
   addAnimationFrames(keys, frameRate, repeat) {
@@ -89,36 +98,63 @@ export default class TheHillOfMariaScene extends Phaser.Scene {
     }
   };
 
-  initGridEngine(map) {
+  initGridEngine(tileMap, player) {
     const gridEngineConfig = {
       characters: [{
           id: this.spriteID,
-          sprite: this.player,
+          sprite: player,
           startPosition: { x: 5, y: -1 },
-          speed: 1,
+          speed: 1
       }],
       numberOfDirections: GRID_ENGINE_MOVEMENT_DIRECTION,
     };
 
-    this.gridEngine.create(map, gridEngineConfig);
+    this.gridEngine.create(tileMap, gridEngineConfig);
   }
 
-  setMovementSubscribers() {
+  setMovementSubscribers(player) {
     this.gridEngine.movementStarted().subscribe(({ direction }) => {
-      this.player.play(`walking_${direction}`);
+      player.play(`walking_${direction}`);
     });
     
     this.gridEngine.movementStopped().subscribe(({ direction }) => {
-      this.player.anims.stop();
-      this.player.setFrame(this.getStopFrame(direction));
+      player.anims.stop();
+      player.setFrame(this.getStopFrame('down'));
     });
     
     this.gridEngine.directionChanged().subscribe(({ direction }) => {
-      this.player.setFrame(this.getStopFrame(direction));
+      player.setFrame(this.getStopFrame(direction));
     });
   };
 
   getStopFrame(direction) {
-    return `idle_${direction}_01`;
+    return `idle_${direction}_01.png`;
   };
+
+  setPositionSubscribers(tileMap) {
+    this.gridEngine
+    .positionChangeFinished()
+    .subscribe(({ charId, exitTile, enterTile }) => {
+      if (this.hasTrigger(tileMap, enterTile)) {
+        const typingSpeed = 50;
+        const x = 315;
+        const y = 620;
+        const boxConfig = { wrapWidth: 500, fixedWidth: 500, fixedHeight: 80 };
+
+        const textbox = createTextBox(this, x, y, boxConfig).start(content, typingSpeed);
+        textbox.on('complete', function () {
+          setTimeout(function(){
+            textbox.destroy();
+          }, 2000);
+        })
+      }
+    });
+  }
+  
+  hasTrigger(tileMap, position) {
+      return tileMap.layers.some((layer) => {
+        const tile = tileMap.getTileAt(position.x, position.y, false, layer.name);
+        return tile?.properties?.speechBubbleTrigger;
+      });
+  }
 }
