@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import GridEngine from 'grid-engine';
 import RexUIPlugins from 'phaser3-rex-plugins/templates/ui/ui-plugin.js';
+import ImageURILoaderPlugin from 'phaser3-rex-plugins/plugins/imageuriloader-plugin.js';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
@@ -42,6 +43,11 @@ export const config = {
         mapping: 'rexUI'
       },
     ],
+    global: [{
+      key: 'rexImageURILoader',
+      plugin: ImageURILoaderPlugin,
+      start: true
+    }]
   },
 };
   
