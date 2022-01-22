@@ -5,8 +5,8 @@ import * as consts from '../constants/constants.js';
 import * as utils from '../utils/utils.js';
 import MariaHillJSON from '../assets/maps/map-maria-hill.json';
 import PlayerRaimuJSON from '../assets/sprites/player-raimu.json';
-// import MariaHillImage from '../assets/maps/map-maria-hill-tiles.png'; // not work on images. use require() now.
-// import PlayerRaimuImg from '../assets/sprites/player-raimu.png';
+import MariaHillImage from '../assets/maps/map-maria-hill-tiles.png';
+import PlayerRaimuImg from '../assets/sprites/player-raimu.png';
 
 export default class TheHillOfMariaScene extends Phaser.Scene {
   constructor() {
@@ -15,12 +15,9 @@ export default class TheHillOfMariaScene extends Phaser.Scene {
   }
 
   preload() {
-    const hillImg = require('../assets/maps/map-maria-hill-tiles.png');
     this.load.tilemapTiledJSON(consts.MARIA_HILL_TILEMAP_KEY, MariaHillJSON);
-    this.load.image(consts.MARIA_HILL_MAP_IMG_KEY, hillImg);
-    
-    const playerImg = require('../assets/sprites/player-raimu.png');
-    this.load.atlas(consts.PLAYER_RAIMU_ID, playerImg, PlayerRaimuJSON);
+    this.load.rexImageURI(consts.MARIA_HILL_MAP_IMG_KEY, MariaHillImage);
+    this.load.atlas(consts.PLAYER_RAIMU_ID, PlayerRaimuImg, PlayerRaimuJSON);
   }
 
   create() {
@@ -73,7 +70,7 @@ export default class TheHillOfMariaScene extends Phaser.Scene {
     textbox.on('complete', function () {
       setTimeout(function(){
         textbox.destroy();
-      }, 2000);
+          }, 2000);
     })
   }
 }
