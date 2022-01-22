@@ -1,4 +1,5 @@
 import * as consts from '../constants/constants.js';
+import * as utils from '../utils/utils.js';
 
 export function makeTileMap(scene, tileMapKey, tilesetKey, mapImgKey, layerNames) {
   const tileMap = scene.make.tilemap({ key: tileMapKey });
@@ -10,6 +11,13 @@ export function makeTileMap(scene, tileMapKey, tilesetKey, mapImgKey, layerNames
   }
 
   return tileMap
+}
+
+export function hasTrigger(tileMap, position) {
+  return tileMap.layers.some((layer) => {
+    const tile = tileMap.getTileAt(position.x, position.y, false, layer.name);
+    return tile?.properties?.trigger;
+  });
 }
 
 export function makePlayerSprite(scene, spriteID) {
@@ -51,13 +59,6 @@ export function getStopFrame(direction) {
   return `idle_${direction}_01.png`;
 }
 
-export function hasTrigger(tileMap, position) {
-  return tileMap.layers.some((layer) => {
-    const tile = tileMap.getTileAt(position.x, position.y, false, layer.name);
-    return tile?.properties?.trigger;
-  });
-}
-
 export function initGridEngine(scene, tileMap, characters) {
   const gridEngineConfig = {
     characters: characters,
@@ -79,4 +80,8 @@ export function subscribeCharacterMovements(scene, character, movingMotion, stop
   scene.gridEngine.directionChanged().subscribe(({ direction }) => {
     character.setFrame(getStopFrame(direction));
   });
+}
+
+export function getRandomEvent(scene) {
+  return scene.eventList[utils.rand(0, scene.eventList.length-1)];
 }
