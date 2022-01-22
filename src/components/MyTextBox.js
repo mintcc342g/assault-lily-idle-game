@@ -45,7 +45,6 @@ export function createTextBox (scene, x, y, config) {
       }
     }, textBox)
     // .on('complete', function () {
-    //   console.log('all pages typing complete')
     // })
     // .on('type', function () {
     // })
