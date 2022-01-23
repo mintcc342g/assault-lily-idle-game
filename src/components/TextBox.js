@@ -1,6 +1,6 @@
-const COLOR_TEXTBOX_BACKGROUND = 0x565f75;
-const COLOR_TEXTBOX_LINE = 0xf3f7f7;
-const COLOR_TEXT = 0xf8fcfd;
+const COLOR_TEXTBOX_BACKGROUND = 0xfefefe;
+const COLOR_TEXTBOX_LINE = 0x8583c8;
+const COLOR_TEXT = 0x575a61;
 const GetValue = Phaser.Utils.Objects.GetValue;
 
 export function createTextBox (scene, x, y, config) {
@@ -25,7 +25,7 @@ export function createTextBox (scene, x, y, config) {
       text: -20,
     }
   })
-  .setDepth(5)
+  .setDepth(10)
   .layout();
 
   textBox
@@ -54,11 +54,11 @@ export function createTextBox (scene, x, y, config) {
 
 var getBuiltInText = function (scene, wrapWidth, fixedWidth, fixedHeight) {
   return scene.add.text(0, 0, '', {
-      fontSize: '20px',
-      wordWrap: {
-          width: wrapWidth
-      },
-      maxLines: 3
+    fontSize: '20px',
+    wordWrap: {
+        width: wrapWidth
+    },
+    maxLines: 3
   })
   .setFixedSize(fixedWidth, fixedHeight);
 }

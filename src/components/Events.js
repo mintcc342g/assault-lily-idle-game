@@ -1,25 +1,22 @@
 import * as consts from '../constants/constants.js';
 import * as utils from '../utils/utils.js';
 import * as sceneHelpers from '../utils/sceneHelpers.js';
-import { createTextBox } from '../components/MyTextBox.js';
+import { createTextBox } from './TextBox.js';
 
 const { EventEmitter } = require('events');
 
 export default class MariaHillEventEmitter extends EventEmitter {
-  constructor(scene) {
+  constructor() {
     super();
-    this.scene = scene
     this.on(consts.EVENT_RAIMU_TEXTBOX, this.selfSpeechBubbleEvent);
     // this.on(consts.EVENT_CONVERSATION_WITH_SACHIE, this.sachieEvent);
     // this.on(consts.EVENT_WATCHED_OVER_BY_MIRAI, this.miraiEvent);
   }
   
-  eventHandler(event, delay) {
-    // console.log("~~~~~~~~~~~~event handler");
-
-    this.scene.time.addEvent({
+  eventHandler(scene, event, delay) {
+    scene.time.addEvent({
       delay: delay,
-      callback: ()=>{this.emit(event)},
+      callback: ()=>{this.emit(event, scene)},
       // args: [],
       callbackScope: this,
       loop: false,
@@ -30,35 +27,42 @@ export default class MariaHillEventEmitter extends EventEmitter {
     });
   }
 
-  repeatEvent() {
-    // TODO: check reserved events of a scene ?
-
-    const event = sceneHelpers.getRandomEvent(this.scene);
-    const delay = utils.msToMin(utils.rand(1, 5));
-    this.eventHandler(event, delay);
+  pauseEvent(scene) {
+    scene.time.paused = true;
   }
 
-  popUpTextBox() {
-    const texts = consts.RAIMU_RANDOM_TEXTS.get(this.scene.lang)
+  startEvent(scene) {
+    scene.time.paused = false;
+  }
+
+  repeatEvent(scene) {
+    const event = sceneHelpers.getRandomEvent(scene);
+    const delay = utils.msToMin(utils.rand(1, 5));
+    this.eventHandler(scene, event, delay);
+  }
+
+  popUpTextBox(scene) {
+    const texts = consts.RAIMU_RANDOM_TEXTS.get(scene.lang)
     const typingSpeed = 50;
     const x = 315;
     const y = 620;
     const radNum = utils.rand(0, texts.length-1);
-    return createTextBox(this.scene, x, y, consts.boxConfig).start(texts[radNum], typingSpeed);
+    return createTextBox(scene, x, y, consts.boxConfig).start(texts[radNum], typingSpeed);
   }
-
-  selfSpeechBubbleEvent() {
-    const textbox = this.popUpTextBox();
-    textbox.on('type', function () {
-      // TOOD
-    })
-    .on('complete', function () {
-      setTimeout(function(){
-        textbox.destroy();
-      }, 2000);
-    });
-
-    this.repeatEvent();
+  
+  selfSpeechBubbleEvent(scene) {
+    var textbox = this.popUpTextBox(scene);
+    textbox
+      .on('type', function () {
+        // TOOD
+      })
+      .on('complete', function () {
+        const emitter = this;
+        setTimeout(function(){
+          textbox.destroy();
+          emitter.repeatEvent(scene);
+        }, 2000, emitter);
+      }, this);
   }
 
   // sachieEvent() {
