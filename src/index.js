@@ -4,6 +4,7 @@ import RexUIPlugins from 'phaser3-rex-plugins/templates/ui/ui-plugin.js';
 import RexInputTextPlugin from 'phaser3-rex-plugins/plugins/inputtext-plugin.js'
 import RexImageURILoaderPlugin from 'phaser3-rex-plugins/plugins/imageuriloader-plugin.js';
 import RexFadePlugin from 'phaser3-rex-plugins/plugins/fade-plugin.js';
+import RexButtonPlugin from 'phaser3-rex-plugins/plugins/button-plugin.js';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
@@ -64,7 +65,12 @@ export const config = {
         key: 'rexFade',
         plugin: RexFadePlugin,
         start: true
-      }
+      },
+      {
+        key: 'rexButtonn',
+        plugin: RexButtonPlugin,
+        start: true
+      },
     ]
   },
 };

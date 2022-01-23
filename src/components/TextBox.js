@@ -1,3 +1,5 @@
+import * as consts from '../variables/constants.js';
+
 const COLOR_TEXTBOX_BACKGROUND = 0xfefefe;
 const COLOR_TEXTBOX_LINE = 0x8583c8;
 const COLOR_TEXT = 0x575a61;
@@ -25,7 +27,7 @@ export function createTextBox (scene, x, y, config) {
       text: -20,
     }
   })
-  .setDepth(10)
+  .setDepth(consts.LAYER_UI)
   .layout();
 
   textBox
