@@ -2,7 +2,7 @@ import Phaser from 'phaser';
 import MariaHillEventEmitter from '../components/Events.js';
 import * as ui from '../components/UI.js';
 import * as sceneHelpers from '../utils/sceneHelpers.js';
-import * as consts from '../constants/constants.js';
+import * as consts from '../variables/constants.js';
 import MariaHillJSON from '../assets/maps/map-maria-hill.json';
 import PlayerRaimuJSON from '../assets/sprites/player-raimu.json';
 import MariaHillImage from '../assets/maps/map-maria-hill-tiles.png';
@@ -38,7 +38,7 @@ export default class TheHillOfMariaScene extends Phaser.Scene {
 
     // init grid engine
     sceneHelpers.initGridEngine(this, tileMap, [{
-      id: this.spriteID,
+      id: consts.PLAYER_RAIMU_ID,
       sprite: player,
       startPosition: { x: 5, y: -1 },
       speed: 1
@@ -47,7 +47,7 @@ export default class TheHillOfMariaScene extends Phaser.Scene {
 
     // start scene
     this.setUI();
-    this.gridEngine.moveTo(this.spriteID, { x: 1, y: 5 });
+    this.gridEngine.moveTo(consts.PLAYER_RAIMU_ID, { x: 1, y: 5 });
     this.startRandomEvent(tileMap);
   }
 

@@ -1,6 +1,13 @@
 // Grid Engine Constants
 export const GRID_ENGINE_MOVEMENT_DIRECTION = 4;
 
+// Layer Constants
+export const LAYER_BACKGROUND = 5;
+export const LAYER_UI = 6;
+export const LAYER_UI_CONTENTS = 7;
+export const LAYER_POPUP_OBJECT = 8;
+export const LAYER_POPUP_OBJECT_CONTENTS = 9;
+
 // TextBox Constants
 export const boxConfig = { wrapWidth: 500, fixedWidth: 500, fixedHeight: 80 };
 

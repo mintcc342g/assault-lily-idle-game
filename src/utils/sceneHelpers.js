@@ -1,4 +1,4 @@
-import * as consts from '../constants/constants.js';
+import * as consts from '../variables/constants.js';
 import * as utils from '../utils/utils.js';
 
 export function makeTileMap(scene, tileMapKey, tilesetKey, mapImgKey, layerNames) {

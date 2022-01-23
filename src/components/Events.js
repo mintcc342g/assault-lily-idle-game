@@ -1,4 +1,4 @@
-import * as consts from '../constants/constants.js';
+import * as consts from '../variables/constants.js';
 import * as utils from '../utils/utils.js';
 import * as sceneHelpers from '../utils/sceneHelpers.js';
 import { createTextBox } from './TextBox.js';
