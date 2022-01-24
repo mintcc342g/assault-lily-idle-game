@@ -13,34 +13,6 @@ export default class MariaHillEventEmitter extends EventEmitter {
     // this.on(consts.EVENT_WATCHED_OVER_BY_MIRAI, this.miraiEvent);
   }
   
-  eventHandler(scene, event, delay) {
-    scene.time.addEvent({
-      delay: delay,
-      callback: ()=>{this.emit(event, scene)},
-      // args: [],
-      callbackScope: this,
-      loop: false,
-      repeat: 0,
-      startAt: 0,
-      timeScale: 1,
-      paused: false
-    });
-  }
-
-  pauseEvent(scene) {
-    scene.time.paused = true;
-  }
-
-  startEvent(scene) {
-    scene.time.paused = false;
-  }
-
-  repeatEvent(scene) {
-    const event = sceneHelpers.getRandomEvent(scene);
-    const delay = utils.msToMin(utils.rand(1, 5));
-    this.eventHandler(scene, event, delay);
-  }
-
   popUpTextBox(scene) {
     const texts = consts.RAIMU_RANDOM_TEXTS.get(scene.lang)
     const typingSpeed = 50;
@@ -60,8 +32,8 @@ export default class MariaHillEventEmitter extends EventEmitter {
         const emitter = this;
         setTimeout(function(){
           textbox.destroy();
-          emitter.repeatEvent(scene);
-        }, 2000, emitter);
+          sceneHelpers.repeatEvent(scene, 1, 5);
+        }, 2000);
       }, this);
   }
 

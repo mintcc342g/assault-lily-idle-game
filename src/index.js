@@ -1,10 +1,8 @@
 import Phaser from 'phaser';
 import GridEngine from 'grid-engine';
 import RexUIPlugins from 'phaser3-rex-plugins/templates/ui/ui-plugin.js';
-import RexInputTextPlugin from 'phaser3-rex-plugins/plugins/inputtext-plugin.js'
+import RexTextEditPlugin from 'phaser3-rex-plugins/plugins/textedit-plugin.js'
 import RexImageURILoaderPlugin from 'phaser3-rex-plugins/plugins/imageuriloader-plugin.js';
-import RexFadePlugin from 'phaser3-rex-plugins/plugins/fade-plugin.js';
-import RexButtonPlugin from 'phaser3-rex-plugins/plugins/button-plugin.js';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
@@ -52,23 +50,13 @@ export const config = {
     ],
     global: [
       {
-      key: 'rexImageURILoader',
-      plugin: RexImageURILoaderPlugin,
-      start: true
-      },
-      {
-      key: 'rexInputText',
-      plugin: RexInputTextPlugin,
-      start: true
-      },
-      {
-        key: 'rexFade',
-        plugin: RexFadePlugin,
+        key: 'rexImageURILoader',
+        plugin: RexImageURILoaderPlugin,
         start: true
       },
       {
-        key: 'rexButtonn',
-        plugin: RexButtonPlugin,
+        key: 'rexTextEdit',
+        plugin: RexTextEditPlugin,
         start: true
       },
     ]

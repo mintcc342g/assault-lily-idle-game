@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 import MariaHillEventEmitter from '../components/Events.js';
-import * as ui from '../components/UI.js';
+import UI from '../components/UI.js';
 import * as sceneHelpers from '../utils/sceneHelpers.js';
 import * as consts from '../variables/constants.js';
 import MariaHillJSON from '../assets/maps/map-maria-hill.json';
@@ -14,6 +14,7 @@ export default class TheHillOfMariaScene extends Phaser.Scene {
     this.name = 'scene_the_hill_of_maria';
     this.lang = 'kr'; // TODO: inherit from menu scene
     this.eventList = consts.EVENT_LIST_MARIA_HILL;
+    this.ui = new UI();
     this.eventEmitter = new MariaHillEventEmitter();
   }
 
@@ -26,15 +27,15 @@ export default class TheHillOfMariaScene extends Phaser.Scene {
 
   create(data) {
     // init phaser
-    const player = sceneHelpers.makePlayerSprite(this, consts.PLAYER_RAIMU_ID);
-    const tileMap = sceneHelpers.makeTileMap(
+    const player = sceneHelpers.createPlayerSprite(this, consts.PLAYER_RAIMU_ID);
+    const tileMap = sceneHelpers.createTileMap(
       this,
       consts.MARIA_HILL_TILEMAP_KEY,
       consts.MARIA_HILL_TILESET_KEY,
       consts.MARIA_HILL_MAP_IMG_KEY,
       consts.MARIA_HILL_LAYERS
     );
-    sceneHelpers.makeCharacterAnimation(this, consts.PLAYER_RAIMU_ID, consts.PLAYER_ANIM_KEYS, 6, -1);
+    sceneHelpers.createCharacterAnimation(this, consts.PLAYER_RAIMU_ID, consts.PLAYER_ANIM_KEYS, 6, -1);
 
     // init grid engine
     sceneHelpers.initGridEngine(this, tileMap, [{
@@ -59,18 +60,27 @@ export default class TheHillOfMariaScene extends Phaser.Scene {
     .positionChangeFinished()
     .subscribe(({ charId, exitTile, enterTile }) => {
       if (sceneHelpers.hasTrigger(tileMap, enterTile)) {
-        this.eventEmitter.eventHandler(this, consts.EVENT_RAIMU_TEXTBOX, 0);
+        sceneHelpers.eventHandler(this, consts.EVENT_RAIMU_TEXTBOX, 0);
       }
     });
   }
+
+  pauseTime() {
+    this.time.paused = true;
+  }
+
+  restartTime() {
+    this.time.paused = false;
+  }
   
   prepareUI() {
-    ui.loadButton(this);
-    ui.loadNote(this);
+    this.ui.loadUIImg(this);
   }
 
   setUI() {
-    // Menu Button
-    ui.setButton(this);
+    this.ui.initMenuButton(this);
+    this.ui.initNote(this);
+    this.ui.initNoteButton(this);
+    this.ui.initToDoList(this);
   }
 }

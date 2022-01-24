@@ -1,7 +1,7 @@
 import * as consts from '../variables/constants.js';
 import * as utils from '../utils/utils.js';
 
-export function makeTileMap(scene, tileMapKey, tilesetKey, mapImgKey, layerNames) {
+export function createTileMap(scene, tileMapKey, tilesetKey, mapImgKey, layerNames) {
   const tileMap = scene.make.tilemap({ key: tileMapKey });
   const tileset = tileMap.addTilesetImage(tilesetKey, mapImgKey);
   for (const layerName of layerNames) {
@@ -20,14 +20,14 @@ export function hasTrigger(tileMap, position) {
   });
 }
 
-export function makePlayerSprite(scene, spriteID) {
+export function createPlayerSprite(scene, spriteID) {
   const player = scene.add.sprite(0, 0, spriteID);
   player.scale = 1;
 
   return player
 }
 
-export function makeCharacterAnimation(scene, spriteID, keys, frameRate, repeat) {
+export function createCharacterAnimation(scene, spriteID, keys, frameRate, repeat) {
   for (const key of keys){
     scene.anims.create({
       key: `${key}`,
@@ -84,4 +84,24 @@ export function subscribeCharacterMovements(scene, character, movingMotion, stop
 
 export function getRandomEvent(scene) {
   return scene.eventList[utils.rand(0, scene.eventList.length-1)];
+}
+
+export function eventHandler(scene, event, delay) {
+  scene.time.addEvent({
+    delay: delay,
+    callback: ()=>{scene.eventEmitter.emit(event, scene)},
+    // args: [],
+    callbackScope: scene.eventEmitter,
+    loop: false,
+    repeat: 0,
+    startAt: 0,
+    timeScale: 1,
+    paused: false
+  });
+}
+
+export function repeatEvent(scene, minRandTime, maxRandTime) {
+  const event = getRandomEvent(scene);
+  const delay = utils.msToMin(utils.rand(minRandTime, maxRandTime));
+  eventHandler(scene, event, delay);
 }
