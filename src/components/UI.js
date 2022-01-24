@@ -14,15 +14,15 @@ export default class UI {
 
   loadUIImg(scene) {
     // Button Imgs
-    scene.load.image(consts.MenuButtonKey, MenuButtonImg);
-    scene.load.image(consts.NoteButtonKey, NoteButtonImg);
+    scene.load.spritesheet(consts.MENU_BUTTON_KEY, MenuButtonImg, { frameWidth: 43, frameHeight: 43 });
+    scene.load.image(consts.NOTE_BUTTON_KEY, NoteButtonImg);
 
     // Note Img
     scene.load.image('note', NoteImg);
   }
 
   createButton(scene, buttonKey, x, y, alpha) {
-    return scene.add.sprite(x, y, buttonKey, 0)
+    return scene.add.sprite(x, y, buttonKey)
       .setDepth(consts.LAYER_UI)
       .setInteractive();
   }
@@ -71,10 +71,14 @@ export default class UI {
   }
 
   initMenuButton(scene) {
-    this.menuButton = this.createButton(scene, consts.MenuButtonKey, 580, 50, 0.75);
-
+    this.menuButton = this.createButton(scene, consts.MENU_BUTTON_KEY, 580, 50, 0.75);
+    
     this.menuButton
+    .on('pointerdown', function () {
+      this.menuButton.setFrame(consts.UI_DEFAULT_FRAME.get('clicked'));
+    }, this, scene)
     .on('pointerup', function () {
+      this.menuButton.setFrame(consts.UI_DEFAULT_FRAME.get('idle'));
       scene.pauseTime();
       this.disableUISprite(this.menuButton);
       this.openNote();
@@ -84,7 +88,6 @@ export default class UI {
   }
 
   initNote(scene) {
-    const duration = 100 // ms
     this.note = scene.add.sprite(314, 350, 'note')
     .setDepth(consts.LAYER_POPUP_OBJECT)
     .setVisible(false)
@@ -92,7 +95,7 @@ export default class UI {
   }
 
   initNoteButton(scene) {
-    this.noteButton = this.createButton(scene, consts.NoteButtonKey, 560, 145, 1);
+    this.noteButton = this.createButton(scene, consts.NOTE_BUTTON_KEY, 560, 145, 1);
     
     this.noteButton
       .setVisible(false)
