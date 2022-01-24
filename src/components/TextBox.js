@@ -12,22 +12,17 @@ export function createTextBox (scene, x, y, config) {
   var textBox = scene.rexUI.add.textBox({
     x: x,
     y: y,
-
     background: scene.rexUI.add.roundRectangle(0, 0, 2, 2, 0, COLOR_TEXTBOX_BACKGROUND)
       .setAlpha(0.85)
       .setStrokeStyle(2, COLOR_TEXTBOX_LINE),
-
-    // text: getBuiltInText(scene, wrapWidth, fixedWidth, fixedHeight),
-    text: getBBcodeText(scene, wrapWidth, fixedWidth, fixedHeight),
-
+    text: getBuiltInText(scene, wrapWidth, fixedWidth, fixedHeight),
     action: scene.add.image(0, 0, 'nextPage').setTint(COLOR_TEXTBOX_LINE).setVisible(false),
-
     space: {
       left: 20, right: 20, top: 20, bottom: 20,
       text: -20,
     }
   })
-  .setDepth(consts.LAYER_UI)
+  .setDepth(consts.LAYER_TEXTBOX)
   .layout();
 
   textBox
@@ -56,17 +51,6 @@ export function createTextBox (scene, x, y, config) {
 
 var getBuiltInText = function (scene, wrapWidth, fixedWidth, fixedHeight) {
   return scene.add.text(0, 0, '', {
-    fontSize: '20px',
-    wordWrap: {
-        width: wrapWidth
-    },
-    maxLines: 3
-  })
-  .setFixedSize(fixedWidth, fixedHeight);
-}
-
-var getBBcodeText = function (scene, wrapWidth, fixedWidth, fixedHeight) {
-  return scene.rexUI.add.BBCodeText(0, 0, '', {
     fixedWidth: fixedWidth,
     fixedHeight: fixedHeight,
     color: COLOR_TEXT,
@@ -76,5 +60,5 @@ var getBBcodeText = function (scene, wrapWidth, fixedWidth, fixedHeight) {
         width: wrapWidth
     },
     maxLines: 3
-  })
+  });
 }
