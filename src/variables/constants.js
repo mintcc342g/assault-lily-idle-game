@@ -1,6 +1,7 @@
 // Grid Engine Constants
 export const GRID_ENGINE_MOVEMENT_DIRECTION = 4;
 
+
 // Layer Constants
 export const LAYER_BACKGROUND = 5;
 export const LAYER_TEXTBOX = 6;
@@ -8,18 +9,28 @@ export const LAYER_POPUP_OBJECT = 7;
 export const LAYER_POPUP_OBJECT_CONTENTS = 8;
 export const LAYER_UI = 9;
 
+
 // UI Constants
-export const MenuButtonKey = 'menu_button';
-export const NoteButtonKey = 'note_button';
+export const MENU_BUTTON_KEY = 'menu_button';
+export const NOTE_BUTTON_KEY = 'note_button';
+
+export const UI_DEFAULT_FRAME = new Map([
+  ["idle", 0],
+  ["clicked", 1],
+]);
+
 
 // TextBox Constants
 export const boxConfig = { wrapWidth: 500, fixedWidth: 500, fixedHeight: 80 };
 
+
 // Character Common Constants
 export const PLAYER_ANIM_KEYS = ['walking_down','walking_left','walking_right','walking_up'];
 
+
 // Character RAIMU Constants
 export const PLAYER_RAIMU_ID = 'player_raimu';
+
 
 // The Hill Of Maria Constants
 export const MARIA_HILL_TILESET_KEY = 'maria_hill_tiles';
@@ -29,6 +40,7 @@ export const MARIA_HILL_LAYER_GROUND = 'ground_unwalkable';
 export const MARIA_HILL_LAYER_ROAD = 'road_walkable';
 export const MARIA_HILL_LAYER_COLLISIONS = 'collisions';
 export const MARIA_HILL_LAYERS = [MARIA_HILL_LAYER_GROUND, MARIA_HILL_LAYER_ROAD, MARIA_HILL_LAYER_COLLISIONS];
+
 
 // The Hill Of Maria Events
 export const EVENT_RAIMU_TEXTBOX = 'raimu_textbox';
@@ -40,6 +52,7 @@ export const EVENT_LIST_MARIA_HILL = [
   // EVENT_WATCHED_OVER_BY_MIRAI,
 ];
 
+
 // Texts
 const LANG_KR = 'kr';
 const LANG_EN = 'en';
@@ -48,6 +61,7 @@ const LANG_JP = 'jp';
 const TO_DO_CONTENT_KR_MAXLENGTH = 27;
 const TO_DO_CONTENT_EN_MAXLENGTH = 42;
 const TO_DO_CONTENT_JP_MAXLENGTH = 27;
+
 export const TO_DO_CONTENT_MAXLENGTH = new Map([
   [LANG_KR, TO_DO_CONTENT_KR_MAXLENGTH],
   [LANG_EN, TO_DO_CONTENT_EN_MAXLENGTH],
