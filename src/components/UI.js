@@ -63,13 +63,13 @@ export default class UI {
       x: x,
       y: y,
       text: consts.NOTICE.get(scene.lang).get('todo-place-holder'),
-      align: 'left',
       style: {
         fixedWidth: 190,
         fixedHeight: 80,
         color: consts.COLOR_TEXT,
         fontSize: '18px',
         maxLines: 3,
+        align: 'left',
         lineSpacing: consts.LINE_SPACING,
         wordWrap: {
           width: 190,

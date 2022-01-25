@@ -3,7 +3,10 @@ export const GRID_ENGINE_MOVEMENT_DIRECTION = 4;
 
 
 // Layer Constants
-export const LAYER_BACKGROUND = 5;
+export const LAYER_HIDDEN_ITEM = 0;
+export const LAYER_BACKGROUND = 1;
+export const LAYER_ABOVE_BACKGROUND = 2;
+export const LAYER_MAP = 5;
 export const LAYER_TEXTBOX = 6;
 export const LAYER_POPUP_OBJECT = 7;
 export const LAYER_POPUP_OBJECT_CONTENTS = 8;
@@ -87,19 +90,22 @@ export const NOTICE = new Map([
   [
     LANG_KR, new Map([
       ['todo-alert', '(내용이 너무 긴 것 같아. 좀 줄일까..?)'],
-      ['todo-place-holder', '할 일을 적고 엔터키를 입력하자.']
+      ['todo-place-holder', '할 일을 적고 엔터키를 입력하자.'],
+      // ['info-text', '언어를 선택한 후 [Start] 버튼을 눌러주세요.']
     ])
   ],
   [
     LANG_EN, new Map([
       ['todo-alert', '(I think the text is too long.. How about shortening it?)'],
-      ['todo-place-holder', 'Let\'s input To-do things. Then press Enter.']
+      ['todo-place-holder', 'Let\'s input To-do things. Then press Enter.'],
+      // ['info-text', 'select language, then press start button.']
     ])
   ],
   [
     LANG_JP, new Map([
       ['todo-alert', '(ちょっと長いかな。短くした方がいいかも。)'],
-      ['todo-place-holder', 'やることを書いた後、エンターキーを押そう。']
+      ['todo-place-holder', 'やることを書いた後、エンターキーを押そう。'],
+      // ['info-text', '言語を選択した後、[Start] ボタンを押してください。']
     ])
   ],
 ]);
