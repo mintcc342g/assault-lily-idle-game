@@ -21,10 +21,7 @@ export function hasTrigger(tileMap, position) {
 }
 
 export function createPlayerSprite(scene, spriteID) {
-  const player = scene.add.sprite(0, 0, spriteID);
-  player.scale = 1;
-
-  return player
+  return scene.add.sprite(0, 0, spriteID).setOrigin(0, 0);
 }
 
 export function createCharacterAnimation(scene, spriteID, keys, frameRate, repeat) {

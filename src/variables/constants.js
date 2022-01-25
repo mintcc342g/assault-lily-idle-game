@@ -10,8 +10,10 @@ export const LAYER_POPUP_OBJECT_CONTENTS = 8;
 export const LAYER_UI = 9;
 
 // TextBox Constants
-export const boxConfig = { wrapWidth: 500, fixedWidth: 500, fixedHeight: 80 };
-
+export const BOX_CONFIG = { wrapWidth: 500, fixedWidth: 500, fixedHeight: 80 };
+export const COLOR_TEXT = 0x575a61;
+export const FONT_SIZE = '20px';
+export const LINE_SPACING = 7;
 
 // Character Common Constants
 export const PLAYER_ANIM_KEYS = ['walking_down','walking_left','walking_right','walking_up'];
@@ -83,19 +85,19 @@ export const RAIMU_RANDOM_TEXTS = new Map([
 export const NOTICE = new Map([
   [
     LANG_KR, new Map([
-      ['todo-alert', `(내용이 너무 긴 것 같아. 좀 줄일까..?)`],
+      ['todo-alert', '(내용이 너무 긴 것 같아. 좀 줄일까..?)'],
       ['todo-place-holder', '할 일을 적고 엔터키를 입력하자.']
     ])
   ],
   [
     LANG_EN, new Map([
-      ['todo-alert', `(I think the text is too long.. How about shortening it?)`],
-      ['todo-place-holder', 'Let\'s input To-do things, and then press Enter.']
+      ['todo-alert', '(I think the text is too long.. How about shortening it?)'],
+      ['todo-place-holder', 'Let\'s input To-do things. Then press Enter.']
     ])
   ],
   [
     LANG_JP, new Map([
-      ['todo-alert', `(ちょっと長すぎるかな。短くした方がいいかも。)`],
+      ['todo-alert', '(ちょっと長いかな。短くした方がいいかも。)'],
       ['todo-place-holder', 'やることを書いた後、エンターキーを押そう。']
     ])
   ],

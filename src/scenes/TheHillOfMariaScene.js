@@ -12,10 +12,14 @@ export default class TheHillOfMariaScene extends Phaser.Scene {
   constructor() {
     super('TheHillOfMariaScene');
     this.name = 'scene_the_hill_of_maria';
-    this.lang = 'kr'; // TODO: inherit from menu scene
+    this.lang = 'kr'; // default lang
     this.eventList = consts.EVENT_LIST_MARIA_HILL;
     this.ui = new UI();
     this.eventEmitter = new MariaHillEventEmitter();
+  }
+
+  init(data) {
+    this.lang = data.lang;
   }
 
   preload() {
@@ -46,8 +50,11 @@ export default class TheHillOfMariaScene extends Phaser.Scene {
     }]);
     sceneHelpers.subscribeCharacterMovements(this, player, 'walking', 'down');
 
-    // start scene
+    // init UI
     this.setUI();
+
+    // start scene
+    this.cameras.main.fadeIn(1000, 0, 0, 0)
     this.gridEngine.moveTo(consts.PLAYER_RAIMU_ID, { x: 1, y: 5 });
     this.startRandomEvent(tileMap);
   }
