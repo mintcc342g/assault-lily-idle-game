@@ -25,11 +25,12 @@ export const PLAYER_RAIMU_ID = 'player_raimu';
 
 // The Hill Of Maria Constants
 export const MARIA_HILL_TILESET_KEY = 'maria_hill_tiles';
-export const MARIA_HILL_TILEMAP_KEY = 'map_maria_hill';
 export const MARIA_HILL_MAP_IMG_KEY = 'maria_hill_tileset';
-export const MARIA_HILL_LAYER_GROUND = 'ground_unwalkable';
-export const MARIA_HILL_LAYER_ROAD = 'road_walkable';
-export const MARIA_HILL_LAYER_COLLISIONS = 'collisions';
+export const MARIA_HILL_TILESET_CONFIG_KEY = 'map_maria_hill';
+
+const MARIA_HILL_LAYER_GROUND = 'ground_unwalkable';
+const MARIA_HILL_LAYER_ROAD = 'road_walkable';
+const MARIA_HILL_LAYER_COLLISIONS = 'collisions';
 export const MARIA_HILL_LAYERS = [MARIA_HILL_LAYER_GROUND, MARIA_HILL_LAYER_ROAD, MARIA_HILL_LAYER_COLLISIONS];
 
 

@@ -12,9 +12,18 @@ export default class TheHillOfMariaScene extends Phaser.Scene {
   constructor() {
     super('TheHillOfMariaScene');
     this.name = 'scene_the_hill_of_maria';
-    this.lang = 'kr'; // default lang
-    this.eventList = consts.EVENT_LIST_MARIA_HILL;
+    this.lang = consts.LANG_KR; // default lang
+    this.tileset = {
+      key: consts.MARIA_HILL_TILESET_KEY,
+      imgKey: consts.MARIA_HILL_MAP_IMG_KEY,
+      configKey: consts.MARIA_HILL_TILESET_CONFIG_KEY,
+    };
+    this.layers = consts.MARIA_HILL_LAYERS;
+    this.character = {
+      id: consts.PLAYER_RAIMU_ID,
+    };
     this.ui = new UI();
+    this.eventList = consts.EVENT_LIST_MARIA_HILL;
     this.eventEmitter = new MariaHillEventEmitter();
   }
 
@@ -23,27 +32,21 @@ export default class TheHillOfMariaScene extends Phaser.Scene {
   }
 
   preload() {
-    this.load.tilemapTiledJSON(consts.MARIA_HILL_TILEMAP_KEY, MariaHillJSON);
-    this.load.rexImageURI(consts.MARIA_HILL_MAP_IMG_KEY, MariaHillImage);
-    this.load.atlas(consts.PLAYER_RAIMU_ID, PlayerRaimuImg, PlayerRaimuJSON);
+    this.load.tilemapTiledJSON(this.tileset.configKey, MariaHillJSON);
+    this.load.rexImageURI(this.tileset.imgKey, MariaHillImage);
+    this.load.atlas(this.character.id, PlayerRaimuImg, PlayerRaimuJSON);
     this.prepareUI();
   }
 
   create(data) {
     // init phaser
-    const player = sceneHelpers.createPlayerSprite(this, consts.PLAYER_RAIMU_ID);
-    const tileMap = sceneHelpers.createTileMap(
-      this,
-      consts.MARIA_HILL_TILEMAP_KEY,
-      consts.MARIA_HILL_TILESET_KEY,
-      consts.MARIA_HILL_MAP_IMG_KEY,
-      consts.MARIA_HILL_LAYERS
-    );
-    sceneHelpers.createCharacterAnimation(this, consts.PLAYER_RAIMU_ID, consts.PLAYER_ANIM_KEYS, 6, -1);
+    const player = sceneHelpers.createPlayerSprite(this);
+    const tileMap = sceneHelpers.createTileMap(this);
+    sceneHelpers.createCharacterAnimation(this, consts.PLAYER_ANIM_KEYS, 6, -1);
 
     // init grid engine
     sceneHelpers.initGridEngine(this, tileMap, [{
-      id: consts.PLAYER_RAIMU_ID,
+      id: this.character.id,
       sprite: player,
       startPosition: { x: 5, y: -1 },
       speed: 1
@@ -55,7 +58,7 @@ export default class TheHillOfMariaScene extends Phaser.Scene {
 
     // start scene
     this.cameras.main.fadeIn(1000, 0, 0, 0)
-    this.gridEngine.moveTo(consts.PLAYER_RAIMU_ID, { x: 1, y: 5 });
+    this.gridEngine.moveTo(this.character.id, { x: 1, y: 5 });
     this.startRandomEvent(tileMap);
   }
 
