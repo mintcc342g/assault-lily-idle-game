@@ -1,10 +1,10 @@
 import * as consts from '../variables/constants.js';
 import * as utils from '../utils/utils.js';
 
-export function createTileMap(scene, tileMapKey, tilesetKey, mapImgKey, layerNames) {
-  const tileMap = scene.make.tilemap({ key: tileMapKey });
-  const tileset = tileMap.addTilesetImage(tilesetKey, mapImgKey);
-  for (const layerName of layerNames) {
+export function createTileMap(scene) {
+  const tileMap = scene.make.tilemap({ key: scene.tileset.configKey });
+  const tileset = tileMap.addTilesetImage(scene.tileset.key, scene.tileset.imgKey);
+  for (const layerName of scene.layers) {
     tileMap.createLayer(layerName, tileset);
     // scene.physics.add.collider(player, layer);
     // layer.setCollisionByProperty({ collides: true });
@@ -20,29 +20,29 @@ export function hasTrigger(tileMap, position) {
   });
 }
 
-export function createPlayerSprite(scene, spriteID) {
-  return scene.add.sprite(0, 0, spriteID).setOrigin(0, 0);
+export function createPlayerSprite(scene) {
+  return scene.add.sprite(0, 0, scene.character.id).setOrigin(0, 0);
 }
 
-export function createCharacterAnimation(scene, spriteID, keys, frameRate, repeat) {
+export function createCharacterAnimation(scene, keys, frameRate, repeat) {
   for (const key of keys){
     scene.anims.create({
       key: `${key}`,
       frames: [
         {
-          key: spriteID,
+          key: scene.character.id,
           frame: `${key}_01.png`
         },
         {
-          key: spriteID,
+          key: scene.character.id,
           frame: `${key}_02.png`
         },
         {
-          key: spriteID,
+          key: scene.character.id,
           frame: `${key}_03.png`
         },
         {
-          key: spriteID,
+          key: scene.character.id,
           frame: `${key}_04.png`
         },
       ],
@@ -79,10 +79,6 @@ export function subscribeCharacterMovements(scene, character, movingMotion, stop
   });
 }
 
-export function getRandomEvent(scene) {
-  return scene.eventList[utils.rand(0, scene.eventList.length-1)];
-}
-
 export function eventHandler(scene, event, delay) {
   scene.time.addEvent({
     delay: delay,
@@ -95,6 +91,10 @@ export function eventHandler(scene, event, delay) {
     timeScale: 1,
     paused: false
   });
+}
+
+export function getRandomEvent(scene) {
+  return scene.eventList[utils.rand(0, scene.eventList.length-1)];
 }
 
 export function repeatEvent(scene, minRandTime, maxRandTime) {

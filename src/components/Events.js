@@ -13,7 +13,7 @@ export default class MariaHillEventEmitter extends EventEmitter {
     // this.on(consts.EVENT_WATCHED_OVER_BY_MIRAI, this.miraiEvent);
   }
 
-  goToNextEvent() {
+  goToNextEvent(scene, textbox) {
     setTimeout(function(){
       textbox.destroy();
       sceneHelpers.repeatEvent(scene, 1, 5);
@@ -35,7 +35,7 @@ export default class MariaHillEventEmitter extends EventEmitter {
       .on('type', function () {
         // TOOD
       })
-      .on('complete', this.goToNextEvent.bind(this, textbox));
+      .on('complete', this.goToNextEvent.bind(this, scene, textbox));
   }
 
   // sachieEvent() {
