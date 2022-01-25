@@ -5,8 +5,21 @@ import NoteImg from '../assets/ui/note.png';
 
 export default class UI {
   constructor() {
+    this.defaultConfig = {
+      menuButtonKey: 'menu_button',
+      noteButtonKey: 'note_button',
+      textMaxLength: new Map([
+        [consts.LANG_KR, 27],
+        [consts.LANG_EN, 42],
+        [consts.LANG_JP, 27]
+      ])
+    };
     this.menuButton = {};
     this.noteButton = {};
+    this.defaultButtonFrame = new Map([
+      ["idle", 0],
+      ["clicked", 1],
+    ]);
     this.note = {};
     this.toDoList = [];
     this.toDoListEditors = [];
@@ -14,8 +27,8 @@ export default class UI {
 
   loadUIImg(scene) {
     // Button Imgs
-    scene.load.spritesheet(consts.MENU_BUTTON_KEY, MenuButtonImg, { frameWidth: 43, frameHeight: 43 });
-    scene.load.image(consts.NOTE_BUTTON_KEY, NoteButtonImg);
+    scene.load.spritesheet(this.menuButtonKey, MenuButtonImg, { frameWidth: 43, frameHeight: 43 });
+    scene.load.image(this.noteButtonKey, NoteButtonImg);
 
     // Note Img
     scene.load.image('note', NoteImg);
@@ -29,22 +42,19 @@ export default class UI {
   
   setTextEditor(scene, textContent) {
     var config = {
-      onOpen: function (textObject) {
-        textCache = textObject.text;
-      },
-      onTextChanged: function (textObject, text) {
-        if (text.length > consts.TO_DO_CONTENT_MAXLENGTH.get(scene.lang)) {
-          alert(consts.NOTICE.get(scene.lang).get('todo-alert'));
-          return
-        }
-        textObject.text = text;
-      },
-      // onClose: function (textObject) {
-      // },
+      onTextChanged: this.onTextChanged.bind(this, scene),
       backgroundColor: 0xe7e5e6
     }
   
     return scene.plugins.get('rexTextEdit').edit(textContent, config);
+  }
+
+  onTextChanged(scene, textObject, text) {
+    if (text.length > this.textMaxLength.get(scene.lang)) {
+      alert(consts.NOTICE.get(scene.lang).get('todo-alert'));
+      return
+    }
+    textObject.text = text;
   }
 
   createToDoContent(scene, x, y) {
@@ -71,20 +81,11 @@ export default class UI {
   }
 
   initMenuButton(scene) {
-    this.menuButton = this.createButton(scene, consts.MENU_BUTTON_KEY, 580, 50, 0.75);
+    this.menuButton = this.createButton(scene, this.menuButtonKey, 580, 50, 0.75);
     
     this.menuButton
-    .on('pointerdown', function () {
-      this.menuButton.setFrame(consts.UI_DEFAULT_FRAME.get('clicked'));
-    }, this, scene)
-    .on('pointerup', function () {
-      this.menuButton.setFrame(consts.UI_DEFAULT_FRAME.get('idle'));
-      scene.pauseTime();
-      this.disableUISprite(this.menuButton);
-      this.openNote();
-      this.showToDoList(scene);
-      this.openTextEditor(scene);
-    }, this, scene);
+    .on('pointerdown', this.prepareMenu.bind(this))
+    .on('pointerup', this.openMenu.bind(this, scene));
   }
 
   initNote(scene) {
@@ -95,17 +96,11 @@ export default class UI {
   }
 
   initNoteButton(scene) {
-    this.noteButton = this.createButton(scene, consts.NOTE_BUTTON_KEY, 560, 145, 1);
+    this.noteButton = this.createButton(scene, this.noteButtonKey, 560, 145, 1);
     
     this.noteButton
       .setVisible(false)
-      .on('pointerup', function () {
-        this.closeTextEditors();
-        this.closeNote(scene);
-        this.hideToDoList(scene);
-        this.enableUISprite(this.menuButton);
-        scene.restartTime();
-    }, this, scene);
+      .on('pointerup', this.closeNote.bind(this, scene));
   }
 
   initToDoList(scene) {
@@ -121,7 +116,20 @@ export default class UI {
       this.toDoList.push(content);
       y = (y + 95);
     }
-  }  
+  }
+
+  prepareMenu() {
+    this.menuButton.setFrame(this.defaultButtonFrame.get('clicked'));
+  }
+
+  openMenu(scene) {
+    this.menuButton.setFrame(this.defaultButtonFrame.get('idle'));
+    scene.pauseTime();
+    this.disableUISprite(this.menuButton);
+    this.openNote();
+    this.showToDoList(scene);
+    this.openTextEditor(scene);
+  }
   
   enableUISprite(uiSprite) {
     uiSprite.enable = true;
@@ -136,7 +144,15 @@ export default class UI {
     this.noteButton.setVisible(true);
   }
 
-  closeNote() {
+  closeNote(scene) {
+    this.closeTextEditors();
+    this.hideNoteUI();
+    this.hideToDoList(scene);
+    this.enableUISprite(this.menuButton);
+    scene.restartTime();
+  }
+  
+  hideNoteUI() {
     this.note.setVisible(false);
     this.noteButton.setVisible(false);
   }

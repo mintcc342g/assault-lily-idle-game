@@ -9,17 +9,6 @@ export const LAYER_POPUP_OBJECT = 7;
 export const LAYER_POPUP_OBJECT_CONTENTS = 8;
 export const LAYER_UI = 9;
 
-
-// UI Constants
-export const MENU_BUTTON_KEY = 'menu_button';
-export const NOTE_BUTTON_KEY = 'note_button';
-
-export const UI_DEFAULT_FRAME = new Map([
-  ["idle", 0],
-  ["clicked", 1],
-]);
-
-
 // TextBox Constants
 export const boxConfig = { wrapWidth: 500, fixedWidth: 500, fixedHeight: 80 };
 
@@ -54,19 +43,9 @@ export const EVENT_LIST_MARIA_HILL = [
 
 
 // Texts
-const LANG_KR = 'kr';
-const LANG_EN = 'en';
-const LANG_JP = 'jp';
-
-const TO_DO_CONTENT_KR_MAXLENGTH = 27;
-const TO_DO_CONTENT_EN_MAXLENGTH = 42;
-const TO_DO_CONTENT_JP_MAXLENGTH = 27;
-
-export const TO_DO_CONTENT_MAXLENGTH = new Map([
-  [LANG_KR, TO_DO_CONTENT_KR_MAXLENGTH],
-  [LANG_EN, TO_DO_CONTENT_EN_MAXLENGTH],
-  [LANG_JP, TO_DO_CONTENT_JP_MAXLENGTH]
-])
+export const LANG_KR = 'kr';
+export const LANG_EN = 'en';
+export const LANG_JP = 'jp';
 
 export const RAIMU_RANDOM_TEXTS = new Map([
   [LANG_KR, [
@@ -104,20 +83,20 @@ export const RAIMU_RANDOM_TEXTS = new Map([
 export const NOTICE = new Map([
   [
     LANG_KR, new Map([
-      ['todo-alert', `최대 글자수는 ${TO_DO_CONTENT_KR_MAXLENGTH}을 넘을 수 없습니다.`],
-      ['todo-place-holder', '할 일을 적은 후 엔터키를 입력하세요.']
+      ['todo-alert', `(내용이 너무 긴 것 같아. 좀 줄일까..?)`],
+      ['todo-place-holder', '할 일을 적고 엔터키를 입력하자.']
     ])
   ],
   [
     LANG_EN, new Map([
-      ['todo-alert', `Max Text Lenght is ${TO_DO_CONTENT_EN_MAXLENGTH}.`],
-      ['todo-place-holder', 'Input To-do things, then press Enter.']
+      ['todo-alert', `(I think the text is too long.. How about shortening it?)`],
+      ['todo-place-holder', 'Let\'s input To-do things, and then press Enter.']
     ])
   ],
   [
     LANG_JP, new Map([
-      ['todo-alert', `入力可能な最大文字数は「${TO_DO_CONTENT_JP_MAXLENGTH}」までです.`],
-      ['todo-place-holder', 'やる事を入力した後、エンターキーを押してください。']
+      ['todo-alert', `(ちょっと長すぎるかな。短くした方がいいかも。)`],
+      ['todo-place-holder', 'やることを書いた後、エンターキーを押そう。']
     ])
   ],
 ]);
