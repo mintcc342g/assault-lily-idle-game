@@ -36,6 +36,7 @@ export default class MainScene extends Phaser.Scene {
 
   create() {
     this.setBackground();
+    this.setInfoText();
     this.createLangButton();
     const startButton = this.createButton(this.startButtonKey, 117, 420);
 
@@ -45,8 +46,59 @@ export default class MainScene extends Phaser.Scene {
 
   setBackground() {
     this.add.image(0, 0, this.mainImgKey)
-    .setDepth(0)
+    .setDepth(consts.LAYER_BACKGROUND)
     .setOrigin(0, 0);
+  }
+
+  createInfoText() {
+    var result = [];
+    const conf = {
+      y: 760,
+      style: {
+        fixedWidth: 640,
+        fontSize: '20px',
+        align: 'center'
+      },
+      padding: {
+        y: 4
+      }
+    }
+
+    // TODO: fix a delay problem when use consts.NOTICE.forEach(()=>{})
+    
+    conf.text = 'select language, then press start button.';
+    result.push(this.make.text(conf).setOrigin(0, 0).setDepth(consts.LAYER_ABOVE_BACKGROUND));
+    
+    conf.text = '언어를 선택한 후 [Start] 버튼을 눌러주세요.';
+    result.push(this.make.text(conf).setOrigin(0, 0).setDepth(consts.LAYER_HIDDEN_ITEM));
+    
+    conf.text = '言語を選択した後、[Start] ボタンを押してください。';
+    result.push(this.make.text(conf).setOrigin(0, 0).setDepth(consts.LAYER_HIDDEN_ITEM));
+
+    return result
+  }
+
+  setInfoText() {
+    const infoTexts = this.createInfoText();
+      
+    this.tweens.add({
+      targets: infoTexts,
+      alpha: { from: 0, to: 1 },
+      duration: 1500,
+      repeat: -1,
+      yoyo: true,
+      delay: function (target, targetKey, value, targetIndex, totalTargets, tween) {
+        return targetIndex * 3000;
+      },
+      repeatDelay: 6000,
+    })
+    .on('start', function(tween, targets){
+      tween.data.forEach((datum)=> {
+        setTimeout(()=>{
+          datum.target.setDepth(consts.LAYER_ABOVE_BACKGROUND);
+        },datum.delay+100, datum);
+      });
+    });
   }
 
   createLangButton() {
