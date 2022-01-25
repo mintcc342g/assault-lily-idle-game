@@ -2,7 +2,6 @@ import * as consts from '../variables/constants.js';
 
 const COLOR_TEXTBOX_BACKGROUND = 0xfefefe;
 const COLOR_TEXTBOX_LINE = 0x8583c8;
-const COLOR_TEXT = 0x575a61;
 const GetValue = Phaser.Utils.Objects.GetValue;
 
 export function createTextBox (scene, x, y, config) {
@@ -13,15 +12,17 @@ export function createTextBox (scene, x, y, config) {
     x: x,
     y: y,
     background: scene.rexUI.add.roundRectangle(0, 0, 2, 2, 0, COLOR_TEXTBOX_BACKGROUND)
+      .setOrigin(0, 0)
       .setAlpha(0.85)
       .setStrokeStyle(2, COLOR_TEXTBOX_LINE),
     text: getBuiltInText(scene, wrapWidth, fixedWidth, fixedHeight),
-    action: scene.add.image(0, 0, 'nextPage').setTint(COLOR_TEXTBOX_LINE).setVisible(false),
+    action: scene.add.image(0, 0, 'nextPage').setTint(COLOR_TEXTBOX_LINE).setVisible(false), // TODO: nextPage
     space: {
       left: 20, right: 20, top: 20, bottom: 20,
       text: -20,
     }
   })
+  .setOrigin(0, 0)
   .setDepth(consts.LAYER_TEXTBOX)
   .layout();
 
@@ -50,15 +51,24 @@ export function createTextBox (scene, x, y, config) {
 }
 
 var getBuiltInText = function (scene, wrapWidth, fixedWidth, fixedHeight) {
-  return scene.add.text(0, 0, '', {
-    fixedWidth: fixedWidth,
-    fixedHeight: fixedHeight,
-    color: COLOR_TEXT,
-    fontSize: '20px',
-    wrap: {
-        mode: 'word',
-        width: wrapWidth
+  return scene.make.text({
+    x: 0,
+    y: 0,
+    style: {
+      fixedWidth: fixedWidth,
+      fixedHeight: fixedHeight,
+      color: consts.COLOR_TEXT,
+      fontSize: '20px',
+      maxLines: 3,
+      lineSpacing: consts.LINE_SPACING,
+      wordWrap: {
+        width: wrapWidth,
+        useAdvancedWrap: true
+      }
     },
-    maxLines: 3
-  });
+    padding: {
+      y: 4
+    }
+  })
+  .setOrigin(0, 0);
 }

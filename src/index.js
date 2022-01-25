@@ -6,16 +6,15 @@ import RexImageURILoaderPlugin from 'phaser3-rex-plugins/plugins/imageuriloader-
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
+import MainScene from './scenes/MainScene';
 import TheHillOfMariaScene from './scenes/TheHillOfMariaScene';
 
 export const config = {
   type: Phaser.AUTO,
   title: 'Assault Lily Idle Game',
   parent: 'game-content',
-  orientation: Phaser.Scale.LANDSCAPE,
-  localStorageName: 'Assault Lily Idle Game',
   width: 630,
-  hight: 810,
+  height: 810,
   autoRound: true,
   pixelArt: true,
   disableContextMenu: true,
@@ -23,10 +22,11 @@ export const config = {
     createContainer: true
   },
   scale: {
-    autoCenter: Phaser.Scale.CENTER_BOTH,
     mode: Phaser.Scale.NONE,
+    autoCenter: Phaser.Scale.CENTER_HORIZONTALLY,
   },
   scene: [
+    MainScene,
     TheHillOfMariaScene,
   ],
   physics: {

@@ -27,8 +27,8 @@ export default class UI {
 
   loadUIImg(scene) {
     // Button Imgs
-    scene.load.spritesheet(this.menuButtonKey, MenuButtonImg, { frameWidth: 43, frameHeight: 43 });
-    scene.load.image(this.noteButtonKey, NoteButtonImg);
+    scene.load.spritesheet(this.defaultConfig.menuButtonKey, MenuButtonImg, { frameWidth: 43, frameHeight: 43 });
+    scene.load.image(this.defaultConfig.noteButtonKey, NoteButtonImg);
 
     // Note Img
     scene.load.image('note', NoteImg);
@@ -37,20 +37,21 @@ export default class UI {
   createButton(scene, buttonKey, x, y, alpha) {
     return scene.add.sprite(x, y, buttonKey)
       .setDepth(consts.LAYER_UI)
-      .setInteractive();
+      .setInteractive()
+      .setOrigin(0, 0);
   }
   
   setTextEditor(scene, textContent) {
     var config = {
       onTextChanged: this.onTextChanged.bind(this, scene),
-      backgroundColor: 0xe7e5e6
+      backgroundColor: '#d8d8d8',
     }
   
     return scene.plugins.get('rexTextEdit').edit(textContent, config);
   }
 
   onTextChanged(scene, textObject, text) {
-    if (text.length > this.textMaxLength.get(scene.lang)) {
+    if (text.length > this.defaultConfig.textMaxLength.get(scene.lang)) {
       alert(consts.NOTICE.get(scene.lang).get('todo-alert'));
       return
     }
@@ -64,24 +65,29 @@ export default class UI {
       text: consts.NOTICE.get(scene.lang).get('todo-place-holder'),
       align: 'left',
       style: {
-        maxLines: 3,
-        fixedWidth: 180,
+        fixedWidth: 190,
         fixedHeight: 80,
-        fontSize: '20px',
-        color: 0x575a61,
+        color: consts.COLOR_TEXT,
+        fontSize: '18px',
+        maxLines: 3,
+        lineSpacing: consts.LINE_SPACING,
         wordWrap: {
-          width: 180,
+          width: 190,
           useAdvancedWrap: true
-        }
+        },
+      },
+      padding: {
+        y: 4
       }
     })
     .setInteractive()
     .setDepth(consts.LAYER_POPUP_OBJECT_CONTENTS)
     .setVisible(false)
+    .setOrigin(0, 0);
   }
 
   initMenuButton(scene) {
-    this.menuButton = this.createButton(scene, this.menuButtonKey, 580, 50, 0.75);
+    this.menuButton = this.createButton(scene, this.defaultConfig.menuButtonKey, 565, 40);
     
     this.menuButton
     .on('pointerdown', this.prepareMenu.bind(this))
@@ -89,14 +95,15 @@ export default class UI {
   }
 
   initNote(scene) {
-    this.note = scene.add.sprite(314, 350, 'note')
-    .setDepth(consts.LAYER_POPUP_OBJECT)
-    .setVisible(false)
-    .disableInteractive()
+    this.note = scene.add.sprite(0, 180, 'note')
+      .setDepth(consts.LAYER_POPUP_OBJECT)
+      .setVisible(false)
+      .disableInteractive()
+      .setOrigin(0, 0);
   }
 
   initNoteButton(scene) {
-    this.noteButton = this.createButton(scene, this.noteButtonKey, 560, 145, 1);
+    this.noteButton = this.createButton(scene, this.defaultConfig.noteButtonKey, 540, 165);
     
     this.noteButton
       .setVisible(false)
@@ -104,12 +111,12 @@ export default class UI {
   }
 
   initToDoList(scene) {
-    var x = 95;
-    var y = 175;
+    var x = 100;
+    var y = 210;
     for (let i = 0; i < 8; i++) {
       if (i == 4) {
-        x = 353;
-        y = 175;
+        x = 358;
+        y = 210;
       }
   
       const content = this.createToDoContent(scene, x, y)
@@ -125,18 +132,15 @@ export default class UI {
   openMenu(scene) {
     this.menuButton.setFrame(this.defaultButtonFrame.get('idle'));
     scene.pauseTime();
-    this.disableUISprite(this.menuButton);
+    this.activeMenuButton(false);
     this.openNote();
     this.showToDoList(scene);
     this.openTextEditor(scene);
   }
   
-  enableUISprite(uiSprite) {
-    uiSprite.enable = true;
-  }
-
-  disableUISprite(uiSprite) {
-    uiSprite.enable = false;
+  activeMenuButton(isActive) {
+    this.menuButton.enable = isActive;
+    this.menuButton.setVisible(isActive);
   }
 
   openNote() {
@@ -148,7 +152,7 @@ export default class UI {
     this.closeTextEditors();
     this.hideNoteUI();
     this.hideToDoList(scene);
-    this.enableUISprite(this.menuButton);
+    this.activeMenuButton(true);
     scene.restartTime();
   }
   
