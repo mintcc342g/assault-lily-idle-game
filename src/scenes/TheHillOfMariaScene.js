@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 import MariaHillEventEmitter from '../components/Events.js';
-import UI from '../components/UI.js';
+import SceneUI from '../components/SceneUI.js';
 import * as sceneHelpers from '../utils/sceneHelpers.js';
 import * as consts from '../variables/constants.js';
 import MariaHillJSON from '../assets/maps/map-maria-hill.json';
@@ -11,7 +11,7 @@ import PlayerRaimuImg from '../assets/sprites/player-raimu.png';
 export default class TheHillOfMariaScene extends Phaser.Scene {
   constructor() {
     super('TheHillOfMariaScene');
-    this.name = 'scene_the_hill_of_maria';
+    this.name = 'TheHillOfMariaScene';
     this.lang = consts.LANG_KR; // default lang
     this.tileset = {
       key: consts.MARIA_HILL_TILESET_KEY,
@@ -22,7 +22,7 @@ export default class TheHillOfMariaScene extends Phaser.Scene {
     this.character = {
       id: consts.PLAYER_RAIMU_ID,
     };
-    this.ui = new UI();
+    this.ui = new SceneUI();
     this.eventList = consts.EVENT_LIST_MARIA_HILL;
     this.eventEmitter = new MariaHillEventEmitter();
   }
@@ -54,7 +54,7 @@ export default class TheHillOfMariaScene extends Phaser.Scene {
     sceneHelpers.subscribeCharacterMovements(this, player, 'walking', 'down');
 
     // init UI
-    this.setUI();
+    this.initUI();
 
     // start scene
     this.cameras.main.fadeIn(1000, 0, 0, 0)
@@ -63,6 +63,16 @@ export default class TheHillOfMariaScene extends Phaser.Scene {
   }
 
   update(time, delta) {
+  }
+
+  prepareUI() {
+    this.ui.loadUIImg(this);
+  }
+
+  initUI() {
+    this.ui.initMenu(this);
+    this.ui.initHandBook(this);
+    this.ui.initToDoList(this);
   }
 
   startRandomEvent(tileMap) {
@@ -81,16 +91,5 @@ export default class TheHillOfMariaScene extends Phaser.Scene {
 
   restartTime() {
     this.time.paused = false;
-  }
-  
-  prepareUI() {
-    this.ui.loadUIImg(this);
-  }
-
-  setUI() {
-    this.ui.initMenuButton(this);
-    this.ui.initNote(this);
-    this.ui.initNoteButton(this);
-    this.ui.initToDoList(this);
   }
 }
