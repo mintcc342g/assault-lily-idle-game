@@ -9,6 +9,7 @@ import EnButtonImg from '../assets/ui/lang_button_en.png';
 export default class MainScene extends Phaser.Scene {
   constructor() {
     super('MainScene');
+    this.name = 'MainScene';
     this.lang = consts.LANG_KR; // default
     this.mainImgKey = 'main_background';
     this.startButtonKey = 'start_button';
@@ -28,19 +29,20 @@ export default class MainScene extends Phaser.Scene {
 
   preload() {
     this.load.rexImageURI(this.mainImgKey, MainImg);
-    this.load.spritesheet(this.startButtonKey, StartButtonImg, { frameWidth: 406, frameHeight: 106 }); // TODO: fix frame
-    this.load.spritesheet(this.krButtonKey, KrButtonImg, { frameWidth: 112, frameHeight: 106 });
-    this.load.spritesheet(this.enButtonKey, EnButtonImg, { frameWidth: 112, frameHeight: 106 });
-    this.load.spritesheet(this.jpButtonKey, JpButtonImg, { frameWidth: 112, frameHeight: 106 });
+    this.load.spritesheet(this.startButtonKey, StartButtonImg, { frameWidth: 400, frameHeight: 100 });
+    this.load.spritesheet(this.krButtonKey, KrButtonImg, { frameWidth: 112, frameHeight: 85 });
+    this.load.spritesheet(this.enButtonKey, EnButtonImg, { frameWidth: 112, frameHeight: 85 });
+    this.load.spritesheet(this.jpButtonKey, JpButtonImg, { frameWidth: 112, frameHeight: 85 });
   }
 
   create() {
     this.setBackground();
     this.setInfoText();
     this.createLangButton();
-    const startButton = this.createButton(this.startButtonKey, 117, 420);
+    const startButton = this.createButton(this.startButtonKey, 120, 377);
 
     startButton
+      .once('pointerdown', this.setFrame.bind(this, startButton, 'clicked'))
       .once('pointerup', this.startGame.bind(this, startButton));
   }
 
@@ -50,10 +52,14 @@ export default class MainScene extends Phaser.Scene {
     .setOrigin(0, 0);
   }
 
+  setFrame(button, frameKey) {
+    button.setFrame(this.defaultButtonFrame.get(frameKey));
+  }
+
   createInfoText() {
     var result = [];
     const conf = {
-      y: 760,
+      y: 720,
       style: {
         fixedWidth: 640,
         fontSize: '20px',
@@ -66,13 +72,13 @@ export default class MainScene extends Phaser.Scene {
 
     // TODO: fix a delay problem when use consts.NOTICE.forEach(()=>{})
     
-    conf.text = 'select language, then press start button.';
+    conf.text = 'select language, then press [START] button.';
     result.push(this.make.text(conf).setOrigin(0, 0).setDepth(consts.LAYER_ABOVE_BACKGROUND));
     
-    conf.text = '언어를 선택한 후 [Start] 버튼을 눌러주세요.';
+    conf.text = '언어를 선택한 후 [START] 버튼을 눌러주세요.';
     result.push(this.make.text(conf).setOrigin(0, 0).setDepth(consts.LAYER_HIDDEN_ITEM));
     
-    conf.text = '言語を選択した後、[Start] ボタンを押してください。';
+    conf.text = '言語を選択した後、[START] ボタンを押してください。';
     result.push(this.make.text(conf).setOrigin(0, 0).setDepth(consts.LAYER_HIDDEN_ITEM));
 
     return result
@@ -102,14 +108,14 @@ export default class MainScene extends Phaser.Scene {
   }
 
   createLangButton() {
-    var x = 117;
-    var y = 555;
+    var x = 120;
+    var y = 502;
     for (let key of this.langButtons.keys()) {
         this.langButtons
           .get(key)
           .set('button', this.setButtonInteraction(this.createButton(key, x, y)));
 
-        x += (106 + 44);
+        x += 144;
     }
 
     this.langButtons.get(this.krButtonKey)
@@ -132,15 +138,17 @@ export default class MainScene extends Phaser.Scene {
   selectLanguage(selectedButton) {
     this.langButtons.forEach(item => {
       if (selectedButton.texture.key == item.get('button').texture.key) {
-        item.get('button').setFrame(this.defaultButtonFrame.get('clicked'));
+        this.setFrame(item.get('button'), 'clicked');
         this.lang = item.get('lang');
       } else {
-        item.get('button').setFrame(this.defaultButtonFrame.get('idle'));
+        this.setFrame(item.get('button'), 'idle');
       }
     });
   }
 
   startGame(startButton) {
+    this.setFrame(startButton, 'idle');
+
     this.langButtons.forEach(item => {
       item.get('button').disableInteractive();
     });
@@ -148,8 +156,8 @@ export default class MainScene extends Phaser.Scene {
     this.cameras.main.fadeOut(1000, 0, 0, 0)
     this.cameras.main.once('camerafadeoutcomplete', (cam, effect) => {
       this.time.delayedCall(1000, () => {
-        this.scene.start('TheHillOfMariaScene', { lang: this.lang }); // TODO: create character selection scene
-      })
-    })
+        this.scene.stop().start('TheHillOfMariaScene', { lang: this.lang }); // TODO: create character selection scene
+      });
+    });
   }
 }
