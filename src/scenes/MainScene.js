@@ -1,21 +1,16 @@
 import Parser from 'phaser';
 import * as consts from '../variables/constants.js';
-import MainImg from '../assets/ui/main.png';
-import StartButtonImg from '../assets/ui/start_button.png';
-import KrButtonImg from '../assets/ui/lang_button_kr.png';
-import JpButtonImg from '../assets/ui/lang_button_jp.png';
-import EnButtonImg from '../assets/ui/lang_button_en.png';
 
 export default class MainScene extends Phaser.Scene {
   constructor() {
     super('MainScene');
     this.name = 'MainScene';
     this.lang = consts.LANG_KR; // default
-    this.mainImgKey = 'main_background';
-    this.startButtonKey = 'start_button';
-    this.krButtonKey = 'kr_button';
-    this.enButtonKey = 'en_button';
-    this.jpButtonKey = 'jp_button';
+    this.mainImgKey = consts.MAIN_BACKGROUND;
+    this.startButtonKey = consts.START_BUTTON;
+    this.krButtonKey = consts.KR_BUTTON_KEY;
+    this.enButtonKey = consts.EN_BUTTON_KEY;
+    this.jpButtonKey = consts.JP_BUTTON_KEY;
     this.langButtons = new Map([
       [this.krButtonKey, new Map([ ['lang', consts.LANG_KR], ['button', {}] ])],
       [this.enButtonKey, new Map([ ['lang', consts.LANG_EN], ['button', {}] ])],
@@ -27,15 +22,9 @@ export default class MainScene extends Phaser.Scene {
     ]);
   }
 
-  preload() {
-    this.load.rexImageURI(this.mainImgKey, MainImg);
-    this.load.spritesheet(this.startButtonKey, StartButtonImg, { frameWidth: 400, frameHeight: 100 });
-    this.load.spritesheet(this.krButtonKey, KrButtonImg, { frameWidth: 112, frameHeight: 85 });
-    this.load.spritesheet(this.enButtonKey, EnButtonImg, { frameWidth: 112, frameHeight: 85 });
-    this.load.spritesheet(this.jpButtonKey, JpButtonImg, { frameWidth: 112, frameHeight: 85 });
-  }
-
   create() {
+    this.cameras.main.fadeIn(1000, 0, 0, 0)
+    
     this.setBackground();
     this.setInfoText();
     this.createLangButton();
@@ -156,7 +145,7 @@ export default class MainScene extends Phaser.Scene {
     this.cameras.main.fadeOut(1000, 0, 0, 0)
     this.cameras.main.once('camerafadeoutcomplete', (cam, effect) => {
       this.time.delayedCall(1000, () => {
-        this.scene.stop().start('TheHillOfMariaScene', { lang: this.lang }); // TODO: create character selection scene
+        this.scene.start('TheHillOfMariaScene', { lang: this.lang }); // TODO: create character selection scene
       });
     });
   }

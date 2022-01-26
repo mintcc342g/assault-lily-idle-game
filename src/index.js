@@ -6,6 +6,7 @@ import RexImageURILoaderPlugin from 'phaser3-rex-plugins/plugins/imageuriloader-
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
+import BootScene from './scenes/BootScene';
 import MainScene from './scenes/MainScene';
 import TheHillOfMariaScene from './scenes/TheHillOfMariaScene';
 
@@ -26,6 +27,7 @@ export const config = {
     autoCenter: Phaser.Scale.CENTER_HORIZONTALLY,
   },
   scene: [
+    BootScene,
     MainScene,
     TheHillOfMariaScene,
   ],

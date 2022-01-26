@@ -12,11 +12,13 @@ export const LAYER_POPUP_OBJECT = 7;
 export const LAYER_POPUP_OBJECT_CONTENTS = 8;
 export const LAYER_UI = 9;
 
+
 // TextBox Constants
 export const BOX_CONFIG = { wrapWidth: 500, fixedWidth: 500, fixedHeight: 80 };
 export const COLOR_TEXT = 0x575a61;
 export const FONT_SIZE = '20px';
 export const LINE_SPACING = 7;
+
 
 // Character Common Constants
 export const PLAYER_ANIM_KEYS = ['walking_down','walking_left','walking_right','walking_up'];
@@ -24,6 +26,22 @@ export const PLAYER_ANIM_KEYS = ['walking_down','walking_left','walking_right','
 
 // Character RAIMU Constants
 export const PLAYER_RAIMU_ID = 'player_raimu';
+
+
+// Main Scene Constants
+export const MAIN_BACKGROUND = 'main_background';
+export const START_BUTTON = 'start_button';
+export const KR_BUTTON_KEY = 'kr_button';
+export const EN_BUTTON_KEY = 'en_button';
+export const JP_BUTTON_KEY = 'jp_button';
+
+
+// Scene UI Constants
+export const HAND_BOOK_KEY = 'hand_book';
+export const MENU_KEY = 'menu';
+export const MENU_BUTTON_KEY = 'menu_button';
+export const MENU_OPTION_BUTTON_KEY = 'menu_option_button';
+export const CLOSE_BUTTON_KEY = 'close_button';
 
 
 // The Hill Of Maria Constants

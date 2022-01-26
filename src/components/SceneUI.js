@@ -1,18 +1,13 @@
 import * as consts from '../variables/constants.js';
-import MenuButtonImg from '../assets/ui/menu_button.png';
-import MenuOptionButtonImg from '../assets/ui/menu_option_button.png';
-import CloseButtonImg from '../assets/ui/close_button.png';
-import HandBookImg from '../assets/ui/hand_book.png';
-import MenuImg from '../assets/ui/menu.png';
 
 export default class SceneUI {
   constructor() {
     this.config = {
-      menuKey: 'menu',
-      menuButtonKey: 'menu_button',
-      menuOptionImgKey: 'menu_option_button',
-      handBookKey: 'hand_book',
-      closeButtonKey: 'close_button',
+      menuKey: consts.MENU_KEY,
+      menuButtonKey: consts.MENU_BUTTON_KEY,
+      menuOptionImgKey: consts.MENU_OPTION_BUTTON_KEY,
+      handBookKey: consts.HAND_BOOK_KEY,
+      closeButtonKey: consts.CLOSE_BUTTON_KEY,
       textMaxLength: new Map([
         [consts.LANG_KR, 27],
         [consts.LANG_EN, 42],
@@ -31,24 +26,13 @@ export default class SceneUI {
     this.toDoListEditors = [];
   }
 
-  loadUIImg(scene) {
-    // sprite Imgs
-    scene.load.spritesheet(this.config.menuButtonKey, MenuButtonImg, { frameWidth: 45, frameHeight: 45 });
-    scene.load.spritesheet(this.config.menuOptionImgKey, MenuOptionButtonImg, { frameWidth: 174, frameHeight: 46 });
-    scene.load.spritesheet(this.config.closeButtonKey, CloseButtonImg, { frameWidth: 45, frameHeight: 45 });
-
-    // normal Img
-    scene.load.image(this.config.handBookKey, HandBookImg);
-    scene.load.image(this.config.menuKey, MenuImg);
-  }
-
   initMenu(scene) {
     this.menuOptionGroup.push(
       scene.add.sprite(185, 240, this.config.menuKey)
-        .setDepth(consts.LAYER_POPUP_OBJECT)
-        .setVisible(false)
-        .disableInteractive()
-        .setOrigin(0, 0)
+      .setDepth(consts.LAYER_POPUP_OBJECT)
+      .setVisible(false)
+      .disableInteractive()
+      .setOrigin(0, 0)
     );
 
     this.#initMenuButton(scene);
@@ -73,7 +57,7 @@ export default class SceneUI {
 
   #initMenuOptionButtons(scene) { // TODO: refactor
     this.#initOpenHandBookButton(scene);
-    this.#initGoToSelectSceneButton(scene);
+    this.#initCharacterSelectSceneButton(scene);
     this.#initGoToStartButton(scene);
     this.#initCloseMenuButton(scene);
   }
@@ -118,7 +102,7 @@ export default class SceneUI {
     this.menuOptionGroup.push(button, text);
   }
 
-  #initGoToSelectSceneButton(scene) {
+  #initCharacterSelectSceneButton(scene) {
     const x = 185 + 48;
     const y = 240 + 111;
 
@@ -192,7 +176,7 @@ export default class SceneUI {
     }, this, button)
     .on('pointerup', () => {
       button.setFrame(this.buttonFrame.get('idle'));
-      // this.#goToNext(scene, 'MainScene'); // TODO: after boot scene task
+      this.#goToNext(scene, 'MainScene');
     }, this, button);
 
     this.menuOptionGroup.push(button, text);
@@ -387,16 +371,11 @@ export default class SceneUI {
 
   #goToNext(scene, nextSceneName) {
     this.#closeMenu();
-
-    return
     
-    // TODO: need a boot scene because of preload issue
-    // scene.cameras.main.fadeOut(1000, 0, 0, 0);
-    // scene.cameras.main.once('camerafadeoutcomplete', (cam, effect) => {
-    //   scene.time.delayedCall(1000, () => {
-    //     scene.scene.stop();
-    //     scene.scene.start(nextSceneName);
-    //   }, this);    
-    // }, scene);
+    scene.cameras.main.fadeOut(1000, 0, 0, 0);
+    scene.cameras.main.once('camerafadeoutcomplete', (cam, effect) => {
+      scene.scene.start(nextSceneName);
+      // scene.time.delayedCall(1000, () => {}, scene);
+    }, scene);
   }  
 }

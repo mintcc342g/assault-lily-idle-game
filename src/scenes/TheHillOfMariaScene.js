@@ -3,10 +3,6 @@ import MariaHillEventEmitter from '../components/Events.js';
 import SceneUI from '../components/SceneUI.js';
 import * as sceneHelpers from '../utils/sceneHelpers.js';
 import * as consts from '../variables/constants.js';
-import MariaHillJSON from '../assets/maps/map-maria-hill.json';
-import PlayerRaimuJSON from '../assets/sprites/player-raimu.json';
-import MariaHillImage from '../assets/maps/map-maria-hill-tiles.png';
-import PlayerRaimuImg from '../assets/sprites/player-raimu.png';
 
 export default class TheHillOfMariaScene extends Phaser.Scene {
   constructor() {
@@ -22,20 +18,13 @@ export default class TheHillOfMariaScene extends Phaser.Scene {
     this.character = {
       id: consts.PLAYER_RAIMU_ID,
     };
-    this.ui = new SceneUI();
+    this.ui = {};
     this.eventList = consts.EVENT_LIST_MARIA_HILL;
-    this.eventEmitter = new MariaHillEventEmitter();
+    this.eventEmitter = {};
   }
 
   init(data) {
     this.lang = data.lang;
-  }
-
-  preload() {
-    this.load.tilemapTiledJSON(this.tileset.configKey, MariaHillJSON);
-    this.load.rexImageURI(this.tileset.imgKey, MariaHillImage);
-    this.load.atlas(this.character.id, PlayerRaimuImg, PlayerRaimuJSON);
-    this.prepareUI();
   }
 
   create(data) {
@@ -43,7 +32,7 @@ export default class TheHillOfMariaScene extends Phaser.Scene {
     const player = sceneHelpers.createPlayerSprite(this);
     const tileMap = sceneHelpers.createTileMap(this);
     sceneHelpers.createCharacterAnimation(this, consts.PLAYER_ANIM_KEYS, 6, -1);
-
+    
     // init grid engine
     sceneHelpers.initGridEngine(this, tileMap, [{
       id: this.character.id,
@@ -52,27 +41,28 @@ export default class TheHillOfMariaScene extends Phaser.Scene {
       speed: 1
     }]);
     sceneHelpers.subscribeCharacterMovements(this, player, 'walking', 'down');
-
+    
     // init UI
     this.initUI();
 
+    // init emitter
+    this.initEventEmitter();
+    
     // start scene
     this.cameras.main.fadeIn(1000, 0, 0, 0)
     this.gridEngine.moveTo(this.character.id, { x: 1, y: 5 });
     this.startRandomEvent(tileMap);
   }
-
-  update(time, delta) {
-  }
-
-  prepareUI() {
-    this.ui.loadUIImg(this);
-  }
-
+  
   initUI() {
+    this.ui = new SceneUI();
     this.ui.initMenu(this);
     this.ui.initHandBook(this);
     this.ui.initToDoList(this);
+  }
+
+  initEventEmitter() {
+    this.eventEmitter = new MariaHillEventEmitter();
   }
 
   startRandomEvent(tileMap) {
