@@ -3,8 +3,8 @@ import * as consts from '../variables/constants.js';
 
 export default class MainScene extends Phaser.Scene {
   constructor() {
-    super('MainScene');
-    this.name = 'MainScene';
+    super(consts.SCENE_MAIN);
+    this.name = consts.SCENE_MAIN;
     this.lang = consts.LANG_KR; // default
     this.mainImgKey = consts.MAIN_BACKGROUND;
     this.startButtonKey = consts.START_BUTTON;
@@ -145,7 +145,7 @@ export default class MainScene extends Phaser.Scene {
     this.cameras.main.fadeOut(1000, 0, 0, 0)
     this.cameras.main.once('camerafadeoutcomplete', (cam, effect) => {
       this.time.delayedCall(1000, () => {
-        this.scene.start('TheHillOfMariaScene', { lang: this.lang }); // TODO: create character selection scene
+        this.scene.start(consts.SCENE_CHARACTER_SELECTION, { lang: this.lang });
       });
     });
   }

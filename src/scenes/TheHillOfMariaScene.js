@@ -6,8 +6,8 @@ import * as consts from '../variables/constants.js';
 
 export default class TheHillOfMariaScene extends Phaser.Scene {
   constructor() {
-    super('TheHillOfMariaScene');
-    this.name = 'TheHillOfMariaScene';
+    super(consts.SCENE_THE_HILL_OF_MARIA);
+    this.name = consts.SCENE_THE_HILL_OF_MARIA;
     this.lang = consts.LANG_KR; // default lang
     this.tileset = {
       key: consts.MARIA_HILL_TILESET_KEY,
@@ -16,7 +16,7 @@ export default class TheHillOfMariaScene extends Phaser.Scene {
     };
     this.layers = consts.MARIA_HILL_LAYERS;
     this.characters = new Map([
-      [consts.PLAYER_RAIMU_ID, {}]
+      [consts.CHARACTER_RAIMU_ID, {}]
     ]);
     this.ui = {};
     this.eventList = consts.EVENT_LIST_MARIA_HILL;
@@ -28,29 +28,22 @@ export default class TheHillOfMariaScene extends Phaser.Scene {
   }
 
   create(data) {
-    // init phaser
     this.#initCharacters();
     const tileMap = sceneHelpers.createTileMap(this);
-
-    // init grid engine
     this.#initGridEngine(tileMap);
-    
-    // init UI
     this.#initUI();
-
-    // init emitter
     this.#initEventEmitter();
     
     // start scene
     this.cameras.main.fadeIn(1000, 0, 0, 0)
-    this.gridEngine.moveTo(consts.PLAYER_RAIMU_ID, { x: 1, y: 5 });
+    this.gridEngine.moveTo(consts.CHARACTER_RAIMU_ID, { x: 1, y: 5 });
     this.#startRandomEvent(tileMap);
   }
 
   #initCharacters() {
     for(let key of this.characters.keys()) {
       this.characters.set(key, this.add.sprite(0, 0, key).setOrigin(0, 0));
-      sceneHelpers.createCharacterAnimation(this, key, consts.CHARACTER_ANIM_KEYS, 6, -1)
+      sceneHelpers.createCharacterAnimation(this, key, consts.CHARACTER_ANIM_KEYS, 6, -1);
     }
   }
   

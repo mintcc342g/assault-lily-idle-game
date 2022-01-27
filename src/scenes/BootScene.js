@@ -1,24 +1,37 @@
 import Parser from 'phaser';
+
+// main scene imgs
 import MainImg from '../assets/ui/main.png';
 import StartButtonImg from '../assets/ui/start_button.png';
 import KrButtonImg from '../assets/ui/lang_button_kr.png';
 import JpButtonImg from '../assets/ui/lang_button_jp.png';
 import EnButtonImg from '../assets/ui/lang_button_en.png';
+
+// ui images
 import MenuButtonImg from '../assets/ui/menu_button.png';
 import MenuOptionButtonImg from '../assets/ui/menu_option_button.png';
 import CloseButtonImg from '../assets/ui/close_button.png';
 import HandBookImg from '../assets/ui/hand_book.png';
 import MenuImg from '../assets/ui/menu.png';
+
+// hill scene imgs
 import MariaHillJSON from '../assets/maps/map-maria-hill.json';
 import MariaHillImage from '../assets/maps/map-maria-hill-tiles.png';
 import PlayerRaimuJSON from '../assets/sprites/player-raimu.json';
 import PlayerRaimuImg from '../assets/sprites/player-raimu.png';
+
+// selection scene imgs
+import PrevButtonImg from '../assets/ui/prev_button.png';
+import NextButtonImg from '../assets/ui/next_button.png';
+import SelectionBackgroundImg from '../assets/ui/character_selection.png';
+import PlayButtonImg from '../assets/ui/play_button.png';
+
 import * as consts from '../variables/constants.js';
 
 export default class BootScene extends Phaser.Scene {
   constructor() {
-      super('BootScene');
-      this.name = 'BootScene';
+      super(consts.SCENE_BOOT);
+      this.name = consts.SCENE_BOOT;
   }
 
   preload() {
@@ -31,12 +44,20 @@ export default class BootScene extends Phaser.Scene {
     this.load.spritesheet(consts.EN_BUTTON_KEY, EnButtonImg, { frameWidth: 112, frameHeight: 85 });
     this.load.spritesheet(consts.JP_BUTTON_KEY, JpButtonImg, { frameWidth: 112, frameHeight: 85 });
     
+    // load images of characters
+    this.load.atlas(consts.CHARACTER_RAIMU_ID, PlayerRaimuImg, PlayerRaimuJSON);
+    
+    // load images for Character Selection Scene
+    this.load.image(consts.PREV_BUTTON, PrevButtonImg);
+    this.load.image(consts.NEXT_BUTTON, NextButtonImg);
+    this.load.image(consts.SELECTION_BACKGROUND, SelectionBackgroundImg);
+    this.load.spritesheet(consts.PLAY_BUTTON, PlayButtonImg, { frameWidth: 400, frameHeight: 100 });
+
     // load images for The Hill Of Maria Scene
     this.load.tilemapTiledJSON(consts.MARIA_HILL_TILESET_CONFIG_KEY, MariaHillJSON);
     this.load.rexImageURI(consts.MARIA_HILL_MAP_IMG_KEY, MariaHillImage);
-    this.load.atlas(consts.PLAYER_RAIMU_ID, PlayerRaimuImg, PlayerRaimuJSON);
 
-    // load images for Scene UI
+    // load images for UI
     this.load.image(consts.HAND_BOOK_KEY, HandBookImg);
     this.load.image(consts.MENU_KEY, MenuImg);
     this.load.spritesheet(consts.MENU_BUTTON_KEY, MenuButtonImg, { frameWidth: 45, frameHeight: 45 });
@@ -45,7 +66,7 @@ export default class BootScene extends Phaser.Scene {
   }
 
   create() {
-    this.scene.start('MainScene');
+    this.scene.start(consts.SCENE_MAIN);
   }
 
   // see https://gamedevacademy.org/creating-a-preloading-screen-in-phaser-3/?a=13
