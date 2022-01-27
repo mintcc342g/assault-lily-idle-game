@@ -15,9 +15,9 @@ export default class TheHillOfMariaScene extends Phaser.Scene {
       configKey: consts.MARIA_HILL_TILESET_CONFIG_KEY,
     };
     this.layers = consts.MARIA_HILL_LAYERS;
-    this.character = {
-      id: consts.PLAYER_RAIMU_ID,
-    };
+    this.characters = new Map([
+      [consts.PLAYER_RAIMU_ID, {}]
+    ]);
     this.ui = {};
     this.eventList = consts.EVENT_LIST_MARIA_HILL;
     this.eventEmitter = {};
@@ -29,43 +29,67 @@ export default class TheHillOfMariaScene extends Phaser.Scene {
 
   create(data) {
     // init phaser
-    const player = sceneHelpers.createPlayerSprite(this);
+    this.#initCharacters();
     const tileMap = sceneHelpers.createTileMap(this);
-    sceneHelpers.createCharacterAnimation(this, consts.PLAYER_ANIM_KEYS, 6, -1);
-    
+
     // init grid engine
-    sceneHelpers.initGridEngine(this, tileMap, [{
-      id: this.character.id,
-      sprite: player,
-      startPosition: { x: 5, y: -1 },
-      speed: 1
-    }]);
-    sceneHelpers.subscribeCharacterMovements(this, player, 'walking', 'down');
+    this.#initGridEngine(tileMap);
     
     // init UI
-    this.initUI();
+    this.#initUI();
 
     // init emitter
-    this.initEventEmitter();
+    this.#initEventEmitter();
     
     // start scene
     this.cameras.main.fadeIn(1000, 0, 0, 0)
-    this.gridEngine.moveTo(this.character.id, { x: 1, y: 5 });
-    this.startRandomEvent(tileMap);
+    this.gridEngine.moveTo(consts.PLAYER_RAIMU_ID, { x: 1, y: 5 });
+    this.#startRandomEvent(tileMap);
+  }
+
+  #initCharacters() {
+    for(let key of this.characters.keys()) {
+      this.characters.set(key, this.add.sprite(0, 0, key).setOrigin(0, 0));
+      sceneHelpers.createCharacterAnimation(this, key, consts.CHARACTER_ANIM_KEYS, 6, -1)
+    }
   }
   
-  initUI() {
+  #initGridEngine(tileMap) {
+    const charactersConfig = [];
+    
+    this.characters.forEach((val, key)=>{
+      charactersConfig.push(
+        {
+          id: key,
+          sprite: val,
+          startPosition: { x: 5, y: -1 },
+          speed: 1
+        }
+      );
+    }, this);
+    sceneHelpers.initGridEngine(this, tileMap, charactersConfig);
+
+    this.#initMovementSubscriber();
+  }
+
+  #initMovementSubscriber() {
+    this.characters.forEach((val)=>{
+      sceneHelpers.subscribeCharacterMovements(this, val, 'walking', 'down');
+    }, this);
+  }
+  
+  #initUI() {
     this.ui = new SceneUI();
     this.ui.initMenu(this);
     this.ui.initHandBook(this);
     this.ui.initToDoList(this);
   }
 
-  initEventEmitter() {
+  #initEventEmitter() {
     this.eventEmitter = new MariaHillEventEmitter();
   }
 
-  startRandomEvent(tileMap) {
+  #startRandomEvent(tileMap) {
     this.gridEngine
     .positionChangeFinished()
     .subscribe(({ charId, exitTile, enterTile }) => {
@@ -78,7 +102,7 @@ export default class TheHillOfMariaScene extends Phaser.Scene {
   pauseTime() {
     this.time.paused = true;
   }
-
+  
   restartTime() {
     this.time.paused = false;
   }

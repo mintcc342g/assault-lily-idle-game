@@ -20,29 +20,25 @@ export function hasTrigger(tileMap, position) {
   });
 }
 
-export function createPlayerSprite(scene) {
-  return scene.add.sprite(0, 0, scene.character.id).setOrigin(0, 0);
-}
-
-export function createCharacterAnimation(scene, keys, frameRate, repeat) {
+export function createCharacterAnimation(scene, characterID, keys, frameRate, repeat) {
   for (const key of keys){
     scene.anims.create({
       key: `${key}`,
       frames: [
         {
-          key: scene.character.id,
+          key: characterID,
           frame: `${key}_01.png`
         },
         {
-          key: scene.character.id,
+          key: characterID,
           frame: `${key}_02.png`
         },
         {
-          key: scene.character.id,
+          key: characterID,
           frame: `${key}_03.png`
         },
         {
-          key: scene.character.id,
+          key: characterID,
           frame: `${key}_04.png`
         },
       ],
