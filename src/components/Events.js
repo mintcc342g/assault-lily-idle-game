@@ -21,12 +21,12 @@ export default class MariaHillEventEmitter extends EventEmitter {
   }
   
   popUpTextBox(scene) {
-    const texts = consts.RAIMU_RANDOM_TEXTS.get(scene.lang)
+    const texts = consts.RAIMU_RANDOM_TEXTS.get(scene.lang);
     const typingSpeed = 50;
     const x = 40;
     const y = 570;
     const radNum = utils.rand(0, texts.length-1);
-    return createTextBox(scene, x, y, consts.BOX_CONFIG).start(texts[radNum], typingSpeed); fixme
+    return createTextBox(scene, x, y, consts.BOX_CONFIG).start(texts[radNum], typingSpeed);
   }
 
   selfSpeechBubbleEvent(scene) {

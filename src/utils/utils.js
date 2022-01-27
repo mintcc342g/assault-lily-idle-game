@@ -5,3 +5,11 @@ export function rand(min, max) {
 export function msToMin(ms) {
   return ms * 60000
 }
+
+export function isEmptyObject(obj)  {
+  if(obj.constructor === Object && Object.keys(obj).length === 0)  {
+    return true;
+  }
+  
+  return false;
+}

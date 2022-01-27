@@ -136,7 +136,7 @@ export default class SceneUI {
     }, this, button)
     .on('pointerup', () => {
       button.setFrame(this.buttonFrame.get('idle'));
-      // this.#goToNext(scene, 'CharacterOptionScene'); // TODO: after boot scene task
+      this.#goToNext(scene, consts.SCENE_CHARACTER_SELECTION);
     }, this, button);
 
     this.menuOptionGroup.push(button, text);
@@ -176,7 +176,7 @@ export default class SceneUI {
     }, this, button)
     .on('pointerup', () => {
       button.setFrame(this.buttonFrame.get('idle'));
-      this.#goToNext(scene, 'MainScene');
+      this.#goToNext(scene, consts.SCENE_MAIN);
     }, this, button);
 
     this.menuOptionGroup.push(button, text);

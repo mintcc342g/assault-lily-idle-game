@@ -8,6 +8,7 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import BootScene from './scenes/BootScene';
 import MainScene from './scenes/MainScene';
+import CharacterSelectionScene from './scenes/CharacterSelectionScene';
 import TheHillOfMariaScene from './scenes/TheHillOfMariaScene';
 
 export const config = {
@@ -29,6 +30,7 @@ export const config = {
   scene: [
     BootScene,
     MainScene,
+    CharacterSelectionScene,
     TheHillOfMariaScene,
   ],
   physics: {

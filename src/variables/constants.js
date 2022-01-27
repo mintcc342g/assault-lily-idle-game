@@ -13,6 +13,13 @@ export const LAYER_POPUP_OBJECT_CONTENTS = 8;
 export const LAYER_UI = 9;
 
 
+// Scene Name Constants
+export const SCENE_BOOT = 'BootScene';
+export const SCENE_MAIN = 'MainScene';
+export const SCENE_CHARACTER_SELECTION = 'CharacterSelectionScene';
+export const SCENE_THE_HILL_OF_MARIA = 'TheHillOfMariaScene';
+
+
 // TextBox Constants
 export const BOX_CONFIG = { wrapWidth: 500, fixedWidth: 500, fixedHeight: 80 };
 export const COLOR_TEXT = 0x575a61;
@@ -24,8 +31,8 @@ export const LINE_SPACING = 7;
 export const CHARACTER_ANIM_KEYS = ['walking_down','walking_left','walking_right','walking_up'];
 
 
-// Character RAIMU Constants
-export const PLAYER_RAIMU_ID = 'player_raimu';
+// Character Constants
+export const CHARACTER_RAIMU_ID = 'player_raimu';
 
 
 // Main Scene Constants
@@ -42,6 +49,13 @@ export const MENU_KEY = 'menu';
 export const MENU_BUTTON_KEY = 'menu_button';
 export const MENU_OPTION_BUTTON_KEY = 'menu_option_button';
 export const CLOSE_BUTTON_KEY = 'close_button';
+
+
+// Character Seletion Constants
+export const PREV_BUTTON = 'prev_button';
+export const NEXT_BUTTON = 'next_button';
+export const SELECTION_BACKGROUND = 'character_selection_background';
+export const PLAY_BUTTON = 'play_button';
 
 
 // The Hill Of Maria Constants
@@ -136,6 +150,23 @@ export const NOTICE = new Map([
       ['main-scene', 'タイトルへ'],
       ['close-menu', '閉じる'],
       // ['info-text', '言語を選択した後、[Start] ボタンを押してください。']
+    ])
+  ],
+]);
+
+export const CHARACTER_INFO = new Map([
+  [
+    CHARACTER_RAIMU_ID, new Map([
+      [
+        'scene', SCENE_THE_HILL_OF_MARIA
+      ],
+      [
+        'intro', new Map([
+          [LANG_KR, '사립 루도비코 여학원의 1학년생. 소속 레기온은 \'아이언 사이드\'. 언니의 의지를 이어 릴리가 되었다. 마리아 언덕에 자주 가는 듯 하다.'],
+          [LANG_EN, 'A new first-year student at the private Ludovic Girls Academy. She became a lily to inherit her sister\'s will. Apparently she often go to the Hill Of Maria.'],
+          [LANG_JP, '私立ルドビコ女学院の1年生。所属レギオンは「アイアンサイド」。姉の意思を継いでリリィになった。戦死したリリィたちが眠っているマリアの丘によく行くらしい。'],
+        ])
+      ]
     ])
   ],
 ]);
