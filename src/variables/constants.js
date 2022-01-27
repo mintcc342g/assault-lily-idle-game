@@ -21,7 +21,7 @@ export const LINE_SPACING = 7;
 
 
 // Character Common Constants
-export const PLAYER_ANIM_KEYS = ['walking_down','walking_left','walking_right','walking_up'];
+export const CHARACTER_ANIM_KEYS = ['walking_down','walking_left','walking_right','walking_up'];
 
 
 // Character RAIMU Constants
@@ -110,8 +110,8 @@ export const NOTICE = new Map([
       ['todo-alert', '(내용이 너무 긴 것 같아. 좀 줄일까..?)'],
       ['todo-place-holder', '할 일을 적고 엔터키를 입력하자.'],
       ['open-hand-book', '학생수첩'],
-      ['go-to-select-scene', '캐릭터 화면'],
-      ['go-to-start-scene', '시작화면'],
+      ['character-selection-scene', '캐릭터 화면'],
+      ['main-scene', '시작화면'],
       ['close-menu', '닫기'],
       // ['info-text', '언어를 선택한 후 [Start] 버튼을 눌러주세요.']
     ])
@@ -121,8 +121,8 @@ export const NOTICE = new Map([
       ['todo-alert', '(I think the text is too long.. How about shortening it?)'],
       ['todo-place-holder', 'Let\'s input To-do things. Then press Enter.'],
       ['open-hand-book', 'Hand Book'],
-      ['go-to-select-scene', 'Character Menu'],
-      ['go-to-start-scene', 'Main'],
+      ['character-selection-scene', 'Character Menu'],
+      ['main-scene', 'Main'],
       ['close-menu', 'Close'],
       // ['info-text', 'select language, then press start button.']
     ])
@@ -132,8 +132,8 @@ export const NOTICE = new Map([
       ['todo-alert', '(ちょっと長いかな。短くした方がいいかも。)'],
       ['todo-place-holder', 'やることを書いた後、エンターキーを押そう。'],
       ['open-hand-book', '生徒手帳'],
-      ['go-to-select-scene', 'キャラクター画面'],
-      ['go-to-start-scene', 'タイトルへ'],
+      ['character-selection-scene', 'キャラクター画面'],
+      ['main-scene', 'タイトルへ'],
       ['close-menu', '閉じる'],
       // ['info-text', '言語を選択した後、[Start] ボタンを押してください。']
     ])

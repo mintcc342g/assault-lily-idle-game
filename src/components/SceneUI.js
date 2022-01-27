@@ -57,8 +57,8 @@ export default class SceneUI {
 
   #initMenuOptionButtons(scene) { // TODO: refactor
     this.#initOpenHandBookButton(scene);
-    this.#initCharacterSelectSceneButton(scene);
-    this.#initGoToStartButton(scene);
+    this.#initCharacterSelectionSceneButton(scene);
+    this.#initMainSceneButton(scene);
     this.#initCloseMenuButton(scene);
   }
 
@@ -102,7 +102,7 @@ export default class SceneUI {
     this.menuOptionGroup.push(button, text);
   }
 
-  #initCharacterSelectSceneButton(scene) {
+  #initCharacterSelectionSceneButton(scene) {
     const x = 185 + 48;
     const y = 240 + 111;
 
@@ -115,7 +115,7 @@ export default class SceneUI {
     const text = scene.make.text({
       x: x,
       y: y+15,
-      text: consts.NOTICE.get(scene.lang).get('go-to-select-scene'),
+      text: consts.NOTICE.get(scene.lang).get('character-selection-scene'),
       style: {
         fixedWidth: 174,
         fixedHeight: 46,
@@ -142,7 +142,7 @@ export default class SceneUI {
     this.menuOptionGroup.push(button, text);
   }
   
-  #initGoToStartButton(scene) {
+  #initMainSceneButton(scene) {
     const x = 185 + 48;
     const y = 240 + 173;
 
@@ -155,7 +155,7 @@ export default class SceneUI {
     const text = scene.make.text({
       x: x,
       y: y+15,
-      text: consts.NOTICE.get(scene.lang).get('go-to-start-scene'),
+      text: consts.NOTICE.get(scene.lang).get('main-scene'),
       style: {
         fixedWidth: 174,
         fixedHeight: 46,
@@ -303,7 +303,7 @@ export default class SceneUI {
     });
   }
 
-  #closeMenu() {
+  #closeMenu(scene) {
     this.menuOptionGroup.forEach((item) => {
       item.disableInteractive();
       item.setVisible(false);
@@ -316,7 +316,7 @@ export default class SceneUI {
   }
 
   #openHandBook(scene) {
-    this.#closeMenu();
+    this.#closeMenu(scene);
     this.handBook.setVisible(true);
     this.closeButton.setVisible(true);
     this.#showToDoList(scene);
