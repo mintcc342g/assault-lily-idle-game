@@ -1,4 +1,5 @@
-import * as consts from '../variables/constants.js';
+import * as css from '../consts/css.js';
+import * as configs from '../consts/configs.js';
 
 const COLOR_TEXTBOX_BACKGROUND = 0xfefefe;
 const COLOR_TEXTBOX_LINE = 0x8583c8;
@@ -23,7 +24,7 @@ export function createTextBox (scene, x, y, config) {
     }
   })
   .setOrigin(0, 0)
-  .setDepth(consts.LAYER_TEXTBOX)
+  .setDepth(configs.LAYER_TEXTBOX)
   .layout();
 
   textBox
@@ -57,10 +58,10 @@ var getBuiltInText = function (scene, wrapWidth, fixedWidth, fixedHeight) {
     style: {
       fixedWidth: fixedWidth,
       fixedHeight: fixedHeight,
-      color: consts.COLOR_TEXT,
+      color: css.DEFAULT_TEXT_COLOR,
       fontSize: '20px',
       maxLines: 3,
-      lineSpacing: consts.LINE_SPACING,
+      lineSpacing: css.DEFAULT_LINE_SPACING,
       wordWrap: {
         width: wrapWidth,
         useAdvancedWrap: true
