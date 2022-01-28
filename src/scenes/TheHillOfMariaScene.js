@@ -2,29 +2,45 @@ import Phaser from 'phaser';
 import MariaHillEventEmitter from '../components/Events.js';
 import SceneUI from '../components/SceneUI.js';
 import * as sceneHelpers from '../utils/sceneHelpers.js';
-import * as consts from '../variables/constants.js';
+import * as configs from '../consts/configs.js';
+import * as imgKeys from '../consts/imgKeys.js';
+
 
 export default class TheHillOfMariaScene extends Phaser.Scene {
   constructor() {
-    super(consts.SCENE_THE_HILL_OF_MARIA);
-    this.name = consts.SCENE_THE_HILL_OF_MARIA;
-    this.lang = consts.LANG_KR; // default lang
+    super(configs.SCENE_THE_HILL_OF_MARIA);
+    this.name = configs.SCENE_THE_HILL_OF_MARIA;
+    this.menuButtonKey = imgKeys.MENU_BUTTON_KEY;
+    this.buttonFrame = configs.DEFAULT_BUTTON_ANIM;
+    this.layers = configs.MARIA_HILL_LAYERS;
+    // this.eventList = events.EVENT_LIST_MARIA_HILL;
     this.tileset = {
-      key: consts.MARIA_HILL_TILESET_KEY,
-      imgKey: consts.MARIA_HILL_MAP_IMG_KEY,
-      configKey: consts.MARIA_HILL_TILESET_CONFIG_KEY,
+      key: configs.MARIA_HILL_TILESET_KEY,
+      imgKey: imgKeys.MARIA_HILL_MAP_IMG_KEY,
+      configKey: imgKeys.MARIA_HILL_TILESET_CONFIG_KEY,
     };
-    this.layers = consts.MARIA_HILL_LAYERS;
-    this.characters = new Map([
-      [consts.CHARACTER_RAIMU_ID, {}]
+    this.characters = new Map([ // fixme: 받아온 캐릭터 사용해도록 해야함.
+      [imgKeys.CHARACTER_RAIMU_ID, { /* sprite */ }]
     ]);
+    this.position = {
+      character: { x: 5, y: -1, speed: 1 },
+      menuButton: { x: 565,  y: 30 },
+    }
+    this.lang = '';
     this.ui = {};
-    this.eventList = consts.EVENT_LIST_MARIA_HILL;
+    this.menuButton = {};
     this.eventEmitter = {};
+    this.mainCharacter = {};
   }
 
   init(data) {
-    this.lang = data.lang;
+    if (!data.hasOwnProperty('lang')) {
+      this.lang = configs.LANG_KR  // default lang
+    } else {
+      this.lang = data.lang;
+    }
+    
+    this.mainCharacter = data.mainCharacter  // fixme: 받아온 캐릭터 사용해도록 해야함.
   }
 
   create(data) {
@@ -36,14 +52,14 @@ export default class TheHillOfMariaScene extends Phaser.Scene {
     
     // start scene
     this.cameras.main.fadeIn(1000, 0, 0, 0)
-    this.gridEngine.moveTo(consts.CHARACTER_RAIMU_ID, { x: 1, y: 5 });
+    this.gridEngine.moveTo(imgKeys.CHARACTER_RAIMU_ID, { x: 1, y: 5 });
     this.#startRandomEvent(tileMap);
   }
 
   #initCharacters() {
     for(let key of this.characters.keys()) {
       this.characters.set(key, this.add.sprite(0, 0, key).setOrigin(0, 0));
-      sceneHelpers.createCharacterAnimation(this, key, consts.CHARACTER_ANIM_KEYS, 6, -1);
+      sceneHelpers.createCharacterAnimation(this, key, configs.CHARACTER_ANIM_KEYS, 6, -1);
     }
   }
   
@@ -55,8 +71,8 @@ export default class TheHillOfMariaScene extends Phaser.Scene {
         {
           id: key,
           sprite: val,
-          startPosition: { x: 5, y: -1 },
-          speed: 1
+          startPosition: { x: this.position.character.x, y: this.position.character.y },
+          speed: this.position.character.speed,
         }
       );
     }, this);
@@ -72,10 +88,34 @@ export default class TheHillOfMariaScene extends Phaser.Scene {
   }
   
   #initUI() {
+    this.#initMenuButton();
+
+    // TODO: make UI as a scene
     this.ui = new SceneUI();
     this.ui.initMenu(this);
-    this.ui.initHandBook(this);
-    this.ui.initToDoList(this);
+  }
+
+  #initMenuButton() {
+    this.menuButton = this.add.sprite(this.position.menuButton.x, this.position.menuButton.y, this.menuButtonKey)
+      .setDepth(configs.LAYER_UI)
+      .setVisible(true)
+      .setInteractive()
+      .setOrigin(0, 0);
+
+    this.menuButton
+      .on('pointerdown', ()=>{
+        this.menuButton.setFrame(this.buttonFrame.get('clicked'));
+      }, this)
+      .on('pointerup', ()=>{
+        this.menuButton.setFrame(this.buttonFrame.get('idle'));
+        this.activeMenuButton(false);
+        this.ui.openMenu(this); // TODO: stop this scene and call UI scene
+      }, this);
+  }
+
+  activeMenuButton(isActive) { // TODO: remove when make UI scene
+    this.menuButton.enable = isActive;
+    this.menuButton.setVisible(isActive);
   }
 
   #initEventEmitter() {
@@ -87,7 +127,7 @@ export default class TheHillOfMariaScene extends Phaser.Scene {
     .positionChangeFinished()
     .subscribe(({ charId, exitTile, enterTile }) => {
       if (sceneHelpers.hasTrigger(tileMap, enterTile)) {
-        sceneHelpers.eventHandler(this, consts.EVENT_RAIMU_TEXTBOX, 0);
+        this.eventEmitter.eventHandler(this, 0);
       }
     });
   }

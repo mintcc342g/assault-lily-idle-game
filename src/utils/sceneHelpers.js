@@ -1,5 +1,4 @@
-import * as consts from '../variables/constants.js';
-import * as utils from '../utils/utils.js';
+import * as configs from '../consts/configs.js';
 
 export function createTileMap(scene) {
   const tileMap = scene.make.tilemap({ key: scene.tileset.configKey });
@@ -43,7 +42,7 @@ export function createCharacterAnimation(scene, characterID, keys, frameRate, re
         },
       ],
       frameRate: frameRate,
-      repeat: repeat
+      repeat: repeat?repeat:-1
     });
   }
 }
@@ -55,7 +54,7 @@ export function getStopFrame(direction) {
 export function initGridEngine(scene, tileMap, characters) {
   const gridEngineConfig = {
     characters: characters,
-    numberOfDirections: consts.GRID_ENGINE_MOVEMENT_DIRECTION,
+    numberOfDirections: configs.GRID_ENGINE_MOVEMENT_DIRECTION,
   };
   scene.gridEngine.create(tileMap, gridEngineConfig);
 }
@@ -73,28 +72,4 @@ export function subscribeCharacterMovements(scene, character, movingMotion, stop
   scene.gridEngine.directionChanged().subscribe(({ direction }) => {
     character.setFrame(getStopFrame(direction));
   });
-}
-
-export function eventHandler(scene, event, delay) {
-  scene.time.addEvent({
-    delay: delay,
-    callback: ()=>{scene.eventEmitter.emit(event, scene)},
-    // args: [],
-    callbackScope: scene.eventEmitter,
-    loop: false,
-    repeat: 0,
-    startAt: 0,
-    timeScale: 1,
-    paused: false
-  });
-}
-
-export function getRandomEvent(scene) {
-  return scene.eventList[utils.rand(0, scene.eventList.length-1)];
-}
-
-export function repeatEvent(scene, minRandTime, maxRandTime) {
-  const event = getRandomEvent(scene);
-  const delay = utils.msToMin(utils.rand(minRandTime, maxRandTime));
-  eventHandler(scene, event, delay);
 }
