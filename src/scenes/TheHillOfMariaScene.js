@@ -137,8 +137,4 @@ export default class TheHillOfMariaScene extends Phaser.Scene {
   restartTime() {
     this.time.paused = false;
   }
-
-  testFuntion() {
-    return "for_test"
-  }
 }

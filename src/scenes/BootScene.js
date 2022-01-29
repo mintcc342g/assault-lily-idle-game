@@ -128,18 +128,18 @@ export default class BootScene extends Phaser.Scene {
 
   loadSelectionSceneImgs() {
     this.load.image(gameData.SELECTION_BACKGROUND_KEYS.get(gameData.ACADEMY_LUDOVIC), SelectionBackgroundImgLudovic);
-    this.load.image(imgKeys.PREV_BUTTON_KEY, PrevButtonImg);
-    this.load.image(imgKeys.NEXT_BUTTON_KEY, NextButtonImg);
-    this.load.image(imgKeys.CHARACTER_SLOT_KEY, CharacterSlotImg);
-    this.load.image(imgKeys.NEXT_PAGE_KEY, 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/assets/images/arrow-down-left.png');
+    this.load.rexImageURI(imgKeys.PREV_BUTTON_KEY, PrevButtonImg);
+    this.load.rexImageURI(imgKeys.NEXT_BUTTON_KEY, NextButtonImg);
+    this.load.rexImageURI(imgKeys.CHARACTER_SLOT_KEY, CharacterSlotImg);
+    this.load.rexImageURI(imgKeys.NEXT_PAGE_KEY, 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/assets/images/arrow-down-left.png');
     this.load.spritesheet(imgKeys.PLAY_BUTTON_KEY, PlayButtonImg, { frameWidth: 114, frameHeight: 50 });
     this.load.spritesheet(imgKeys.BACK_BUTTON_KEY, BackButtonImg, { frameWidth: 114, frameHeight: 50 });
   }
 
   loadUISceneImgs() {
-    this.load.image(imgKeys.HAND_BOOK_KEY, HandBookImg);
-    this.load.image(imgKeys.LOGO_LINE_KEY, LogoLineImg);
-    this.load.image(imgKeys.LOGO_LUDOVIC_KEY, LogoLudovicImg);
+    this.load.rexImageURI(imgKeys.HAND_BOOK_KEY, HandBookImg);
+    this.load.rexImageURI(imgKeys.LOGO_LINE_KEY, LogoLineImg);
+    this.load.rexImageURI(imgKeys.LOGO_LUDOVIC_KEY, LogoLudovicImg);
     this.load.spritesheet(imgKeys.CLOSE_BUTTON_KEY, CloseButtonImg, { frameWidth: 45, frameHeight: 45 });
 
     this.load.spritesheet(imgKeys.MENU_BUTTON_1_KEY, MenuButtonFirstImg, { frameWidth: 198, frameHeight: 50 });
@@ -150,7 +150,7 @@ export default class BootScene extends Phaser.Scene {
 
   loadHillSceneImgs() {
     this.load.spritesheet(imgKeys.MENU_BUTTON_KEY, MenuButtonImg, { frameWidth: 39, frameHeight: 54 });
-    this.load.image(imgKeys.MARIA_HILL_MAP_IMG_KEY, MariaHillImage);
+    this.load.rexImageURI(imgKeys.MARIA_HILL_MAP_IMG_KEY, MariaHillImage);
     this.load.tilemapTiledJSON(imgKeys.MARIA_HILL_TILESET_CONFIG_KEY, MariaHillJSON);
   }
 }
