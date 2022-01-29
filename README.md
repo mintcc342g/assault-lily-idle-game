@@ -1,5 +1,7 @@
 # Assault Lily Idle Game Project
 
+<br/>
+
 - Contents
     - [한국어](#어설트-릴리-방치형-게임)
         - [플레이어블 캐릭터](#플레이어블-캐릭터)
@@ -24,9 +26,8 @@
 ## 어설트 릴리 방치형 게임
 
 이 프로젝트는 일본에서 시작된 미디어믹스 프로젝트 어설트 릴리의 세계관을 기반으로 한 2차 창작 웹게임 입니다. 2D 픽셀 아트로 구현된 릴리들의 일상을 따뜻한 눈으로 지켜보아요.  
-[### 게임 플레이 링크 ###](#https://mintcc342g.github.io/assault-lily-idle-game/)
+[>> 게임 플레이 링크 <<](https://mintcc342g.github.io/assault-lily-idle-game/)
 
-<br/>
 <br/>
 
 ### 플레이어블 캐릭터
@@ -34,7 +35,6 @@
 현재 선택 가능한 캐릭터 목록입니다.
 - 키시모토 루치아 라이무
 
-<br/>
 <br/>
 
 ### 기능
@@ -48,7 +48,6 @@
     - 최대 27자까지 입력 가능한 칸이 8개 제공됩니다.
     - 주의: 입력된 데이터는 저장되지 않으므로, 페이지를 벗어나거나 브라우저를 끌 경우 데이터가 날아갑니다.
 
-<br/>
 <br/>
 
 ### 조작법
@@ -74,7 +73,6 @@
         - 메뉴 닫기
 
 <br/>
-<br/>
 
 ### 게임 개발정보
 
@@ -92,7 +90,7 @@
 
 ## Assault Lily Idle Game
 This project is a fan-made web game based on the concept of the Assault Lily project which is Japanese mixed-media franchise. Let's watch over the Lilies to be made with pixel art with loving eyes.  
-[### You can play HERE! ###](#https://mintcc342g.github.io/assault-lily-idle-game/)
+[>> You can play HERE! <<](https://mintcc342g.github.io/assault-lily-idle-game/)
 
 <br/>
 
@@ -155,9 +153,8 @@ Current avaiable features
 
 ## アサルトリリィ放置系ゲーム
 このプロジェクトはメディアミックスプロジェクト「アサルトリリィ」の世界観を元にした2次創作のウェブゲームです。2Dピクセルアートで描かれるリリィたちの日常を暖かい目で見守ってみませんか？  
-[### ゲームプレイリンク ###](#https://mintcc342g.github.io/assault-lily-idle-game/)
+[>> ゲームプレイリンク <<](https://mintcc342g.github.io/assault-lily-idle-game/)
 
-<br/>
 <br/>
 
 ### プレイアブルキャラクター
@@ -165,7 +162,6 @@ Current avaiable features
 現在プレイ可能なキャラクターリストです。
 - 岸本・ルチア・来夢
 
-<br/>
 <br/>
 
 ### 機能
@@ -179,7 +175,6 @@ Current avaiable features
     - 最大２７文字まで入力可能な８つの欄が提供されます.
     - 注意事項：ゲームに関するデータを保存するサーバーがないため、ゲームページを離れたりブラウザを消したりすると入力した内容が全部なくなりますのでご注意ください。
 
-<br/>
 <br/>
 
 ### 操作
