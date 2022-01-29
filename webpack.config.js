@@ -12,7 +12,7 @@ module.exports = {
   output: {
     filename: 'bundle.[chunkhash:8].js',
     path: path.resolve(__dirname, 'dist'),
-    publicPath: '/',
+    publicPath: '',
     clean: true,
     assetModuleFilename: 'static/media/[name].[hash:8][ext]'
   },
