@@ -20,6 +20,7 @@ export const config = {
   autoRound: true,
   pixelArt: true,
   disableContextMenu: true,
+  backgroundColor: '#ffffff',
   dom: {
     createContainer: true
   },
