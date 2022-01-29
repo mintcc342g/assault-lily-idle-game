@@ -9,9 +9,9 @@ export const ACADEMY_LIST = [ACADEMY_LUDOVIC];
 export const ACADEMY_INFO = new Map([
   [ACADEMY_LUDOVIC, new Map([
     ['motto', new Map([
-      [configs.LANG_KR, ['교 훈', '이 학생수첩은 데이터를 저장하지 않습니다. 이 사이트를 벗어나거나 (새로고침 포함), 브라우저를 닫을 경우 기입했던 내용은 전부 없어집니다. 사용에 유의해주세요.']],
-      [configs.LANG_JP, ['校 訓', 'この生徒手帳はデータを保存しません。このサイトから離れたり （ページの更新も含む）、ブラウザーを閉じたりすると記入した内容は全部なくなります。ご利用に参考して下さい。']],
-      [configs.LANG_EN, ['MOTTO', 'This Handbook never save any data. If you leave this page, include refresh, or close it, you could lose all data that you inserted. Please note that.']],
+      [configs.LANG_KR, ['이 학생수첩은 데이터를 저장하지 않습니다. 이 사이트를 벗어나거나 (새로고침 포함), 브라우저를 닫을 경우 기입했던 내용은 전부 없어집니다. 사용에 유의해주세요.']],
+      [configs.LANG_JP, ['この生徒手帳はデータを保存しません。このサイトから離れたり （ページの更新も含む）、ブラウザーを閉じたりすると記入した内容は全部なくなります。ご利用に参考して下さい。']],
+      [configs.LANG_EN, ['This Handbook never save any data. If you leave this page, include refresh, or close it, you could lose all data that you inserted. Please note that.']],
     ])],
   ])]
 ]);

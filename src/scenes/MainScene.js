@@ -19,8 +19,8 @@ export default class MainScene extends Phaser.Scene {
       [this.jpButtonKey, new Map([ ['lang', configs.LANG_JP], ['button', { /* sprite */ }] ])]
     ]);
     this.position = {
-      start: { x: 226, y: 504 },
-      lang: { x: 146, y: 626, plus: 129 },
+      start: { x: 225, y: 532 },
+      lang: { x: 140, y: 654, plus: 129 },
     }
     this.buttonAnim = configs.DEFAULT_BUTTON_ANIM;
   }

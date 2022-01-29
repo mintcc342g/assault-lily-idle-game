@@ -21,6 +21,9 @@ export const PREV_BUTTON_KEY = 'prev_button';
 export const NEXT_BUTTON_KEY = 'next_button';
 export const PLAY_BUTTON_KEY = 'play_button';
 export const BACK_BUTTON_KEY = 'back_button';
+export const CHARACTER_SLOT_KEY = 'character_slot';
+export const NEXT_PAGE_KEY = 'next_page_button';
+
 
 // UI
 export const HAND_BOOK_KEY = 'hand_book';

@@ -5,6 +5,7 @@ import { createTextBox } from '../components/TextBox.js';
 import * as sceneHelpers from '../utils/sceneHelpers.js';
 
 import * as configs from '../consts/configs.js';
+import * as css from '../consts/css.js';
 import * as gameData from '../consts/gameData.js';
 import * as imgKeys from '../consts/imgKeys.js';
 
@@ -13,18 +14,22 @@ export default class CharacterSelectionScene extends Phaser.Scene {
     super(configs.SCENE_CHARACTER_SELECTION);
     this.name = configs.SCENE_CHARACTER_SELECTION;
     this.bgImgKeys = gameData.SELECTION_BACKGROUND_KEYS;
-    this.prevKey = imgKeys.PREV_BUTTON_KEY;
-    this.nextKey = imgKeys.NEXT_BUTTON_KEY;
-    this.playKey = imgKeys.PLAY_BUTTON_KEY;
-    this.backKey = imgKeys.BACK_BUTTON_KEY;
+    this.slotImgKey = imgKeys.CHARACTER_SLOT_KEY;
+    this.prevImgKey = imgKeys.PREV_BUTTON_KEY;
+    this.nextImgKey = imgKeys.NEXT_BUTTON_KEY;
+    this.playImgKey = imgKeys.PLAY_BUTTON_KEY;
+    this.backImgKey = imgKeys.BACK_BUTTON_KEY;
+    this.nextPageKey = imgKeys.NEXT_PAGE_KEY;
     this.buttonAnim = configs.DEFAULT_BUTTON_ANIM;
     this.position = {
-      character: { x: 126, y:532 },
-      textBox: { x: 220, y: 504, w: 250, h: 110 },
-      prev: { x: 21, y: 585 },
-      next: { x: 587, y: 585 },
-      back: { x: 240, y:658 },
-      play: { x: 406, y:658 }
+      character: { x: 120, y:130 },
+      slot: { x: 110, y: 124 },
+      textBox: { x: 234, y: 105, w: 228, h: 100 },
+      action: { x: 475, y: 170 },
+      prev: { x: 27, y: 185 },
+      next: { x: 579, y: 185 },
+      back: { x: 234, y:259 },
+      play: { x: 400, y:259 }
     }
     this.lang = '';
     this.currentCharacter = {};
@@ -62,33 +67,75 @@ export default class CharacterSelectionScene extends Phaser.Scene {
 	}
 
 	#initCharacterSlot() {
+    // TODO: blick
+    this.add.sprite(this.position.slot.x, this.position.slot.y, this.slotImgKey)
+      .setDepth(configs.LAYER_ABOVE_BACKGROUND)
+      .setOrigin(0, 0);
+
 		const characterSlot = new CharacterSlot();
 		gameData.CHARACTER_DATA.forEach((val, key)=>{
       let sprite = this.add.sprite(this.position.character.x, this.position.character.y, key)
         .setOrigin(0, 0)
         .setDepth(configs.LAYER_ABOVE_BACKGROUND)
         .setVisible(false);
-
       characterSlot.addCharacter({ sprite: sprite, info: val });
 			sceneHelpers.createCharacterAnimation(this, key, configs.CHARACTER_ANIM_KEYS, configs.DEFAULT_FRAME_RATE);
     }, this, characterSlot);
 
 		this.currentCharacter = characterSlot.firstCharacter();
-    this.currentTextBox = createTextBox(
-      this,
-      this.position.textBox.x,
-      this.position.textBox.y,
-      { fixedWidth: this.position.textBox.w, fixedHeight: this.position.textBox.h }
-    ).setVisible(false); // TODO: change box design
+    this.currentTextBox = this.#createTextBox();
 
     this.#showCharacter(true);
     this.#showBackground(true);
 		setTimeout(()=>{ this.#playTextBox(); }, 1000, this);
 	}
 
+  #createTextBox() {
+    const config = {
+      x: this.position.textBox.x,
+      y: this.position.textBox.y,
+      style: {
+        fixedWidth: this.position.textBox.w,
+        fixedHeight: this.position.textBox.h,
+        color: css.DEFAULT_TEXT_COLOR,
+        fontSize: '18px',
+        maxLines: 4,
+        lineSpacing: css.DEFAULT_LINE_SPACING,
+        wordWrap: {
+          width: this.position.textBox.w,
+          useAdvancedWrap: true
+        }        
+      },
+      padding: {
+        y: 3
+      }
+    }
+
+    const action = this.add.image(this.position.action.x, this.position.action.y, this.nextPageKey)
+      .setDepth(configs.LAYER_POPUP_OBJECT)
+      .setTint(css.DEFAULT_MENU_COLOR_RGB)
+      .setOrigin(0, 0)
+      .setVisible(false);
+
+    const textbox = createTextBox(this, config, action).setVisible(false);
+    
+    textbox
+      .on('pointerdown', function () {
+        var icon = this.getElement('action').setVisible(false);
+        this.resetChildVisibleState(icon);
+        if (this.isTyping) {
+          this.stop(true);
+        } else {
+          this.typeNextPage();
+        }
+      }, textbox);
+    
+    return textbox
+  }
+
 	#initArrowButtons() {
 		// TODO: blink button
-		this.add.sprite(this.position.prev.x, this.position.prev.y, this.prevKey)
+		this.add.sprite(this.position.prev.x, this.position.prev.y, this.prevImgKey)
       .setDepth(configs.LAYER_ABOVE_BACKGROUND)
       .setInteractive()
       .setOrigin(0, 0)
@@ -98,18 +145,13 @@ export default class CharacterSelectionScene extends Phaser.Scene {
 				this.currentTextBox.destroy();
 
 				this.currentCharacter = this.currentCharacter.prev;
-        this.currentTextBox = createTextBox(
-          this,
-          this.position.textBox.x,
-          this.position.textBox.y,
-          { fixedWidth: this.position.textBox.w, fixedHeight: this.position.textBox.h }
-        ); // TODO: change box design
+        this.currentTextBox = this.#createTextBox();
         this.#showBackground(true);
 				this.#showCharacter(true);
 				this.#playTextBox();
 			}, this);
 
-		this.add.sprite(this.position.next.x, this.position.next.y, this.nextKey)
+		this.add.sprite(this.position.next.x, this.position.next.y, this.nextImgKey)
       .setDepth(configs.LAYER_ABOVE_BACKGROUND)
       .setInteractive()
       .setOrigin(0, 0)
@@ -119,12 +161,7 @@ export default class CharacterSelectionScene extends Phaser.Scene {
 				this.currentTextBox.destroy();
 
 				this.currentCharacter = this.currentCharacter.next;
-				this.currentTextBox = createTextBox(
-          this,
-          this.position.textBox.x,
-          this.position.textBox.y,
-          { fixedWidth: this.position.textBox.w, fixedHeight: this.position.textBox.h }
-        );
+				this.currentTextBox = this.#createTextBox();
         this.#showBackground(true);
         this.#showCharacter(true);
         this.#playTextBox();
@@ -132,7 +169,7 @@ export default class CharacterSelectionScene extends Phaser.Scene {
 	}
 
 	#initBackButton() {
-		const button = this.add.sprite(this.position.back.x, this.position.back.y, this.backKey)
+		const button = this.add.sprite(this.position.back.x, this.position.back.y, this.backImgKey)
 			.setDepth(configs.LAYER_ABOVE_BACKGROUND)
 			.setInteractive()
 			.setOrigin(0, 0);
@@ -148,7 +185,7 @@ export default class CharacterSelectionScene extends Phaser.Scene {
 	}
 
 	#initPlayButton() {
-		const button = this.add.sprite(this.position.play.x, this.position.play.y, this.playKey)
+		const button = this.add.sprite(this.position.play.x, this.position.play.y, this.playImgKey)
 			.setDepth(configs.LAYER_ABOVE_BACKGROUND)
 			.setInteractive()
 			.setOrigin(0, 0);

@@ -6,10 +6,6 @@ import * as imgKeys from '../consts/imgKeys.js';
 
 export default class SceneUI {
   constructor() {
-    // this.config = {
-    //   // menuKey: consts.MENU_KEY, // fixme: change to handbook
-    //   // menuOptionImgKey: consts.MENU_OPTION_BUTTON_KEY, // fixme: change to menu_button_nums
-    // };
     this.handBookKey = imgKeys.HAND_BOOK_KEY;
     this.closeButtonKey = imgKeys.CLOSE_BUTTON_KEY;
     this.menuButtonKeys = imgKeys.MENU_BUTTON_KEYS;
@@ -18,12 +14,11 @@ export default class SceneUI {
     this.logoLineKey = imgKeys.LOGO_LINE_KEY;
     this.logoKey ='';
     this.css = {
-      handbook: { x: 5, y: 170, },
-      logoLine: { x: 99, y: 189 },
-      logo: { x: 121, y: 214 },
-      motto: { x: 121, y: 380, w: 140 },
-      mottoContent: { x: 89, y: 430, w: 210, h: 130, padding: 3 },
-      selectButton: { x: 340, y: 220, plus: 62 , w: 180, h: 50 },
+      handbook: { x: 0, y: 195, },
+      logoLine: { x: 102, y: 214 },
+      logo: { x: 121, y: 236 },
+      motto: { x: 89, y: 460, w: 210, h: 130, padding: 3 },
+      selectButton: { x: 340, y: 220, plus: 62 , w: 160, h: 40 },
       closeButton: { x: 548, y: 152 },
       toDoList: { x: 100, y: 210, xPlus: 258 , yPlus: 95,  w: 190, h: 80, padding: 4 },
     };
@@ -136,47 +131,34 @@ export default class SceneUI {
   }
 
   #initLogoTextBox(scene) {
-    const mottoList = gameData.ACADEMY_INFO.get(scene.mainCharacter.get('academy'))
-      .get('motto').get(scene.lang);
-    const confs = [
-      {
-        x: this.css.motto.x,
-        y: this.css.motto.y,
-        style: {
-          fixedWidth: this.css.motto.w,
-          color: css.DEFAULT_TEXT_COLOR,
-          fontSize: '24px',
-          align: 'center',
+    const text = gameData.ACADEMY_INFO.get(scene.mainCharacter.get('academy')).get('motto').get(scene.lang);
+    const textBoxConfig = {
+      x: this.css.motto.x,
+      y: this.css.motto.y,
+      text: text,
+      style: {
+        fixedWidth: this.css.motto.w,
+        fixedHeight: this.css.motto.h,
+        color: css.DEFAULT_MENU_COLOR,
+        fontSize: '12px',
+        align: 'left',
+        lineSpacing: css.DEFAULT_LINE_SPACING,
+        wordWrap: {
+          width: this.css.motto.w,
+          useAdvancedWrap: true
         },
       },
-      {
-        x: this.css.mottoContent.x,
-        y: this.css.mottoContent.y,
-        style: {
-          fixedWidth: this.css.mottoContent.w,
-          fixedHeight: this.css.mottoContent.h,
-          color: css.DEFAULT_TEXT_COLOR,
-          fontSize: '12px',
-          align: 'left',
-          lineSpacing: css.DEFAULT_LINE_SPACING,
-          wordWrap: {
-            width: this.css.mottoContent.w,
-            useAdvancedWrap: true
-          },
-        },
+      padding: {
+        y: this.css.motto.padding,
       }
-    ];
-
-    for (let i = 0; i < mottoList.length; i++) {
-      confs[i].text = mottoList[i];
-      confs[i].padding = this.css.mottoContent.padding;
-      let text = scene.make.text(confs[i])
-        .setDepth(configs.LAYER_POPUP_OBJECT_CONTENTS)
-        .setVisible(false)
-        .setOrigin(0, 0);
+    };
+      
+    let textBox = scene.make.text(textBoxConfig)
+      .setDepth(configs.LAYER_POPUP_OBJECT_CONTENTS)
+      .setVisible(false)
+      .setOrigin(0, 0);
   
-      this.menuGroup.set(`motto_${i}`, text);
-    }
+    this.menuGroup.set('motto', textBox);
   }
 
   #initMenuOptionButtons(scene) {
@@ -205,8 +187,8 @@ export default class SceneUI {
         text: val.get(scene.lang),
         style: {
           fixedWidth: this.css.selectButton.w,
-          fixedHeight: this.css.selectButton.y,
-          color: css.DEFAULT_TEXT_COLOR,
+          fixedHeight: this.css.selectButton.h,
+          color: css.DEFAULT_MENU_COLOR,
           fontSize: '18px',
           align: 'left',
         },
@@ -232,12 +214,14 @@ export default class SceneUI {
 
     text
       .on('pointerdown', () => {
+        text.setColor(css.DEFAULT_MENU_CLICKED_COLOR);
         button.setFrame(this.buttonFrame.get('clicked'));
-      }, this, button)
+      }, this, button, text)
       .on('pointerup', () => {
+        text.setColor(css.DEFAULT_MENU_COLOR);
         button.setFrame(this.buttonFrame.get('idle'));
         this.#openHandBook(scene);
-      }, this, button);
+      }, this, button, text);
   }
   
   #openHandBook(scene) {
@@ -280,9 +264,11 @@ export default class SceneUI {
 
     text
       .on('pointerdown', () => {
+        text.setColor(css.DEFAULT_MENU_CLICKED_COLOR);
         button.setFrame(this.buttonFrame.get('clicked'));
       }, this, button)
       .on('pointerup', () => {
+        text.setColor(css.DEFAULT_MENU_COLOR);
         button.setFrame(this.buttonFrame.get('idle'));
         this.#goToNext(scene, configs.SCENE_CHARACTER_SELECTION);
       }, this, button);
@@ -295,9 +281,11 @@ export default class SceneUI {
 
     text
       .on('pointerdown', () => {
+        text.setColor(css.DEFAULT_MENU_CLICKED_COLOR);
         button.setFrame(this.buttonFrame.get('clicked'));
       }, this, button)
       .on('pointerup', () => {
+        text.setColor(css.DEFAULT_MENU_COLOR);
         button.setFrame(this.buttonFrame.get('idle'));
         this.#goToNext(scene, configs.SCENE_MAIN);
       }, this, button);
@@ -320,9 +308,11 @@ export default class SceneUI {
 
     text
       .on('pointerdown', () => {
+        text.setColor(css.DEFAULT_MENU_CLICKED_COLOR);
         button.setFrame(this.buttonFrame.get('clicked'));
       }, this, button)
       .on('pointerup', () => {
+        text.setColor(css.DEFAULT_MENU_COLOR);
         button.setFrame(this.buttonFrame.get('idle'));
         this.#closeHandBook(scene);
         scene.activeMenuButton(true); // TODO: edit after UI scene create
@@ -355,7 +345,7 @@ export default class SceneUI {
       text: gameData.NOTICE.get(scene.lang).get('todo-place-holder'),
       style: {
         fixedWidth: this.css.toDoList.w,
-        fixedHeight: this.css.toDoList.y,
+        fixedHeight: this.css.toDoList.h,
         color: css.DEFAULT_TEXT_COLOR,
         fontSize: '18px',
         maxLines: 3,
