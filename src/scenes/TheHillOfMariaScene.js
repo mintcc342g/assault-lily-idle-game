@@ -13,7 +13,6 @@ export default class TheHillOfMariaScene extends Phaser.Scene {
     this.menuButtonKey = imgKeys.MENU_BUTTON_KEY;
     this.buttonFrame = configs.DEFAULT_BUTTON_ANIM;
     this.layers = configs.MARIA_HILL_LAYERS;
-    // this.eventList = events.EVENT_LIST_MARIA_HILL;
     this.tileset = {
       key: configs.MARIA_HILL_TILESET_KEY,
       imgKey: imgKeys.MARIA_HILL_MAP_IMG_KEY,
@@ -27,10 +26,10 @@ export default class TheHillOfMariaScene extends Phaser.Scene {
       menuButton: { x: 565,  y: 30 },
     }
     this.lang = '';
-    this.ui = {};
-    this.menuButton = {};
-    this.eventEmitter = {};
-    this.mainCharacter = {};
+    this.ui = { /* UI instance (TODO: need to change as a Scene) */ };
+    this.menuButton = { /* sprite */ };
+    this.eventEmitter = { /* Event instance */ };
+    this.mainCharacter = { /* sprite from former scene */ };
   }
 
   init(data) {
@@ -52,7 +51,7 @@ export default class TheHillOfMariaScene extends Phaser.Scene {
     
     // start scene
     this.cameras.main.fadeIn(1000, 0, 0, 0)
-    this.gridEngine.moveTo(imgKeys.CHARACTER_RAIMU_ID, { x: 1, y: 5 });
+    this.gridEngine.moveTo(imgKeys.CHARACTER_RAIMU_ID, { x: 1, y: 5 }); // TODO: UI scene would be started after the character's movement be done
     this.#startRandomEvent(tileMap);
   }
 
