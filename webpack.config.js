@@ -44,7 +44,7 @@ module.exports = {
         test:  /\.(png|svg|jpg|jpeg|gif|svg|webp)$/i,
         type: 'asset',
         parser: {
-          dataUrlCondition: { // phaser 3 cannot lead blob urls
+          dataUrlCondition: { // phaser 3 cannot load blob urls
             maxSize: 1
           }
         }
