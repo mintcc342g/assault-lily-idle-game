@@ -12,9 +12,9 @@ module.exports = {
   output: {
     filename: 'bundle.[chunkhash:8].js',
     path: path.resolve(__dirname, 'dist'),
-    publicPath: 'dist/',
+    publicPath: '/',
     clean: true,
-    assetModuleFilename: 'static/media/[name].[chunkhash:8].[ext]'
+    assetModuleFilename: 'static/media/[name].[hash:8][ext]'
   },
   module: {
     rules: [
