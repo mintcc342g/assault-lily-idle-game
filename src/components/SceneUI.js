@@ -52,7 +52,7 @@ export default class SceneUI {
       if (isVisible) {
         val.setInteractive();
       } else {
-        val.disableInteractive(); // setInteractive(false) 되는지 테스트
+        val.disableInteractive();
       }
       val.setVisible(isVisible);
     }
