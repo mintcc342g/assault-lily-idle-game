@@ -5,6 +5,7 @@ import * as sceneHelpers from '../utils/sceneHelpers.js';
 import * as configs from '../consts/configs.js';
 import * as imgKeys from '../consts/imgKeys.js';
 
+// fixme: test
 
 export default class TheHillOfMariaScene extends Phaser.Scene {
   constructor() {
