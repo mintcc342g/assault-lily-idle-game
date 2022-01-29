@@ -3,7 +3,7 @@ export function rand(min, max) {
 }
 
 export function msToMin(ms) {
-  return ms * 1000 // fixme 60000
+  return ms * 60000
 }
 
 export function isEmptyObject(obj)  {
