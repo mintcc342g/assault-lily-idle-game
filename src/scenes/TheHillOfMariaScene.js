@@ -19,7 +19,7 @@ export default class TheHillOfMariaScene extends Phaser.Scene {
       imgKey: imgKeys.MARIA_HILL_MAP_IMG_KEY,
       configKey: imgKeys.MARIA_HILL_TILESET_CONFIG_KEY,
     };
-    this.characters = new Map([ // fixme: 받아온 캐릭터 사용해도록 해야함.
+    this.characters = new Map([
       [imgKeys.CHARACTER_RAIMU_ID, { /* sprite */ }]
     ]);
     this.position = {
@@ -40,7 +40,7 @@ export default class TheHillOfMariaScene extends Phaser.Scene {
       this.lang = data.lang;
     }
     
-    this.mainCharacter = data.mainCharacter  // fixme: 받아온 캐릭터 사용해도록 해야함.
+    this.mainCharacter = data.mainCharacter
   }
 
   create(data) {

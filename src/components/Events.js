@@ -1,5 +1,8 @@
 import * as events from '../consts/events.js';
 import * as utils from '../utils/utils.js';
+import * as configs from '../consts/configs.js';
+import * as imgKeys from '../consts/imgKeys.js';
+import * as css from '../consts/css.js';
 import { createTextBox } from './TextBox.js';
 
 const { EventEmitter } = require('events');
@@ -7,9 +10,29 @@ const { EventEmitter } = require('events');
 export default class MariaHillEventEmitter extends EventEmitter {
   constructor() {
     super();
+    this.nextPageKey = imgKeys.NEXT_PAGE_KEY;
     this.css = {
-      popUp: { x:40, y: 570, speed: 50 },
-      box: { wrapWidth: 500, fixedWidth: 500, fixedHeight: 80 },
+      popUp: { x: 40, y: 570, speed: 50 },
+      action: { x: 600, y: 750 },
+      box: {
+        x: 40,
+        y: 570,
+        style: {
+          fixedWidth: 500,
+          fixedHeight: 80,
+          color: css.DEFAULT_TEXT_COLOR,
+          fontSize: '20px',
+          maxLines: 3,
+          lineSpacing: css.DEFAULT_LINE_SPACING,
+          wordWrap: {
+            width: 500,
+            useAdvancedWrap: true
+          }        
+        },
+        padding: {
+          y: 4
+        }
+      },
     };
     this.on(events.EVENT_RAIMU_TEXTBOX, this.selfSpeechBubbleEvent);
     // this.on(events.EVENT_CONVERSATION_WITH_SACHIE, this.sachieEvent);
@@ -18,7 +41,7 @@ export default class MariaHillEventEmitter extends EventEmitter {
 
   eventHandler(scene, delay) {
     const event = this.#getCharacterRandomEvent(scene.mainCharacter);
-  
+    
     scene.time.addEvent({
       delay: delay,
       callback: ()=>{this.emit(event, scene)},
@@ -37,34 +60,40 @@ export default class MariaHillEventEmitter extends EventEmitter {
     return eventList[utils.rand(0, eventList.length-1)]
   }
 
-  repeatEvent(scene, minRandTime, maxRandTime) {
-    const event = this.getRandomEvent(scene.mainCharacter);
-    const delay = utils.msToMin(utils.rand(minRandTime, maxRandTime));
-    this.eventHandler(scene, event, delay);
-  }
- 
-  #goToNextEvent(scene, textbox) {
+  #repeatEvent(scene, textbox) {
     setTimeout(()=>{
       textbox.destroy();
-      this.repeatEvent(scene, 1, 5);
+      const delay = utils.msToMin(utils.rand(1, 5));
+      this.eventHandler(scene, delay);
     }, 2000);
   }
 
-  selfSpeechBubbleEvent(scene) {
-    var textbox = this.popUpTextBox(scene);
-    textbox
-      .on('type', function () {
-        // TOOD
-      })
-      .on('complete', this.#goToNextEvent.bind(this, scene, textbox));
-  }
-  
-  popUpTextBox(scene) {
+  #popUpTextBox(scene) {
     const texts = scene.mainCharacter.get('random_texts').get(scene.lang);
     const radNum = utils.rand(0, texts.length-1);
+    const action = scene.add.image(this.css.action.x, this.css.action.y, this.nextPageKey)
+      .setTint(css.DEFAULT_MENU_COLOR_RGB)
+      .setOrigin(0, 0)
+      .setVisible(false);
+    
+    return createTextBox(scene, this.css.box, action).start(texts[radNum], this.css.popUp.speed);
+  }
 
-    return createTextBox(scene, this.css.popUp.x, this.css.popUp.y, this.css.box)
-      .start(texts[radNum], this.css.popUp.speed);
+  selfSpeechBubbleEvent(scene) {
+    var textbox = this.#popUpTextBox(scene);
+    textbox
+      .on('pointerdown', function () {
+        var icon = this.getElement('action').setVisible(false);
+        this.resetChildVisibleState(icon);
+        if (this.isTyping) {
+          this.stop(true);
+        } else if (!this.isLastPage) {
+          this.typeNextPage();
+        } else {
+          this.destroy();
+        }
+      }, textbox)
+      .on('complete', this.#repeatEvent.bind(this, scene, textbox));
   }
 
   // sachieEvent() {

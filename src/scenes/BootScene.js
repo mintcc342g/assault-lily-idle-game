@@ -9,6 +9,7 @@ import EnButtonImg from '../assets/ui/lang_button_en.png';
 
 // selection scene imgs
 import SelectionBackgroundImgLudovic from '../assets/ui/character_selection_ludovic.png';
+import CharacterSlotImg from '../assets/ui/character_slot.png';
 import PrevButtonImg from '../assets/ui/prev_button.png';
 import NextButtonImg from '../assets/ui/next_button.png';
 import PlayButtonImg from '../assets/ui/play_button.png';
@@ -17,9 +18,8 @@ import BackButtonImg from '../assets/ui/back_button.png';
 // ui images
 import HandBookImg from '../assets/ui/hand_book.png';
 import CloseButtonImg from '../assets/ui/close_button.png';
-import LogoLineImg from '../assets/ui/logo_line.png';
-import LogoDefaultImg from '../assets/ui/logo_al.png';
-import LogoLudovicImg from '../assets/ui/logo_ludovic.png';
+import LogoLineImg from '../assets/ui/logo_line_motto.png';
+import LogoLudovicImg from '../assets/ui/logo_ludovic_small.png';
 import MenuButtonFirstImg from '../assets/ui/menu_select_button_1.png';
 import MenuButtonSecondImg from '../assets/ui/menu_select_button_2.png';
 import MenuButtonThirdImg from '../assets/ui/menu_select_button_3.png';
@@ -130,6 +130,8 @@ export default class BootScene extends Phaser.Scene {
     this.load.image(gameData.SELECTION_BACKGROUND_KEYS.get(gameData.ACADEMY_LUDOVIC), SelectionBackgroundImgLudovic);
     this.load.image(imgKeys.PREV_BUTTON_KEY, PrevButtonImg);
     this.load.image(imgKeys.NEXT_BUTTON_KEY, NextButtonImg);
+    this.load.image(imgKeys.CHARACTER_SLOT_KEY, CharacterSlotImg);
+    this.load.image(imgKeys.NEXT_PAGE_KEY, 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/assets/images/arrow-down-left.png');
     this.load.spritesheet(imgKeys.PLAY_BUTTON_KEY, PlayButtonImg, { frameWidth: 114, frameHeight: 50 });
     this.load.spritesheet(imgKeys.BACK_BUTTON_KEY, BackButtonImg, { frameWidth: 114, frameHeight: 50 });
   }
@@ -137,7 +139,6 @@ export default class BootScene extends Phaser.Scene {
   loadUISceneImgs() {
     this.load.image(imgKeys.HAND_BOOK_KEY, HandBookImg);
     this.load.image(imgKeys.LOGO_LINE_KEY, LogoLineImg);
-    this.load.image(imgKeys.LOGO_DEFAULT_KEY, LogoDefaultImg);
     this.load.image(imgKeys.LOGO_LUDOVIC_KEY, LogoLudovicImg);
     this.load.spritesheet(imgKeys.CLOSE_BUTTON_KEY, CloseButtonImg, { frameWidth: 45, frameHeight: 45 });
 
@@ -148,7 +149,7 @@ export default class BootScene extends Phaser.Scene {
   }
 
   loadHillSceneImgs() {
-    this.load.spritesheet(imgKeys.MENU_BUTTON_KEY, MenuButtonImg, { frameWidth: 35, frameHeight: 50 });
+    this.load.spritesheet(imgKeys.MENU_BUTTON_KEY, MenuButtonImg, { frameWidth: 39, frameHeight: 54 });
     this.load.image(imgKeys.MARIA_HILL_MAP_IMG_KEY, MariaHillImage);
     this.load.tilemapTiledJSON(imgKeys.MARIA_HILL_TILESET_CONFIG_KEY, MariaHillJSON);
   }
