@@ -28,7 +28,7 @@ export default class TheHillOfMariaScene extends Phaser.Scene {
     this.ui = { /* UI instance (TODO: need to change as a Scene) */ };
     this.menuButton = { /* sprite */ };
     this.eventEmitter = { /* Event instance */ };
-    this.mainCharacter = { /* sprite from former scene */ };
+    this.mainCharacter = { /* map */ };
   }
 
   init(data) {

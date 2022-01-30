@@ -21,6 +21,18 @@
          "y":0
         }, 
         {
+         "data":[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 22, 23, 22, 23, 36, 0, 37, 29, 30, 29, 30, 43, 0, 44, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+         "height":9,
+         "id":11,
+         "name":"fence",
+         "opacity":1,
+         "type":"tilelayer",
+         "visible":true,
+         "width":7,
+         "x":0,
+         "y":0
+        }, 
+        {
          "data":[0, 0, 0, 0, 0, 13, 0, 0, 0, 0, 0, 0, 6, 0, 0, 0, 0, 0, 0, 13, 0, 0, 0, 0, 0, 0, 6, 0, 0, 0, 0, 0, 0, 13, 0, 0, 15, 16, 1, 8, 20, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
          "height":9,
          "id":2,
@@ -36,7 +48,7 @@
          "data":[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 17, 0, 17, 0, 17, 0, 0, 0, 17, 0, 17, 0, 17],
          "height":9,
          "id":10,
-         "name":"collisions",
+         "name":"gravestone",
          "opacity":1,
          "type":"tilelayer",
          "visible":true,
@@ -44,7 +56,7 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":11,
+ "nextlayerid":12,
  "nextobjectid":4,
  "orientation":"orthogonal",
  "renderorder":"right-down",
@@ -55,19 +67,19 @@
          "columns":7,
          "firstgid":1,
          "image":".\/maps\/map-maria-hill-tiles.png",
-         "imageheight":270,
+         "imageheight":630,
          "imagewidth":630,
          "margin":0,
          "name":"maria_hill_tiles",
          "spacing":0,
-         "tilecount":21,
+         "tilecount":49,
          "tileheight":90,
          "tiles":[
                 {
                  "id":14,
                  "properties":[
                         {
-                         "name":"trigger",
+                         "name":"speechBubbleTrigger",
                          "type":"bool",
                          "value":true
                         }]
