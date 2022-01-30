@@ -25,8 +25,9 @@
 
 # 어설트 릴리 방치형 게임
 
-이 프로젝트는 일본에서 시작된 미디어믹스 프로젝트 어설트 릴리의 세계관을 기반으로 한 2차 창작 웹게임 입니다. 2D 픽셀 아트로 구현된 릴리들의 일상을 따뜻한 눈으로 지켜보아요.  
-[>> 게임 플레이 링크 <<](https://mintcc342g.github.io/assault-lily-idle-game/)
+이 프로젝트는 일본에서 시작된 미디어믹스 프로젝트 어설트 릴리의 세계관을 기반으로 한 2차 창작 비공식 웹게임 입니다. 2D 픽셀 아트로 구현된 릴리들의 일상을 따뜻한 눈으로 지켜보아요.  
+
+- [게임 하러 가기!](https://mintcc342g.github.io/assault-lily-idle-game/)
 
 <br/>
 
@@ -43,14 +44,21 @@
 
 - 랜덤 이벤트
     - 캐릭터 랜덤 대사
+        - 10~15초 사이로 랜덤하게 캐릭터가 대사를 뱉습니다.
 - 학생수첩
-    - 간단한 메모를 작성하는 기능
+    - 간단한 메모 작성 기능 (이 게임의 컨셉..?)
     - 최대 27자까지 입력 가능한 칸이 8개 제공됩니다.
     - 주의: 입력된 데이터는 저장되지 않으므로, 페이지를 벗어나거나 브라우저를 끌 경우 데이터가 날아갑니다.
 
 <br/>
 
 ## 조작법
+
+- 이 게임은 방치형 게임으로, 기본적으로 캐릭터의 조작은 불가능합니다.
+- 캐릭터마다 좋아하는 휴식 장소가 있고, 쉬기 위해 그곳에 나타납니다.
+- 유저는 캐릭터가 휴식하는 모습을 지켜볼 수 있습니다.
+
+<br/>
 
 ### 메인 화면
 
@@ -93,8 +101,8 @@
 <br/>
 
 # Assault Lily Idle Game
-This project is a fan-made web game based on the concept of the Assault Lily project which is Japanese mixed-media franchise. Let's watch over the Lilies to be made with pixel art with loving eyes.  
-[>> You can play HERE! <<](https://mintcc342g.github.io/assault-lily-idle-game/)
+This project is a fan-made(unofficial) web game based on the concept of the Assault Lily project which is Japanese mixed-media franchise. Let's watch over the Lilies to be made with pixel art with loving eyes.  
+- [You can play HERE!](https://mintcc342g.github.io/assault-lily-idle-game/)
 
 <br/>
 
@@ -110,6 +118,7 @@ Current playable Character List
 Current avaiable features
 - Random Events
     - Character's random lines
+        - There will be popped a text box randomly. (every 10-15 sec)
 - Student's Handbook
     - a simple note
     - There are 8 input boxes. You can write characters(maximum 30) on them.
@@ -118,6 +127,12 @@ Current avaiable features
 <br/>
 
 ## Manual
+
+- This is a idle game. That means you cannot control the character.
+- All characters has a favorite place. And they would appear that place to take a break.
+- You can watch them relaxing on there.
+
+<br/>
 
 ### Main Screen
 
@@ -152,16 +167,17 @@ Current avaiable features
     - Phaser 3
     - Grid Engine
 - CAUTION
-    - I'm neither a game developer or a js professionalist. I'm real Newbie of js.
-    - I can't recommend to reference this project to develop a js project. (Welcome Code Reviews!)
+    - I'm neither a game developer or a js professionalist. I'm a real Newbie of js.
+    - I can't recommend to reference this project for your js projects.
+    - (Welcome Code Reviews for this project!)
 
 <br/>
 <br/>
 <br/>
 
 ## アサルトリリィ放置系ゲーム
-このプロジェクトはメディアミックスプロジェクト「アサルトリリィ」の世界観を元にした2次創作のウェブゲームです。2Dピクセルアートで描かれるリリィたちの日常を暖かい目で見守ってみませんか？  
-[>> ゲームプレイリンク <<](https://mintcc342g.github.io/assault-lily-idle-game/)
+このプロジェクトはメディアミックスプロジェクト「アサルトリリィ」の世界観を元にした2次創作（非公式）のウェブゲームです。2Dピクセルアートで描かれるリリィたちの日常を暖かい目で見守ってみませんか？  
+- [ゲームプレイリンク](https://mintcc342g.github.io/assault-lily-idle-game/)
 
 <br/>
 
@@ -177,7 +193,7 @@ Current avaiable features
 現在具現された機能のリストです。
 
 - ランダムイベント
-    - 選択したキャラクターのランダム台詞
+    - １０～１５秒ごとに選択したキャラクターのランダム台詞が出ます。
 - 生徒手帳
     - メモが作成出来ます。
     - 最大２７文字まで入力可能な８つの欄が提供されます.
@@ -186,6 +202,13 @@ Current avaiable features
 <br/>
 
 ## 操作
+
+- このゲームは放置系なので、基本的にキャラクターの操作はできません。
+- 全てのキャラクターは自分の好きな場所があります。
+- 彼女らは休憩するためにそこを訪れます。
+- ユーザーはそこで休んでいるキャラクターを見守るのが出来ます。
+
+<br/>
 
 ### タイトル画面
 - 言語を選択した後「Start」ボタンを押すとキャラクター画面に移ります。
