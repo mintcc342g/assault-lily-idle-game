@@ -63,7 +63,7 @@ export default class MariaHillEventEmitter extends EventEmitter {
   #repeatEvent(scene, textbox) {
     setTimeout(()=>{
       textbox.destroy();
-      const delay = utils.msToMin(utils.rand(1, 5));
+      const delay = utils.msToSec(utils.rand(10, 15));
       this.eventHandler(scene, delay);
     }, 2000);
   }
