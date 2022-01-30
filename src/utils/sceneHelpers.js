@@ -15,7 +15,7 @@ export function createTileMap(scene) {
 export function hasTrigger(tileMap, position) {
   return tileMap.layers.some((layer) => {
     const tile = tileMap.getTileAt(position.x, position.y, false, layer.name);
-    return tile?.properties?.trigger;
+    return tile?.properties?.speechBubbleTrigger;
   });
 }
 

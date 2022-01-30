@@ -32,7 +32,7 @@ export default class CharacterSelectionScene extends Phaser.Scene {
       play: { x: 400, y:259 }
     }
     this.lang = '';
-    this.currentCharacter = { /* sprite */ };
+    this.currentCharacter = { /* sprite and info */ };
 		this.currentTextBox = { /* rexUI textBox */ };
     this.backgrounds = new Map();
   }

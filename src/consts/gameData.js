@@ -2,7 +2,10 @@ import * as configs from './configs.js';
 import * as imgKeys from './imgKeys.js';
 import * as events from './events.js';
 
-// Academy
+/**
+ * Academy
+ * 
+ */
 export const ACADEMY_LUDOVIC = 'ludovic';
 export const ACADEMY_LIST = [ACADEMY_LUDOVIC];
 
@@ -16,12 +19,15 @@ export const ACADEMY_INFO = new Map([
   ])]
 ]);
 
-export const SELECTION_BACKGROUND_KEYS = new Map([ // temp
+export const SELECTION_BACKGROUND_KEYS = new Map([ // TODO: fix import issue, then move this to the imgKeys.js file.
   [ACADEMY_LUDOVIC, 'background_img_ludovic']
 ]);
 
 
-// Notice
+/**
+ * Notice
+ * 
+ */
 export const NOTICE = new Map([
   [
     configs.LANG_KR, new Map([
@@ -47,14 +53,21 @@ export const NOTICE = new Map([
 ]);
 
 
-// Character
-const RAIMU_INFO = new Map([
+/**
+ * Character
+ * 
+ */
+
+// introduction
+const INTRODUCTION_RAIMU = new Map([
   [configs.LANG_KR, '사립 루도비코 여학원의 1학년생. 소속 레기온은 \'아이언 사이드\'. 언니의 의지를 이어 릴리가 되었다. 마리아 언덕에 자주 가는 듯 하다.'],
   [configs.LANG_EN, 'A new first-year student at the private Ludovic Girls Academy. She became a lily to inherit her sister\'s will. Apparently she often go to the Hill Of Maria.'],
   [configs.LANG_JP, '私立ルドビコ女学院の1年生。所属レギオンは「アイアンサイド」。姉の意思を継いでリリィになった。戦死したリリィたちが眠っているマリアの丘によく行くらしい。'],
 ]);
 
-const RAIMU_RANDOM_TEXTS = new Map([
+
+// random texts
+const RANDOM_TEXTS_RAIMU = new Map([
   [configs.LANG_KR, [
     `(마리아 언덕...\n난 여기가 좋아.)`,
     `(미라이 언니..\n보고 싶다..)`,
@@ -87,14 +100,16 @@ const RAIMU_RANDOM_TEXTS = new Map([
   ]]
 ]);
 
+
+// character data
 export const CHARACTER_DATA = new Map([
   [
     imgKeys.CHARACTER_RAIMU_ID, new Map([
       ['scene', configs.SCENE_THE_HILL_OF_MARIA],
-      ['intro', RAIMU_INFO],
+      ['intro', INTRODUCTION_RAIMU],
       ['academy', ACADEMY_LUDOVIC],
       ['events', events.EVENT_LIST_RAIMU],
-      ['random_texts', RAIMU_RANDOM_TEXTS],
+      ['random_texts', RANDOM_TEXTS_RAIMU],
     ])
   ],
 ]);
