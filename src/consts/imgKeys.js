@@ -35,7 +35,7 @@ export const MENU_BUTTON_1_KEY = 'open-handbook';
 export const MENU_BUTTON_2_KEY = 'character-selection-scene';
 export const MENU_BUTTON_3_KEY = 'main-scene';
 export const MENU_BUTTON_4_KEY = 'close-menu';
-export const MENU_BUTTON_KEYS = new Map([
+export const MENU_OPTION_KEYS = new Map([
     [MENU_BUTTON_1_KEY, new Map([
         [configs.LANG_KR, '학생수첩'],
         [configs.LANG_EN, 'Hand Book'],

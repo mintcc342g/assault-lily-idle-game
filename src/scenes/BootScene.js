@@ -61,7 +61,7 @@ export default class BootScene extends Phaser.Scene {
   startLoadingBar() {
     var progressBar = this.add.graphics();
     var progressBox = this.add.graphics();
-    progressBox.fillStyle(0x222222, 0.8);
+    progressBox.fillStyle(0x000000, 0.8);
     progressBox.fillRect(160, 270, 320, 50);
     
     var width = this.cameras.main.width;
@@ -72,7 +72,7 @@ export default class BootScene extends Phaser.Scene {
         text: 'Loading...',
         style: {
             font: '20px monospace',
-            fill: '#000000'
+            fill: '#ffffff'
         }
     });
     loadingText.setOrigin(0.5, 0.5);
@@ -83,7 +83,7 @@ export default class BootScene extends Phaser.Scene {
         text: '0%',
         style: {
             font: '18px monospace',
-            fill: '#000000'
+            fill: '#ffffff'
         }
     });
     percentText.setOrigin(0.5, 0.5);
@@ -94,7 +94,7 @@ export default class BootScene extends Phaser.Scene {
         text: '',
         style: {
             font: '18px monospace',
-            fill: '#000000'
+            fill: '#ffffff'
         }
     });
     assetText.setOrigin(0.5, 0.5);
@@ -102,7 +102,7 @@ export default class BootScene extends Phaser.Scene {
     this.load.on('progress', function (value) {
         percentText.setText(parseInt(value * 100) + '%');
         progressBar.clear();
-        progressBar.fillStyle(0x000000, 1);
+        progressBar.fillStyle(0xffffff, 1);
         progressBar.fillRect(160, 280, 300 * value, 30);
     });
 

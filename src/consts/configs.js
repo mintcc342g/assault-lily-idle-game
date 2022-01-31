@@ -12,6 +12,7 @@ export const DEFAULT_FRAME_RATE = 6;
 // Scenes
 export const SCENE_BOOT = 'BootScene';
 export const SCENE_MAIN = 'MainScene';
+export const SCENE_UI = 'UIScene';
 export const SCENE_CHARACTER_SELECTION = 'CharacterSelectionScene';
 export const SCENE_THE_HILL_OF_MARIA = 'TheHillOfMariaScene';
 

@@ -1,8 +1,8 @@
 import Phaser from 'phaser';
 import MariaHillEventEmitter from '../components/Events.js';
-import SceneUI from '../components/SceneUI.js';
 import * as sceneHelpers from '../utils/sceneHelpers.js';
 import * as configs from '../consts/configs.js';
+import * as css from '../consts/css.js';
 import * as imgKeys from '../consts/imgKeys.js';
 
 export default class TheHillOfMariaScene extends Phaser.Scene {
@@ -22,11 +22,8 @@ export default class TheHillOfMariaScene extends Phaser.Scene {
     ]);
     this.position = {
       character: { x: 5, y: -1, speed: 1 },
-      menuButton: { x: 565,  y: 30 },
     }
     this.lang = '';
-    this.ui = { /* UI instance (TODO: need to change as a Scene) */ };
-    this.menuButton = { /* sprite */ };
     this.eventEmitter = { /* Event instance */ };
     this.mainCharacter = { /* map */ };
   }
@@ -42,16 +39,18 @@ export default class TheHillOfMariaScene extends Phaser.Scene {
   }
 
   create(data) {
-    this.#initCharacters();
     const tileMap = sceneHelpers.createTileMap(this);
+    this.#initCharacters();
     this.#initGridEngine(tileMap);
-    this.#initUI();
     this.#initEventEmitter();
     
     // start scene
-    this.cameras.main.fadeIn(1000, 0, 0, 0)
-    this.gridEngine.moveTo(imgKeys.CHARACTER_RAIMU_ID, { x: 1, y: 5 }); // TODO: UI scene would be started after the character's movement be done
-    this.#startRandomEvent(tileMap);
+    this.cameras.main.fadeIn(1000,
+      css.DEFAULT_BACKGROUND_COLOR_RED,
+      css.DEFAULT_BACKGROUND_COLOR_GREEN,
+      css.DEFAULT_BACKGROUND_COLOR_BLUE
+    );
+    this.gridEngine.moveTo(imgKeys.CHARACTER_RAIMU_ID, { x: 1, y: 5 });
   }
 
   #initCharacters() {
@@ -64,77 +63,54 @@ export default class TheHillOfMariaScene extends Phaser.Scene {
   #initGridEngine(tileMap) {
     const charactersConfig = [];
     
-    this.characters.forEach((val, key)=>{
-      charactersConfig.push(
-        {
-          id: key,
-          sprite: val,
-          startPosition: { x: this.position.character.x, y: this.position.character.y },
-          speed: this.position.character.speed,
-        }
-      );
-    }, this);
+    this.characters.forEach((val, key) => {
+      charactersConfig.push({
+        id: key,
+        sprite: val,
+        startPosition: {
+          x: this.position.character.x,
+          y: this.position.character.y
+        },
+        speed: this.position.character.speed,
+      });
+    });
     sceneHelpers.initGridEngine(this, tileMap, charactersConfig);
 
     this.#initMovementSubscriber();
+    this.#initPositionChangeSubscriber(tileMap);
   }
 
   #initMovementSubscriber() {
-    this.characters.forEach((val)=>{
+    this.characters.forEach((val) => {
       sceneHelpers.subscribeCharacterMovements(this, val, 'walking', 'down');
-    }, this);
-  }
-  
-  #initUI() {
-    this.#initMenuButton();
-
-    // TODO: make UI as a scene
-    this.ui = new SceneUI();
-    this.ui.initMenu(this);
-  }
-
-  #initMenuButton() {
-    this.menuButton = this.add.sprite(this.position.menuButton.x, this.position.menuButton.y, this.menuButtonKey)
-      .setDepth(configs.LAYER_UI)
-      .setVisible(true)
-      .setInteractive()
-      .setOrigin(0, 0);
-
-    this.menuButton
-      .on('pointerdown', ()=>{
-        this.menuButton.setFrame(this.buttonFrame.get('clicked'));
-      }, this)
-      .on('pointerup', ()=>{
-        this.menuButton.setFrame(this.buttonFrame.get('idle'));
-        this.activeMenuButton(false);
-        this.ui.openMenu(this); // TODO: stop this scene and call UI scene
-      }, this);
-  }
-
-  activeMenuButton(isActive) { // TODO: remove when make UI scene
-    this.menuButton.enable = isActive;
-    this.menuButton.setVisible(isActive);
+    });
   }
 
   #initEventEmitter() {
     this.eventEmitter = new MariaHillEventEmitter();
   }
 
-  #startRandomEvent(tileMap) {
+  #initPositionChangeSubscriber(tileMap) {
     this.gridEngine
     .positionChangeFinished()
     .subscribe(({ charId, exitTile, enterTile }) => {
-      if (sceneHelpers.hasTrigger(tileMap, enterTile)) {
+      if (this.#isGameStartTrigger(tileMap, enterTile)) {
+        this.scene.launch(configs.SCENE_UI,
+          {
+            lang: this.lang,
+            sceneName: this.name,
+            academy: this.mainCharacter.get('academy'),
+          }
+        );
         this.eventEmitter.eventHandler(this, 0);
       }
     });
   }
 
-  pauseTime() {
-    this.time.paused = true;
-  }
-  
-  restartTime() {
-    this.time.paused = false;
+  #isGameStartTrigger(tileMap, position) {
+    return tileMap.layers.some((layer) => {
+      const tile = tileMap.getTileAt(position.x, position.y, false, layer.name);
+      return tile?.properties?.speechBubbleTrigger;
+    });
   }
 }

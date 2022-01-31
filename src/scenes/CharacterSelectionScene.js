@@ -13,6 +13,7 @@ export default class CharacterSelectionScene extends Phaser.Scene {
   constructor() {
     super(configs.SCENE_CHARACTER_SELECTION);
     this.name = configs.SCENE_CHARACTER_SELECTION;
+    this.buttonFrame = configs.DEFAULT_BUTTON_ANIM;
     this.keys = {
       background: gameData.SELECTION_BACKGROUND_KEYS,
       slot: imgKeys.CHARACTER_SLOT_KEY,
@@ -20,8 +21,7 @@ export default class CharacterSelectionScene extends Phaser.Scene {
       nextArrow: imgKeys.NEXT_BUTTON_KEY,
       play: imgKeys.PLAY_BUTTON_KEY,
       back: imgKeys.BACK_BUTTON_KEY,
-      nextPage: imgKeys.NEXT_PAGE_KEY,
-      buttonAnim: configs.DEFAULT_BUTTON_ANIM
+      nextPage: imgKeys.NEXT_PAGE_KEY
     };
     this.position = {
       character: { x: 120, y:130 },
@@ -36,6 +36,7 @@ export default class CharacterSelectionScene extends Phaser.Scene {
     this.currentCharacter = { /* sprite and info */ };
 		this.currentTextBox = { /* rexUI textBox */ };
     this.backgrounds = new Map();
+    this.uiGroup = [];
   }
 
 	init(data) {
@@ -47,7 +48,11 @@ export default class CharacterSelectionScene extends Phaser.Scene {
 	}
 
 	create() {
-		this.cameras.main.fadeIn(1000, 0, 0, 0)
+		this.cameras.main.fadeIn(1000,
+      css.DEFAULT_BACKGROUND_COLOR_RED,
+      css.DEFAULT_BACKGROUND_COLOR_GREEN,
+      css.DEFAULT_BACKGROUND_COLOR_BLUE
+    );
 
 		this.#initBackground();
 		this.#initCharacterSlot();
@@ -73,21 +78,21 @@ export default class CharacterSelectionScene extends Phaser.Scene {
       .setOrigin(0, 0);
 
 		const characterSlot = new CharacterSlot();
-		gameData.CHARACTER_DATA.forEach((val, key)=>{
+		gameData.CHARACTER_DATA.forEach((val, key) => {
       let sprite = this.add.sprite(this.position.character.x, this.position.character.y, key)
         .setOrigin(0, 0)
         .setDepth(configs.LAYER_ABOVE_BACKGROUND)
         .setVisible(false);
       characterSlot.addCharacter({ sprite: sprite, info: val });
 			sceneHelpers.createCharacterAnimation(this, key, configs.CHARACTER_ANIM_KEYS, configs.DEFAULT_FRAME_RATE);
-    }, this, characterSlot);
+    });
 
 		this.currentCharacter = characterSlot.firstCharacter();
     this.currentTextBox = this.#createTextBox();
 
     this.#showCharacter(true);
     this.#showBackground(true);
-		setTimeout(()=>{ this.#playTextBox(); }, 1000, this);
+		setTimeout(() => { this.#playTextBox(); }, 1000);
 	}
 
   #createTextBox() {
@@ -161,13 +166,13 @@ export default class CharacterSelectionScene extends Phaser.Scene {
         });
 
       arrow
-        .on('pointerover', ()=>{
+        .on('pointerover', () => {
           glowPipline.setOuterStrength(1.5);
         })
-        .on('pointerout', ()=> {
+        .on('pointerout', () => {
           glowPipline.setOuterStrength(0);
         })
-        .on('pointerup',function() {
+        .on('pointerup', () => {
           this.#showCharacter(false);
           this.#showBackground(false);
           this.currentTextBox.destroy();
@@ -177,7 +182,7 @@ export default class CharacterSelectionScene extends Phaser.Scene {
           this.#showBackground(true);
           this.#showCharacter(true);
           this.#playTextBox();
-        }, this);
+        });
 
       x += this.position.arrows.plus;
       arrows[i] = arrow;
@@ -190,6 +195,7 @@ export default class CharacterSelectionScene extends Phaser.Scene {
       repeat: -1,
       yoyo: true,
     });
+    this.uiGroup.push(...arrows);
 	}
 
 	#initBackButton() {
@@ -199,14 +205,27 @@ export default class CharacterSelectionScene extends Phaser.Scene {
 			.setOrigin(0, 0);
 		
 		button
-			.once('pointerdown', ()=>{
-				button.setFrame(this.keys.buttonAnim.get('clicked'));
-			}, this, button)
-      .once('pointerup', ()=>{
-				button.setFrame(this.keys.buttonAnim.get('idle'));
+			.on('pointerdown', () => {
+        this.#setDefaultFrame(button, false);
+			})
+      .on('pointerout', () => {
+        this.#setDefaultFrame(button, true);
+      })
+      .on('pointerup', () => {
+        this.#setDefaultFrame(button, true);
         this.#goToNext(configs.SCENE_MAIN);
-      }, this, button);
+      });
+    
+    this.uiGroup.push(button);
 	}
+
+  #setDefaultFrame(sprite, isIdle) {
+    if (isIdle) {
+      sprite.setFrame(this.buttonFrame.get('idle'));
+    } else {
+      sprite.setFrame(this.buttonFrame.get('clicked'));
+    }
+  }
 
 	#initPlayButton() {
 		const button = this.add.sprite(this.position.play.x, this.position.play.y, this.keys.play)
@@ -215,17 +234,21 @@ export default class CharacterSelectionScene extends Phaser.Scene {
 			.setOrigin(0, 0);
 		
 		button
-			.once('pointerdown', ()=>{
-				button.setFrame(this.keys.buttonAnim.get('clicked'));
-			}, this, button)
-      .once('pointerup', ()=>{
-        button.disableInteractive();
-				button.setFrame(this.keys.buttonAnim.get('idle'));
+			.on('pointerdown', () => {
+        this.#setDefaultFrame(button, false);
+			})
+      .on('pointerout', () => {
+        this.#setDefaultFrame(button, true);
+      })
+      .on('pointerup', () => {
+        this.#setDefaultFrame(button, true);
         this.#goToNext(
           this.currentCharacter.data.info.get('scene'),
           { lang: this.lang, mainCharacter: this.currentCharacter.data.info }
         );
-      }, this, button);
+      });
+  
+    this.uiGroup.push(button);
 	}
 
   #showCharacter(visible) {
@@ -238,16 +261,30 @@ export default class CharacterSelectionScene extends Phaser.Scene {
 
   #playTextBox() {
     this.currentTextBox
-				.setVisible(true)
-				.start(this.currentCharacter.data.info.get('intro').get(this.lang), 50)
+      .setVisible(true)
+      .start(this.currentCharacter.data.info.get('intro').get(this.lang), 50)
   }
 
   #goToNext(nextSceneName, data) {
-    this.cameras.main.fadeOut(1000, 0, 0, 0)
+    this.#diableAllInteractions();
+
+    this.cameras.main.fadeOut(1000,
+      css.DEFAULT_BACKGROUND_COLOR_RED,
+      css.DEFAULT_BACKGROUND_COLOR_GREEN,
+      css.DEFAULT_BACKGROUND_COLOR_BLUE
+    );
     this.cameras.main.once('camerafadeoutcomplete', (cam, effect) => {					
       this.time.delayedCall(1000, () => {
         this.scene.start(nextSceneName, data);
       });
     });
-  }  
+  }
+
+  #diableAllInteractions() {
+    this.uiGroup.forEach((ui) => {
+      ui.disableInteractive();
+    });
+    this.currentTextBox.disableInteractive();
+    this.currentTextBox.pause();
+  }
 }
