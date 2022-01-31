@@ -26,7 +26,7 @@ export default class UIScene extends Phaser.Scene {
       logoLine: { x: 102, y: 214 },
       logo: { x: 121, y: 236 },
       motto: { x: 89, y: 460, w: 210, h: 130, padding: 3 },
-      selectButton: { x: 340, y: 220, xPlus: 45, yPlus: 62 , w: 160, h: 40 },
+      menuOptions: { x: 340, y: 220, yPlus: 62 , w: 198, h: 40, padding: { left: 50, top: 3 } },
       closeButton: { x: 535, y: 165 },
       toDoList: { x: 100, y: 210, xPlus: 258 , yPlus: 95,  w: 190, h: 80, padding: 4 },
     };
@@ -197,8 +197,8 @@ export default class UIScene extends Phaser.Scene {
   }
 
   #createMenuOptions() {
-    var x = this.css.selectButton.x;
-    var y = this.css.selectButton.y;
+    var x = this.css.menuOptions.x;
+    var y = this.css.menuOptions.y;
 
     for (let [key, val] of  this.keys.menuOptions) {
       let button = this.add.sprite(x, y, key)
@@ -208,18 +208,19 @@ export default class UIScene extends Phaser.Scene {
         .setOrigin(0, 0);
 
       let text = this.make.text({
-        x: x + this.css.selectButton.xPlus,
+        x: x,
         y: y,
         text: val.get(this.lang),
         style: {
-          fixedWidth: this.css.selectButton.w,
-          fixedHeight: this.css.selectButton.h,
+          fixedWidth: this.css.menuOptions.w,
+          fixedHeight: this.css.menuOptions.h,
           color: css.DEFAULT_MENU_COLOR,
-          fontSize: '18px',
+          fontSize: '20px',
           align: 'left',
         },
         padding: {
-          y: 3,
+          left: this.css.menuOptions.padding.left,
+          top: this.css.menuOptions.padding.top,
         }
       })
       .setDepth(configs.LAYER_POPUP_OBJECT_CONTENTS)
@@ -227,7 +228,7 @@ export default class UIScene extends Phaser.Scene {
       .setInteractive()
       .setOrigin(0, 0)
      
-      y += this.css.selectButton.yPlus;
+      y += this.css.menuOptions.yPlus;
       this.menuGroup.set(key, button);
       this.menuGroup.set(`${key}${this.menuOptionTextSuffix}`, text);
     }
