@@ -3,6 +3,7 @@ import GridEngine from 'grid-engine';
 import RexUIPlugins from 'phaser3-rex-plugins/templates/ui/ui-plugin.js';
 import RexTextEditPlugin from 'phaser3-rex-plugins/plugins/textedit-plugin.js'
 import RexImageURILoaderPlugin from 'phaser3-rex-plugins/plugins/imageuriloader-plugin.js';
+import RexGlowFilterPipelinePlugin from 'phaser3-rex-plugins/plugins/glowfilter2pipeline-plugin.js';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
@@ -62,6 +63,11 @@ export const config = {
       {
         key: 'rexTextEdit',
         plugin: RexTextEditPlugin,
+        start: true
+      },
+      {
+        key: 'rexGlowFilterPipeline',
+        plugin: RexGlowFilterPipelinePlugin,
         start: true
       },
     ]

@@ -13,21 +13,22 @@ export default class CharacterSelectionScene extends Phaser.Scene {
   constructor() {
     super(configs.SCENE_CHARACTER_SELECTION);
     this.name = configs.SCENE_CHARACTER_SELECTION;
-    this.bgImgKeys = gameData.SELECTION_BACKGROUND_KEYS;
-    this.slotImgKey = imgKeys.CHARACTER_SLOT_KEY;
-    this.prevImgKey = imgKeys.PREV_BUTTON_KEY;
-    this.nextImgKey = imgKeys.NEXT_BUTTON_KEY;
-    this.playImgKey = imgKeys.PLAY_BUTTON_KEY;
-    this.backImgKey = imgKeys.BACK_BUTTON_KEY;
-    this.nextPageKey = imgKeys.NEXT_PAGE_KEY;
-    this.buttonAnim = configs.DEFAULT_BUTTON_ANIM;
+    this.keys = {
+      background: gameData.SELECTION_BACKGROUND_KEYS,
+      slot: imgKeys.CHARACTER_SLOT_KEY,
+      prevArrow: imgKeys.PREV_BUTTON_KEY,
+      nextArrow: imgKeys.NEXT_BUTTON_KEY,
+      play: imgKeys.PLAY_BUTTON_KEY,
+      back: imgKeys.BACK_BUTTON_KEY,
+      nextPage: imgKeys.NEXT_PAGE_KEY,
+      buttonAnim: configs.DEFAULT_BUTTON_ANIM
+    };
     this.position = {
       character: { x: 120, y:130 },
       slot: { x: 110, y: 124 },
       textBox: { x: 234, y: 105, w: 228, h: 100 },
       action: { x: 475, y: 170 },
-      prev: { x: 27, y: 185 },
-      next: { x: 579, y: 185 },
+      arrows: { x: 27, y: 185, plus: 552 },
       back: { x: 234, y:259 },
       play: { x: 400, y:259 }
     }
@@ -56,7 +57,7 @@ export default class CharacterSelectionScene extends Phaser.Scene {
 	}
 
 	#initBackground() {
-    for (let [key, val] of this.bgImgKeys) {
+    for (let [key, val] of this.keys.background) {
       this.backgrounds.set(key,
         this.add.image(0, 0, val)
         .setDepth(configs.LAYER_BACKGROUND)
@@ -67,8 +68,7 @@ export default class CharacterSelectionScene extends Phaser.Scene {
 	}
 
 	#initCharacterSlot() {
-    // TODO: blick
-    this.add.sprite(this.position.slot.x, this.position.slot.y, this.slotImgKey)
+    this.add.sprite(this.position.slot.x, this.position.slot.y, this.keys.slot)
       .setDepth(configs.LAYER_ABOVE_BACKGROUND)
       .setOrigin(0, 0);
 
@@ -111,7 +111,7 @@ export default class CharacterSelectionScene extends Phaser.Scene {
       }
     }
 
-    const action = this.add.image(this.position.action.x, this.position.action.y, this.nextPageKey)
+    const action = this.add.image(this.position.action.x, this.position.action.y, this.keys.nextPage)
       .setDepth(configs.LAYER_POPUP_OBJECT)
       .setTint(css.DEFAULT_MENU_COLOR_RGB)
       .setOrigin(0, 0)
@@ -134,69 +134,93 @@ export default class CharacterSelectionScene extends Phaser.Scene {
   }
 
 	#initArrowButtons() {
-		// TODO: blink button
-		this.add.sprite(this.position.prev.x, this.position.prev.y, this.prevImgKey)
-      .setDepth(configs.LAYER_ABOVE_BACKGROUND)
-      .setInteractive()
-      .setOrigin(0, 0)
-			.on('pointerdown',()=>{
-				this.#showCharacter(false);
-        this.#showBackground(false);
-				this.currentTextBox.destroy();
+    let x = this.position.arrows.x;
+    let y = this.position.arrows.y;
+    const arrows = [];
+    const arrowKeys = [this.keys.prevArrow, this.keys.nextArrow];
+    const setCurrentCharacter = (key)=>{
+      if(key == this.keys.prevArrow) {
+        this.currentCharacter = this.currentCharacter.prev;
+      } else {
+        this.currentCharacter = this.currentCharacter.next;
+      }
+    };
 
-				this.currentCharacter = this.currentCharacter.prev;
-        this.currentTextBox = this.#createTextBox();
-        this.#showBackground(true);
-				this.#showCharacter(true);
-				this.#playTextBox();
-			}, this);
+    for (let i = 0; i < arrowKeys.length; i++) {
+      let arrow = this.add.sprite(x, y, arrowKeys[i])
+        .setDepth(configs.LAYER_ABOVE_BACKGROUND)
+        .setInteractive()
+        .setOrigin(0, 0);
 
-		this.add.sprite(this.position.next.x, this.position.next.y, this.nextImgKey)
-      .setDepth(configs.LAYER_ABOVE_BACKGROUND)
-      .setInteractive()
-      .setOrigin(0, 0)
-			.on('pointerdown',()=>{
-				this.#showCharacter(false);
-        this.#showBackground(false);
-				this.currentTextBox.destroy();
+      let glowPipline = this.plugins.get('rexGlowFilterPipeline')
+        .add(arrow, {
+          distance: 10,
+          outerStrength: 0,
+          glowColor: 0xffffff,
+          quality: 0.5,
+        });
 
-				this.currentCharacter = this.currentCharacter.next;
-				this.currentTextBox = this.#createTextBox();
-        this.#showBackground(true);
-        this.#showCharacter(true);
-        this.#playTextBox();
-			}, this);
+      arrow
+        .on('pointerover', ()=>{
+          glowPipline.setOuterStrength(1.5);
+        })
+        .on('pointerout', ()=> {
+          glowPipline.setOuterStrength(0);
+        })
+        .on('pointerup',function() {
+          this.#showCharacter(false);
+          this.#showBackground(false);
+          this.currentTextBox.destroy();
+
+          setCurrentCharacter(arrowKeys[i]);
+          this.currentTextBox = this.#createTextBox();
+          this.#showBackground(true);
+          this.#showCharacter(true);
+          this.#playTextBox();
+        }, this);
+
+      x += this.position.arrows.plus;
+      arrows[i] = arrow;
+    }
+
+    this.tweens.add({
+      targets: arrows,
+      alpha: { from: 0, to: 1 },
+      duration: 1000,
+      repeat: -1,
+      yoyo: true,
+    });
 	}
 
 	#initBackButton() {
-		const button = this.add.sprite(this.position.back.x, this.position.back.y, this.backImgKey)
+		const button = this.add.sprite(this.position.back.x, this.position.back.y, this.keys.back)
 			.setDepth(configs.LAYER_ABOVE_BACKGROUND)
 			.setInteractive()
 			.setOrigin(0, 0);
 		
 		button
 			.once('pointerdown', ()=>{
-				button.setFrame(this.buttonAnim.get('clicked'));
+				button.setFrame(this.keys.buttonAnim.get('clicked'));
 			}, this, button)
       .once('pointerup', ()=>{
-				button.setFrame(this.buttonAnim.get('idle'));
+				button.setFrame(this.keys.buttonAnim.get('idle'));
         this.#goToNext(configs.SCENE_MAIN);
       }, this, button);
 	}
 
 	#initPlayButton() {
-		const button = this.add.sprite(this.position.play.x, this.position.play.y, this.playImgKey)
+		const button = this.add.sprite(this.position.play.x, this.position.play.y, this.keys.play)
 			.setDepth(configs.LAYER_ABOVE_BACKGROUND)
 			.setInteractive()
 			.setOrigin(0, 0);
 		
 		button
 			.once('pointerdown', ()=>{
-				button.setFrame(this.buttonAnim.get('clicked'));
+				button.setFrame(this.keys.buttonAnim.get('clicked'));
 			}, this, button)
       .once('pointerup', ()=>{
         button.disableInteractive();
-				button.setFrame(this.buttonAnim.get('idle'));
+				button.setFrame(this.keys.buttonAnim.get('idle'));
         this.#goToNext(
           this.currentCharacter.data.info.get('scene'),
           { lang: this.lang, mainCharacter: this.currentCharacter.data.info }
