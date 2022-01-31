@@ -1,5 +1,6 @@
 import Parser from 'phaser';
 import * as configs from '../consts/configs.js';
+import * as css from '../consts/css.js';
 import * as gameData from '../consts/gameData.js';
 import * as imgKeys from '../consts/imgKeys.js';
 
@@ -22,7 +23,7 @@ export default class MainScene extends Phaser.Scene {
       start: { x: 225, y: 532 },
       lang: { x: 140, y: 654, plus: 129 },
     }
-    this.buttonAnim = configs.DEFAULT_BUTTON_ANIM;
+    this.buttonFrame = configs.DEFAULT_BUTTON_ANIM;
   }
 
 	init(data) {
@@ -34,7 +35,11 @@ export default class MainScene extends Phaser.Scene {
 	}
 
   create() {
-    this.cameras.main.fadeIn(1000, 0, 0, 0)
+    this.cameras.main.fadeIn(1000,
+      css.DEFAULT_BACKGROUND_COLOR_RED,
+      css.DEFAULT_BACKGROUND_COLOR_GREEN,
+      css.DEFAULT_BACKGROUND_COLOR_BLUE
+    );
     
     this.#initBackground();
     this.#initInfoText();
@@ -57,14 +62,14 @@ export default class MainScene extends Phaser.Scene {
       duration: 1500,
       repeat: -1,
       yoyo: true,
-      delay: function (target, targetKey, value, targetIndex, totalTargets, tween) {
+      delay: (target, targetKey, value, targetIndex, totalTargets, tween) => {
         return targetIndex * 3000;
       },
       repeatDelay: 6000,
     })
     .on('start', function(tween, targets){
-      tween.data.forEach((datum)=> {
-        setTimeout(()=>{
+      tween.data.forEach((datum) => {
+        setTimeout(() => {
           datum.target.setDepth(configs.LAYER_ABOVE_BACKGROUND);
         },datum.delay+100, datum);
       });
@@ -85,7 +90,7 @@ export default class MainScene extends Phaser.Scene {
       }
     }
 
-    // TODO: fix a delay problem when use gameData.NOTICE.forEach(()=>{})
+    // TODO: fix a delay problem when use gameData.NOTICE.forEach(() => {})
 
     conf.text = gameData.NOTICE.get(configs.LANG_EN).get('main-info');
     result.push(this.make.text(conf).setOrigin(0, 0).setDepth(configs.LAYER_ABOVE_BACKGROUND));
@@ -103,13 +108,23 @@ export default class MainScene extends Phaser.Scene {
     const startButton = this.#createButton(this.startButtonKey, this.position.start.x, this.position.start.y);
 
     startButton
-      .once('pointerdown', this.setFrame.bind(this, startButton, 'clicked'))
-      .once('pointerup', this.startGame.bind(this, startButton));
+      .on('pointerdown', () => {
+        this.#setDefaultFrame(startButton, false)
+      })
+      .on('pointerout', () => {
+        this.#setDefaultFrame(startButton, true)
+      })
+      .on('pointerup', () => {
+        startButton.disableInteractive();
+        this.#setDefaultFrame(startButton, true);
+        this.#startGame();
+      });
   }
 
   #initLangButton() {
     var x = this.position.lang.x;
     var y = this.position.lang.y;
+
     for (let key of this.langButtons.keys()) {
       this.langButtons.get(key)
         .set('button', this.#setButtonInteraction(this.#createButton(key, x, y)));
@@ -117,9 +132,7 @@ export default class MainScene extends Phaser.Scene {
       x += this.position.lang.plus;
     }
 
-    this.langButtons.get(this.krButtonKey)
-      .get('button')
-      .setFrame(this.buttonAnim.get('clicked'));
+    this.#setDefaultFrame(this.langButtons.get(this.krButtonKey).get('button'), false);
   }
 
   #createButton(buttonKey, x, y) {
@@ -131,28 +144,30 @@ export default class MainScene extends Phaser.Scene {
 
   #setButtonInteraction(button) {
     return button
-      .on('pointerup', this.selectLanguage.bind(this, button));
+      .on('pointerup', () => { this.#selectLanguage(button) });
   }
 
-  selectLanguage(selectedButton) {
+  #selectLanguage(selectedButton) {
     this.langButtons.forEach(item => {
       if (selectedButton.texture.key == item.get('button').texture.key) {
-        this.setFrame(item.get('button'), 'clicked');
+        this.#setDefaultFrame(item.get('button'), false);
         this.lang = item.get('lang');
       } else {
-        this.setFrame(item.get('button'), 'idle');
+        this.#setDefaultFrame(item.get('button'), true);
       }
     });
   }
 
-  startGame(startButton) {
-    this.setFrame(startButton, 'idle');
-
+  #startGame() {
     this.langButtons.forEach(item => {
       item.get('button').disableInteractive();
     });
 
-    this.cameras.main.fadeOut(1000, 0, 0, 0)
+    this.cameras.main.fadeOut(1000,
+      css.DEFAULT_BACKGROUND_COLOR_RED,
+      css.DEFAULT_BACKGROUND_COLOR_GREEN,
+      css.DEFAULT_BACKGROUND_COLOR_BLUE
+    );
     this.cameras.main.once('camerafadeoutcomplete', (cam, effect) => {
       this.time.delayedCall(1000, () => {
         this.scene.start(configs.SCENE_CHARACTER_SELECTION, { lang: this.lang });
@@ -160,7 +175,11 @@ export default class MainScene extends Phaser.Scene {
     });
   }
   
-  setFrame(button, frameKey) {
-    button.setFrame(this.buttonAnim.get(frameKey));
+  #setDefaultFrame(sprite, isIdle) {
+    if (isIdle) {
+      sprite.setFrame(this.buttonFrame.get('idle'));
+    } else {
+      sprite.setFrame(this.buttonFrame.get('clicked'));
+    }
   }
 }

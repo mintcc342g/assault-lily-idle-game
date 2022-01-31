@@ -44,7 +44,7 @@ export default class MariaHillEventEmitter extends EventEmitter {
     
     scene.time.addEvent({
       delay: delay,
-      callback: ()=>{this.emit(event, scene)},
+      callback: () => {this.emit(event, scene)},
       // args: [],
       callbackScope: this,
       loop: false,
@@ -61,7 +61,7 @@ export default class MariaHillEventEmitter extends EventEmitter {
   }
 
   #repeatEvent(scene, textbox) {
-    setTimeout(()=>{
+    setTimeout(() => {
       textbox.destroy();
       const delay = utils.msToSec(utils.rand(10, 15));
       this.eventHandler(scene, delay);

@@ -10,6 +10,7 @@ import App from './App';
 import BootScene from './scenes/BootScene';
 import MainScene from './scenes/MainScene';
 import CharacterSelectionScene from './scenes/CharacterSelectionScene';
+import UIScene from './scenes/UIScene';
 import TheHillOfMariaScene from './scenes/TheHillOfMariaScene';
 
 export const config = {
@@ -21,7 +22,7 @@ export const config = {
   autoRound: true,
   pixelArt: true,
   disableContextMenu: true,
-  backgroundColor: '#ffffff',
+  backgroundColor: '#222',
   dom: {
     createContainer: true
   },
@@ -34,6 +35,7 @@ export const config = {
     MainScene,
     CharacterSelectionScene,
     TheHillOfMariaScene,
+    UIScene, // UIScene have to be set in the last of the scene array
   ],
   physics: {
     default: 'arcade',
