@@ -8,16 +8,19 @@
         - [기능](#기능)
         - [조작법](#조작법)
         - [게임 개발정보](#게임-개발정보)
+        - [라이선스](#라이선스)
     - [English](#Assault-Lily-Idle-Game)
         - [Playable Character List](#Playable-Character-List)
         - [Available Features](#Available-Features)
         - [Manual](#Manual)
         - [Dev Info](#Dev-Info)
+        - [License](#License)
     - [日本語](#アサルトリリィ放置系ゲーム)
         - [プレイアブルキャラクター](#プレイアブルキャラクター)
         - [機能](#機能)
         - [操作](#操作)
         - [ゲーム開発情報](#ゲーム開発情報)
+        - [ライセンス](#ライセンス)
 
 <br/>
 <br/>
@@ -92,9 +95,20 @@
     - React
     - Phaser 3 (게임 엔진)
     - Grid Engine (모션 및 애니메이션)
+- 이 프로젝트의 일부 이미지는 다음의 원본 이미지를 수정한 것입니다.
+    - [핸드북 출처](https://opengameart.org/content/open-book-0)
+    - [일부 배경 출처](https://opengameart.org/content/zelda-like-tilesets-and-sprites)
+- 이 프로젝트의 캐릭터 이미지는 일본 부시로드사의 어설트 릴리 굿즈로부터 오마주 한 것입니다.
 - 주의사항
     - 이 프로젝트의 개발자는 게임 개발자도 아니며, 이 프로젝트를 시작하며 js를 독학한 js 뉴비입니다.
     - 프로젝트 구조 및 코드 스타일 등이 일반적인 js 개발이나 게임 개발과 매우 상이할 가능성이 높으므로, 참고하지 않는 것을 권유드립니다. (코드리뷰 절찬 환영중!)
+
+<br/>
+
+## 라이선스
+
+- 이 프로젝트는 2차 창작물이기 때문에, 어설트 릴리 프로젝트와 관련된 이미지 파일에 대해 상업적 이용을 허용하지 않습니다.
+    - 예를 들어, 각 가든의 심볼 이미지, 캐릭터 이미지 등이 포함됩니다.
 
 <br/>
 <br/>
@@ -166,10 +180,21 @@ Current avaiable features
     - React
     - Phaser 3
     - Grid Engine
+- Some images used in this project are modified from the origin images.
+    - Thanks to Min, for [the hand book](https://opengameart.org/content/open-book-0)
+    - Thanks to ArMM1998, for [some background images](https://opengameart.org/content/zelda-like-tilesets-and-sprites)
+- Character images is painted in homage to Bushroad company's goods.
 - CAUTION
     - I'm neither a game developer or a js professionalist. I'm a real Newbie of js.
     - I can't recommend to reference this project for your js projects.
     - (Welcome Code Reviews for this project!)
+
+<br/>
+
+## License
+
+- It is forbidden to use images commercially related with the Assault Lily project for this project is a unofficial fan-made game.
+    - For example : each garden' symbols, character images, and so on.
 
 <br/>
 <br/>
@@ -239,6 +264,17 @@ Current avaiable features
     - React
     - Phaser 3 (ゲームエンジン)
     - Grid Engine (モーションとアニメーション)
+- このゲームの一部画像は以下の画像を修正して使ったものです。
+    - [生徒手帳の中身の方](https://opengameart.org/content/open-book-0)
+    - [一部背景画像](https://opengameart.org/content/zelda-like-tilesets-and-sprites)
+- キャラクター画像はブシロード社のアサルトリリィグッズをオマージュしたものです。
 - 注意事項
     - このプロジェクトの開発者はゲーム開発者でもないし、この個人プロジェクトを始めてからｊｓを独学したｊｓの完全初心者です。
     - プロジェクトスト構造やコードスタイルが一般的なｊｓの開発やゲーム開発と異なる可能性が凄く高いので、あまり参考にしないことをお勧めします。(コートレヴュー絶賛歓迎中！)
+
+<br/>
+
+## ライセンス
+
+- このゲームは非公式２次創作なので、ゲームの中で使用されているアサルトリリィプロジェクト関連の画像ファイルは商業的利用を禁じています。
+    - 例：ガーデンのシンボルやキャラクター画像など。
