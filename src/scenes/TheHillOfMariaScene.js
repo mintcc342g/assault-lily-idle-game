@@ -21,8 +21,8 @@ export default class TheHillOfMariaScene extends Phaser.Scene {
       [imgKeys.CHARACTER_RAIMU_ID, { /* sprite */ }]
     ]);
     this.position = {
-      character: { x: 5, y: -1, speed: 1 },
-    }
+      mainCharacter: { startX: 5, startY: 0, speed: 1 },
+    };
     this.lang = '';
     this.eventEmitter = { /* Event instance */ };
     this.mainCharacter = { /* map */ };
@@ -38,9 +38,9 @@ export default class TheHillOfMariaScene extends Phaser.Scene {
     this.mainCharacter = data.mainCharacter
   }
 
-  create(data) {
+  create() {
     sceneHelpers.setResponsiveScreen(this);
-    
+
     const tileMap = sceneHelpers.createTileMap(this);
     this.#initCharacters();
     this.#initGridEngine(tileMap);
@@ -70,10 +70,10 @@ export default class TheHillOfMariaScene extends Phaser.Scene {
         id: key,
         sprite: val,
         startPosition: {
-          x: this.position.character.x,
-          y: this.position.character.y
+          x: this.position.mainCharacter.startX,
+          y: this.position.mainCharacter.startY
         },
-        speed: this.position.character.speed,
+        speed: this.position.mainCharacter.speed,
       });
     });
     sceneHelpers.initGridEngine(this, tileMap, charactersConfig);
