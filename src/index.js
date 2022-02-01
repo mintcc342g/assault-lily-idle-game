@@ -1,10 +1,16 @@
+// React
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './App';
+
+// Phaser
 import Phaser from 'phaser';
 import GridEngine from 'grid-engine';
 import RexUIPlugins from 'phaser3-rex-plugins/templates/ui/ui-plugin.js';
 import RexTextEditPlugin from 'phaser3-rex-plugins/plugins/textedit-plugin.js'
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App';
+import RexScaleOuter from 'phaser3-rex-plugins/plugins/scaleouter.js';
+
+// Scene
 import BootScene from './scenes/BootScene';
 import MainScene from './scenes/MainScene';
 import CharacterSelectionScene from './scenes/CharacterSelectionScene';
@@ -25,8 +31,8 @@ export const config = {
     createContainer: true
   },
   scale: {
-    mode: Phaser.Scale.NONE,
-    autoCenter: Phaser.Scale.CENTER_HORIZONTALLY,
+    mode: Phaser.Scale.RESIZE,
+    autoCenter: Phaser.Scale.NONE,
   },
   scene: [
     BootScene,
@@ -52,6 +58,11 @@ export const config = {
         key: 'rexUI',
         plugin: RexUIPlugins,
         mapping: 'rexUI'
+      },
+      {
+        key: 'rexScaleOuter',
+        plugin: RexScaleOuter,
+        mapping: 'rexScaleOuter'
       },
     ],
     global: [

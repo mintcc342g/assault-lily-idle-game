@@ -66,3 +66,7 @@ export function subscribeCharacterMovements(scene, character, movingMotion, stop
     character.setFrame(getStopFrame(direction));
   });
 }
+
+export function setResponsiveScreen(scene) {
+  scene.rexScaleOuter.add(scene.cameras.main);
+}

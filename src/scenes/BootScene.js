@@ -37,6 +37,7 @@ import PlayerRaimuImg from '../assets/sprites/player-raimu.png';
 import * as configs from '../consts/configs.js';
 import * as gameData from '../consts/gameData.js';
 import * as imgKeys from '../consts/imgKeys.js';
+import * as sceneHelpers from '../utils/sceneHelpers.js';
 
 export default class BootScene extends Phaser.Scene {
   constructor() {
@@ -54,6 +55,7 @@ export default class BootScene extends Phaser.Scene {
   }
 
   create() {
+    sceneHelpers.setResponsiveScreen(this);
     this.scene.start(configs.SCENE_MAIN);
   }
 
@@ -64,8 +66,8 @@ export default class BootScene extends Phaser.Scene {
     progressBox.fillStyle(0x000000, 0.8);
     progressBox.fillRect(160, 270, 320, 50);
     
-    var width = this.cameras.main.width;
-    var height = this.cameras.main.height;
+    var width = this.rexScaleOuter.innerViewport.width;
+    var height = this.rexScaleOuter.innerViewport.height;
     var loadingText = this.make.text({
         x: width / 2,
         y: height / 2 - 50,
