@@ -32,7 +32,17 @@ export const config = {
   },
   scale: {
     mode: Phaser.Scale.RESIZE,
-    autoCenter: Phaser.Scale.NONE,
+    autoCenter: Phaser.Scale.CENTER_HORIZONTALLY,
+    width: 630,
+    height: 810,
+    min: {
+      width: 122,
+      height: 162,
+    },
+    max: {
+      width: 630,
+      height: 810,
+    }
   },
   scene: [
     BootScene,
