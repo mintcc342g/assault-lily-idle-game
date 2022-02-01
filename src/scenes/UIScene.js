@@ -265,12 +265,13 @@ export default class UIScene extends Phaser.Scene {
   }
 
   #showToDoList() {
-    this.toDoList.forEach(content => {
+    for (let i = 0, len = this.toDoList.length; i < len; i++) {
+      let content = this.toDoList[i];
       content.setVisible(true)
         .on('pointerdown', () => {
-          this.toDoListEditors.push(this.#setTextEditor(content));
+          this.toDoListEditors[i] = this.#setTextEditor(content);
         });
-    });
+    }
   }
 
   #setTextEditor(textContent) {
