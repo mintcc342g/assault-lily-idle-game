@@ -68,23 +68,24 @@ export default class MariaHillEventEmitter extends EventEmitter {
     }, 2000);
   }
 
-  #popUpTextBox(scene) {
+  selfSpeechBubbleEvent(scene) {
     const texts = scene.mainCharacter.get('random_texts').get(scene.lang);
     const radNum = utils.rand(0, texts.length-1);
-    const action = scene.add.image(this.css.action.x, this.css.action.y, this.nextPageKey)
+    const action = scene.add.image(
+        this.css.action.x,
+        this.css.action.y,
+        this.nextPageKey
+      )
       .setTint(css.DEFAULT_MENU_COLOR_RGB)
       .setOrigin(0, 0)
       .setVisible(false);
     
-    return createTextBox(scene, this.css.box, action).start(texts[radNum], this.css.popUp.speed);
-  }
+    const textbox = createTextBox(scene, this.css.box, action).start(texts[radNum], this.css.popUp.speed);
 
-  selfSpeechBubbleEvent(scene) {
-    var textbox = this.#popUpTextBox(scene);
     textbox
       .on('pointerdown', function () {
-        var icon = this.getElement('action').setVisible(false);
-        this.resetChildVisibleState(icon);
+        action.setVisible(false);
+        // this.resetChildVisibleState(action);
         if (this.isTyping) {
           this.stop(true);
         } else if (!this.isLastPage) {
