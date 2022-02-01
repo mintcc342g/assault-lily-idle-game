@@ -157,21 +157,12 @@ export default class CharacterSelectionScene extends Phaser.Scene {
         .setInteractive()
         .setOrigin(0, 0);
 
-      // TODO: fix performance issue of the glow plugin
-      let glowPipline = this.plugins.get('rexGlowFilterPipeline')
-        .add(arrow, {
-          distance: 10,
-          outerStrength: 0,
-          glowColor: 0xffffff,
-          quality: 0.5,
-        });
-
       arrow
         .on('pointerover', () => {
-          glowPipline.setOuterStrength(1.5);
+          this.#setDefaultFrame(arrow, false);
         })
         .on('pointerout', () => {
-          glowPipline.setOuterStrength(0);
+          this.#setDefaultFrame(arrow, true);
         })
         .on('pointerup', () => {
           this.#showCharacter(false);
