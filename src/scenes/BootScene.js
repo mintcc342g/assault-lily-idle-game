@@ -128,10 +128,10 @@ export default class BootScene extends Phaser.Scene {
 
   loadSelectionSceneImgs() {
     this.load.image(gameData.SELECTION_BACKGROUND_KEYS.get(gameData.ACADEMY_LUDOVIC), SelectionBackgroundImgLudovic);
-    this.load.image(imgKeys.PREV_BUTTON_KEY, PrevButtonImg);
-    this.load.image(imgKeys.NEXT_BUTTON_KEY, NextButtonImg);
     this.load.image(imgKeys.CHARACTER_SLOT_KEY, CharacterSlotImg);
     this.load.image(imgKeys.NEXT_PAGE_KEY, 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/assets/images/arrow-down-left.png');
+    this.load.spritesheet(imgKeys.PREV_BUTTON_KEY, PrevButtonImg, { frameWidth: 36, frameHeight: 42 });
+    this.load.spritesheet(imgKeys.NEXT_BUTTON_KEY, NextButtonImg, { frameWidth: 36, frameHeight: 42 });
     this.load.spritesheet(imgKeys.PLAY_BUTTON_KEY, PlayButtonImg, { frameWidth: 114, frameHeight: 50 });
     this.load.spritesheet(imgKeys.BACK_BUTTON_KEY, BackButtonImg, { frameWidth: 114, frameHeight: 50 });
   }
@@ -141,7 +141,6 @@ export default class BootScene extends Phaser.Scene {
     this.load.image(imgKeys.LOGO_LINE_KEY, LogoLineImg);
     this.load.image(imgKeys.LOGO_LUDOVIC_KEY, LogoLudovicImg);
     this.load.spritesheet(imgKeys.CLOSE_BUTTON_KEY, CloseButtonImg, { frameWidth: 45, frameHeight: 45 });
-
     this.load.spritesheet(imgKeys.MENU_BUTTON_1_KEY, MenuButtonFirstImg, { frameWidth: 198, frameHeight: 50 });
     this.load.spritesheet(imgKeys.MENU_BUTTON_2_KEY, MenuButtonSecondImg, { frameWidth: 198, frameHeight: 50 });
     this.load.spritesheet(imgKeys.MENU_BUTTON_3_KEY, MenuButtonThirdImg, { frameWidth: 198, frameHeight: 50 });
