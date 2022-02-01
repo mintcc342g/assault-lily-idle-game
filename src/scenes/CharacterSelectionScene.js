@@ -48,6 +48,7 @@ export default class CharacterSelectionScene extends Phaser.Scene {
 	}
 
 	create() {
+    sceneHelpers.setResponsiveScreen(this);
 		this.cameras.main.fadeIn(1000,
       css.DEFAULT_BACKGROUND_COLOR_RED,
       css.DEFAULT_BACKGROUND_COLOR_GREEN,

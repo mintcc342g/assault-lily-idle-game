@@ -3,6 +3,7 @@ import * as configs from '../consts/configs.js';
 import * as css from '../consts/css.js';
 import * as gameData from '../consts/gameData.js';
 import * as imgKeys from '../consts/imgKeys.js';
+import * as sceneHelpers from '../utils/sceneHelpers.js';
 
 export default class MainScene extends Phaser.Scene {
   constructor() {
@@ -35,6 +36,7 @@ export default class MainScene extends Phaser.Scene {
 	}
 
   create() {
+    sceneHelpers.setResponsiveScreen(this);
     this.cameras.main.fadeIn(1000,
       css.DEFAULT_BACKGROUND_COLOR_RED,
       css.DEFAULT_BACKGROUND_COLOR_GREEN,

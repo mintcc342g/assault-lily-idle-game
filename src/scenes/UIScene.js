@@ -3,6 +3,7 @@ import * as configs from '../consts/configs.js';
 import * as css from '../consts/css.js';
 import * as gameData from '../consts/gameData.js';
 import * as imgKeys from '../consts/imgKeys.js';
+import * as sceneHelpers from '../utils/sceneHelpers.js';
 
 export default class UIScene extends Phaser.Scene {
   constructor() {
@@ -53,6 +54,8 @@ export default class UIScene extends Phaser.Scene {
   }
   
   create() {
+    sceneHelpers.setResponsiveScreen(this);
+
     this.#initMenuButton();
     this.#initHandBook();
     this.#initLogoPage();

@@ -39,6 +39,8 @@ export default class TheHillOfMariaScene extends Phaser.Scene {
   }
 
   create(data) {
+    sceneHelpers.setResponsiveScreen(this);
+    
     const tileMap = sceneHelpers.createTileMap(this);
     this.#initCharacters();
     this.#initGridEngine(tileMap);
