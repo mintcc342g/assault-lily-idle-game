@@ -2,9 +2,10 @@ import * as css from '../consts/css.js';
 import * as configs from '../consts/configs.js';
 
 export function createTextBox(scene, config, action) {
-  var actionX = action.x;
-  var actionY = action.y;
-  var textBox = scene.rexUI.add.textBox({
+  let actionX = action.x;
+  let actionY = action.y;
+  
+  const textBox = scene.rexUI.add.textBox({
     x: config.x,
     y: config.y,
     background: scene.rexUI.add.roundRectangle(0, 0, 2, 2, 0, css.DEFAULT_TEXTBOX_BACKGROUND_COLOR_RGB)
@@ -29,19 +30,19 @@ export function createTextBox(scene, config, action) {
         return;
       }
 
-      var icon = this.getElement('action').setVisible(true);
-      this.resetChildVisibleState(icon);
-      icon.x = actionX
-      icon.y = actionY;
-      var tween = scene.tweens.add({
-          targets: icon,
+      action.setVisible(true);
+      // this.resetChildVisibleState(action);
+      action.x = actionX
+      action.y = actionY;
+      scene.tweens.add({
+          targets: action,
           y: '+=30', // '+=100'
           ease: 'Bounce', // 'Cubic', 'Elastic', 'Bounce', 'Back'
           duration: 500,
           repeat: 0, // -1: infinity
           yoyo: false
       })
-    }, textBox);
+    }, textBox, action);
     // .on('type', function () {
     // })
 

@@ -2,7 +2,6 @@ import Phaser from 'phaser';
 import GridEngine from 'grid-engine';
 import RexUIPlugins from 'phaser3-rex-plugins/templates/ui/ui-plugin.js';
 import RexTextEditPlugin from 'phaser3-rex-plugins/plugins/textedit-plugin.js'
-import RexImageURILoaderPlugin from 'phaser3-rex-plugins/plugins/imageuriloader-plugin.js';
 import RexGlowFilterPipelinePlugin from 'phaser3-rex-plugins/plugins/glowfilter2pipeline-plugin.js';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -58,15 +57,11 @@ export const config = {
     ],
     global: [
       {
-        key: 'rexImageURILoader',
-        plugin: RexImageURILoaderPlugin,
-        start: true
-      },
-      {
         key: 'rexTextEdit',
         plugin: RexTextEditPlugin,
         start: true
       },
+      // TODO: fix performance issue of the glow plugin
       {
         key: 'rexGlowFilterPipeline',
         plugin: RexGlowFilterPipelinePlugin,

@@ -6,7 +6,7 @@ import * as sceneHelpers from '../utils/sceneHelpers.js';
 
 import * as configs from '../consts/configs.js';
 import * as css from '../consts/css.js';
-import * as gameData from '../consts/gameData.js';
+var gameData = require('../consts/gameData.js');
 import * as imgKeys from '../consts/imgKeys.js';
 
 export default class CharacterSelectionScene extends Phaser.Scene {
@@ -126,14 +126,14 @@ export default class CharacterSelectionScene extends Phaser.Scene {
     
     textbox
       .on('pointerdown', function () {
-        var icon = this.getElement('action').setVisible(false);
-        this.resetChildVisibleState(icon);
         if (this.isTyping) {
           this.stop(true);
         } else {
+          action.setVisible(false);
+          // this.resetChildVisibleState(action);
           this.typeNextPage();
         }
-      }, textbox);
+      }, textbox, action);
     
     return textbox
   }
@@ -157,6 +157,7 @@ export default class CharacterSelectionScene extends Phaser.Scene {
         .setInteractive()
         .setOrigin(0, 0);
 
+      // TODO: fix performance issue of the glow plugin
       let glowPipline = this.plugins.get('rexGlowFilterPipeline')
         .add(arrow, {
           distance: 10,
