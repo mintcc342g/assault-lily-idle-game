@@ -70,7 +70,7 @@ export default class MariaHillEventEmitter extends EventEmitter {
 
   #repeatEvent(scene, textbox) {
     setTimeout(() => {
-      if (textbox != undefined) {
+      if (textbox !== undefined && textbox !== null) {
         textbox.destroy();
       }
 
@@ -114,17 +114,14 @@ export default class MariaHillEventEmitter extends EventEmitter {
   }
 
   eventToDoTextBox(scene) {
-    const toDoList = scene.mainCharacter.get('to_do_list');
+    const toDoList = gameData.USER_DATA.get('to_do_list');
     if (toDoList.length == 0) {
       return this.selfSpeechBubbleEvent(scene)
     }
     
     let toDoContent = gameData.NOTICE.get(scene.lang).get('todo-list-prefix');
-    toDoList.forEach((textObject)=>{
-      let text = textObject.text;
-      if (text !== '') {
-        toDoContent += `▶ ${text}\n`;
-      }
+    toDoList.forEach((textObj)=>{
+        toDoContent += textObj.text?`▶ ${textObj.text}\n`:'';
     });
 
     this.#createTextBox(scene, toDoContent);
