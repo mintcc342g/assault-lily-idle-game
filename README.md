@@ -4,21 +4,21 @@
 
 - Contents
     - [한국어](#어설트-릴리-방치형-게임)
-        - [플레이어블 캐릭터](#플레이어블-캐릭터)
-        - [기능](#기능)
-        - [조작법](#조작법)
+        - [변경 사항](#변경-사항)
+        - [플레이 가이드](#플레이-가이드)
+        - [게임 화면 설명](#게임-화면-설명)
         - [게임 개발정보](#게임-개발정보)
         - [라이선스](#라이선스)
     - [English](#Assault-Lily-Idle-Game)
-        - [Playable Character List](#Playable-Character-List)
-        - [Available Features](#Available-Features)
-        - [Manual](#Manual)
+        - [Change Log](#Change-Log)
+        - [Play Guide](#Play-Guide)
+        - [Manual of the Game Screens](#Manual-of-the-Game-Screens)
         - [Dev Info](#Dev-Info)
         - [License](#License)
     - [日本語](#アサルトリリィ放置系ゲーム)
-        - [プレイアブルキャラクター](#プレイアブルキャラクター)
-        - [機能](#機能)
-        - [操作](#操作)
+        - [アップデート](#アップデート)
+        - [プレイガイド](#プレイガイド)
+        - [ゲーム画面の説明](#ゲーム画面の説明)
         - [ゲーム開発情報](#ゲーム開発情報)
         - [ライセンス](#ライセンス)
 
@@ -28,40 +28,47 @@
 
 # 어설트 릴리 방치형 게임
 
-이 프로젝트는 일본에서 시작된 미디어믹스 프로젝트 어설트 릴리의 세계관을 기반으로 한 2차 창작 비공식 웹게임 입니다. 2D 픽셀 아트로 구현된 릴리들의 일상을 따뜻한 눈으로 지켜보아요.  
+이 프로젝트는 일본에서 시작된 미디어믹스 프로젝트 어설트 릴리의 세계관을 기반으로 한 2차 창작 비공식 웹게임 입니다.
+  
+인류의 생존을 위협하는 거대 생명체 휴지와의 전투로 바쁜 나날을 보내는 릴리들. 전장에서 지친 심신을 달래기 위해 그녀들은 자신만의 힐링 플레이스를 방문합니다. 2D 픽셀 아트로 구현된 그 오아시스에서 여러분도 릴리와 함께 잠시 쉬어보는 것은 어떨까요?
 
-- [게임 하러 가기!](https://mintcc342g.github.io/assault-lily-idle-game/)
-
-<br/>
-
-## 플레이어블 캐릭터
-
-현재 선택 가능한 캐릭터 목록입니다.
-- 키시모토 루치아 라이무
+- [휴식하러 가기!](https://mintcc342g.github.io/assault-lily-idle-game/)
 
 <br/>
 
-## 기능
+## 변경 사항
 
-현재 구현된 기능 목록입니다.
+- 모바일 기기를 위한 반응형 웹 적용
+- 성능 개선
 
-- 랜덤 이벤트
-    - 캐릭터 랜덤 대사
-        - 10~15초 사이로 랜덤하게 캐릭터가 대사를 뱉습니다.
-- 학생수첩
-    - 간단한 메모 작성 기능 (이 게임의 컨셉..?)
+<br/>
+
+## 플레이 가이드
+
+- 이 게임은 방치형 스타일로, 기본적으로 캐릭터의 조작은 불가능합니다.
+
+<br/>
+
+### 캐릭터
+
+- 휴식 중인 릴리는 가끔 이런저런 생각을 하거나, 학생수첩에 메모된 내용을 상기하곤 합니다.
+- 선택 가능 릴리 목록
+    - 키시모토 루치아 라이무
+
+<br/>
+
+### 학생수첩
+
+- 간단한 메모를 작성할 수 있습니다.
     - 최대 27자까지 입력 가능한 칸이 8개 제공됩니다.
-    - 주의: 입력된 데이터는 저장되지 않으므로, 페이지를 벗어나거나 브라우저를 끌 경우 데이터가 날아갑니다.
+- 입력된 데이터는 저장되지 않으므로, 이하의 행동을 취할 경우 데이터가 사라집니다.
+    - 메인화면이나 캐릭터화면으로 돌아가기
+    - 웹 페이지를 벗어나기
+    - 브라우저 끄기
 
 <br/>
 
-## 조작법
-
-- 이 게임은 방치형 게임으로, 기본적으로 캐릭터의 조작은 불가능합니다.
-- 캐릭터마다 좋아하는 휴식 장소가 있고, 쉬기 위해 그곳에 나타납니다.
-- 유저는 캐릭터가 휴식하는 모습을 지켜볼 수 있습니다.
-
-<br/>
+## 게임 화면 설명
 
 ### 메인 화면
 
@@ -72,13 +79,13 @@
 
 ### 캐릭터 선택화면
 
-- 캐릭터와 캐릭터가 소속한 가든의 학생수첩이 화면에 나타납니다.
-- 캐릭터 화면의 좌우 하얀색 화살표를 클릭하여 캐릭터 변경이 가능합니다.
-- 캐릭터를 선택한 후 'Play' 버튼을 누르면 게임이 시작됩니다.
+- 릴리와 릴리가 소속한 가든의 학생수첩이 화면에 나타납니다.
+- 화면의 좌우 하얀색 화살표를 클릭하여 릴리의 변경이 가능합니다.
+- 릴리를 선택한 후 'Play' 버튼을 누르면 게임이 시작됩니다.
 
 <br/>
 
-### 게임 화면
+### 플레이 화면
 
 - 오른쪽 상단의 학생수첩 아이콘을 클릭하면 메뉴가 열립니다.
 - 현재 사용 가능한 메뉴 기능은 다음과 같습니다.
@@ -115,36 +122,47 @@
 <br/>
 
 # Assault Lily Idle Game
-This project is a fan-made(unofficial) web game based on the concept of the Assault Lily project which is Japanese mixed-media franchise. Let's watch over the Lilies to be made with pixel art with loving eyes.  
-- [You can play HERE!](https://mintcc342g.github.io/assault-lily-idle-game/)
+This project is a fan-made(unofficial) web game based on the concept of the Assault Lily project which is Japanese mixed-media franchise.  
+
+Lilies have very busy days to fight with Huge, massive beasts that are the primary threat to humanity's survival. Lilies visit their favorite place to take a break. How about relaxing with them in the oasis to be made with pixel art?
+
+- [Let's take a break!](https://mintcc342g.github.io/assault-lily-idle-game/)
 
 <br/>
 
-## Playable Character List
+## Change Log
 
-Current playable Character List
-- Raimu Ruchia Kishimoto
-
-<br/>
-
-## Available Features
-
-Current avaiable features
-- Random Events
-    - Character's random lines
-        - There will be popped a text box randomly. (every 10-15 sec)
-- Student's Handbook
-    - a simple note
-    - There are 8 input boxes. You can write characters(maximum 30) on them.
-    - CAUTION: There is no servers to store data. If you leave the page(refresh too) or close the browser, you will lose your data that you inserted on the hand book.
+- apply responsive web for mobile browsers
+- improve performance
 
 <br/>
 
-## Manual
+## Play Guide
 
 - This is a idle game. That means you cannot control the character.
-- All characters has a favorite place. And they would appear that place to take a break.
-- You can watch them relaxing on there.
+
+<br/>
+
+### Characters
+
+- The Lily who is relaxing think to herself or remind some memos written on the student's hand book.
+- Playerble Lily List
+    - Raimu Ruchia Kishimoto
+
+<br/>
+
+### The Student's Hand Book
+
+- It is a simple note.
+    - There are 8 input boxes. You can write texts(maximum characters are 42) on it.
+- There is no server to store data. So you will lose your data that you wrote on it if you do following:
+    - Going back to the main screen or the character selection screen.
+    - Refreshing or leaving the page.
+    - Closing the browser.
+
+<br/>
+
+## Manual of the Game Screens
 
 <br/>
 
@@ -157,13 +175,13 @@ Current avaiable features
 
 ### Character Selection Screen
 
-- There will be a character and the hand book of character's garden.
-- You can choose a character to click white arrow buttons which is on left and right side of the screen.
-- Select a character, then press the 'Play' button to start the game.
+- There will be a Lily and a hand book of the Lily's garden.
+- You can choose a Lily to click white arrow buttons which is on left and right side of the screen.
+- Select a Lily, then press the 'Play' button to start the game.
 
 <br/>
 
-### Game Screen
+### Playing Screen
 
 - There is a Menu button on the top right corner.
 - Current available menu fetures
@@ -200,48 +218,58 @@ Current avaiable features
 <br/>
 <br/>
 
-## アサルトリリィ放置系ゲーム
-このプロジェクトはメディアミックスプロジェクト「アサルトリリィ」の世界観を元にした2次創作（非公式）のウェブゲームです。2Dピクセルアートで描かれるリリィたちの日常を暖かい目で見守ってみませんか？  
-- [ゲームプレイリンク](https://mintcc342g.github.io/assault-lily-idle-game/)
+# アサルトリリィ放置系ゲーム
+このプロジェクトはメディアミックスプロジェクト「アサルトリリィ」の世界観を元にした2次創作（非公式）のウェブゲームです。  
+
+巨大生命体「ヒュージ」との戦いで忙しい日々を送るリリィたち。戦場で疲れた心身を癒すため、自分が好きな場所に訪れます。2Dピックセルアートで描かれたそのオアシスでリリィと一緒にちょっとだけ休んでみませんか？
+
+- [休憩しに行く](https://mintcc342g.github.io/assault-lily-idle-game/)
 
 <br/>
 
-## プレイアブルキャラクター
+## アップデート
 
-現在プレイ可能なキャラクターリストです。
-- 岸本・ルチア・来夢
-
-<br/>
-
-## 機能
-
-現在具現された機能のリストです。
-
-- ランダムイベント
-    - １０～１５秒ごとに選択したキャラクターのランダム台詞が出ます。
-- 生徒手帳
-    - メモが作成出来ます。
-    - 最大２７文字まで入力可能な８つの欄が提供されます.
-    - 注意事項：ゲームに関するデータを保存するサーバーがないため、ゲームページを離れたりブラウザを消したりすると入力した内容が全部なくなりますのでご注意ください。
+- レスポンシブウェブデザインの適用
+- パフォーマンス改善
 
 <br/>
 
-## 操作
+## プレイガイド
 
 - このゲームは放置系なので、基本的にキャラクターの操作はできません。
-- 全てのキャラクターは自分の好きな場所があります。
-- 彼女らは休憩するためにそこを訪れます。
-- ユーザーはそこで休んでいるキャラクターを見守るのが出来ます。
 
 <br/>
 
+### キャラクター
+
+- 休憩中のリリィは時々何かを考えたり、学生手帳に書かれているメモを思い出したりします。
+- 現在選択可能なリリィ
+    - 岸本・ルチア・来夢
+
+<br/>
+
+### 生徒手帳
+
+- メモが作成出来ます。
+    - 最大２７文字まで入力可能な８つの欄が提供されます.
+- ゲームのデータを保存するサーバーがないため、生徒手帳に入力された内容は以下の行動を取ると無くなりますのご注意ください。
+    - タイトル画面やキャラクター選択画面にもどる。
+    - ウェブページのリフレッシュや移動
+    - ブラウザを消す。
+
+<br/>
+
+## ゲーム画面の説明
+
 ### タイトル画面
+
 - 言語を選択した後「Start」ボタンを押すとキャラクター画面に移ります。
     - デフォルト言語が韓国語なので、「ｊｐ」ボタンを押してからゲームを始めてください。
 
 <br/>
 
 ### キャラクター選択画面
+
 - キャラクターとキャラクターが所属したガーデンの生徒手帳が画面に出ます。
 - キャラクター画面の右左にある白い矢印ボタンを押すとキャラクターの変更が可能です。
 - キャラクターを選択した後「Play」を押すとゲームが始まります。
@@ -249,6 +277,7 @@ Current avaiable features
 <br/>
 
 ### ゲーム画面
+
 - 右上の生徒手帳アイコンを押すとメニューが開かれます。
 - 現在使用可能な機能はこちらになります。
     - 生徒手帳を開く。
