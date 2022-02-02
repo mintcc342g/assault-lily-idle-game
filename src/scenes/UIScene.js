@@ -266,8 +266,7 @@ export default class UIScene extends Phaser.Scene {
   }
 
   #showToDoList() {
-    const characterToDoList = this.scene.get(this.currentSceneName)
-      .mainCharacter.get('to_do_list');
+    const userToDoList = gameData.USER_DATA.get('to_do_list');
 
     for (let i = 0, len = this.toDoList.length; i < len; i++) {
       this.toDoListNumbers[i].setVisible(true);
@@ -276,7 +275,7 @@ export default class UIScene extends Phaser.Scene {
       content.setVisible(true)
         .on('pointerdown', () => {
           this.toDoListEditors[i] = this.#setTextEditor(content);
-          characterToDoList[i] = content;
+          userToDoList[i] = content;
         });
     }
   }
@@ -372,12 +371,9 @@ export default class UIScene extends Phaser.Scene {
         y = this.css.toDoList.y;
       }
   
-      const content = this.#createToDoContent(x, y).setInteractive();
-      this.toDoList[i] = content;
-
-      const num = this.#createToDoContent(x-30, y).disableInteractive();
-      num.text = `${i+1}. `;
-      this.toDoListNumbers[i] = num;
+      let textObj = gameData.USER_DATA.get('to_do_list')[i];
+      this.toDoList[i] = this.#createToDoContent(x, y, textObj?textObj.text:'').setInteractive();
+      this.toDoListNumbers[i] = this.#createToDoContent(x-30, y, `${i+1}. `).disableInteractive();
       
       y += this.css.toDoList.yPlus;
     }
@@ -385,11 +381,11 @@ export default class UIScene extends Phaser.Scene {
     // TODO: alarming service
   }
 
-  #createToDoContent(x, y) {
+  #createToDoContent(x, y, text) {
     return this.make.text({
       x: x,
       y: y,
-      // text: gameData.NOTICE.get(this.lang).get('todo-place-holder'),
+      text: text,
       style: {
         fixedWidth: this.css.toDoList.w,
         fixedHeight: this.css.toDoList.h,
@@ -458,7 +454,7 @@ export default class UIScene extends Phaser.Scene {
         editor.close();
       }
 
-      this.toDoList[i].setVisible(false); // the toDo text object must be hidden after closing editor
+      this.toDoList[i].setVisible(false); // the text object must be hidden after closing editor
       this.toDoListNumbers[i].setVisible(false);
     }
   }

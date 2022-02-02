@@ -3,6 +3,16 @@ import * as imgKeys from './imgKeys.js';
 import * as events from './events.js';
 
 /**
+ * User
+ * 
+ */
+
+export const USER_DATA = new Map([
+  ['to_do_list', [/* textObject array*/]]
+]);
+
+
+/**
  * Academy
  * 
  */
@@ -113,7 +123,6 @@ export const CHARACTER_DATA = new Map([
       ['academy', ACADEMY_LUDOVIC],
       ['events', events.EVENT_LIST_RAIMU],
       ['random_texts', RANDOM_TEXTS_RAIMU],
-      ['to_do_list', [/* to-do list array*/]],
     ])
   ],
 ]);
