@@ -38,8 +38,12 @@
 
 ## 변경 사항
 
-- 모바일 기기를 위한 반응형 웹 적용
-- 성능 개선
+- 2022.02.02
+    - 학생수첩 이벤트 추가
+    - 메인화면이나 캐릭터 화면으로 이동해도 학생수첩의 내용이 유지되도록 변경
+- 2022.02.01
+    - 모바일 기기를 위한 반응형 웹 적용
+    - 성능개선
 
 <br/>
 
@@ -62,7 +66,6 @@
 - 간단한 메모를 작성할 수 있습니다.
     - 최대 27자까지 입력 가능한 칸이 8개 제공됩니다.
 - 입력된 데이터는 저장되지 않으므로, 이하의 행동을 취할 경우 데이터가 사라집니다.
-    - 메인화면이나 캐릭터화면으로 돌아가기
     - 웹 페이지를 벗어나기
     - 브라우저 끄기
 
@@ -132,8 +135,12 @@ Lilies have very busy days to fight with Huge, massive beasts that are the prima
 
 ## Change Log
 
-- apply responsive web for mobile browsers
-- improve performance
+- 02.02.2022
+    - add the student's hand book Event
+    - apply the hand book's memos to be not deleted when the user go to the Main screen or the Character screen
+- 02.01.2022
+    - apply responsive web for mobile browsers
+    - improve performance
 
 <br/>
 
@@ -229,8 +236,12 @@ Lilies have very busy days to fight with Huge, massive beasts that are the prima
 
 ## アップデート
 
-- レスポンシブウェブデザインの適用
-- パフォーマンス改善
+- 2022.02.02
+    - 生徒手帳イベントの追加
+    - タイトル画面やキャラクター選択画面へ移動しても生徒手帳の内容が無くならないように変更
+- 2022.02.01
+    - レスポンシブウェブデザインの適用
+    - パフォーマンス改善
 
 <br/>
 
