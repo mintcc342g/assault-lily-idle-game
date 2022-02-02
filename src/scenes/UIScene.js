@@ -11,7 +11,6 @@ export default class UIScene extends Phaser.Scene {
     this.name = configs.SCENE_UI;
     this.menuOptionTextSuffix = '_text';
     this.logoPrefix = 'logo_';
-    this.buttonFrame = configs.DEFAULT_BUTTON_ANIM;
     this.keys = {
       menuButton: imgKeys.MENU_BUTTON_KEY,
       menuOptions: imgKeys.MENU_OPTION_KEYS,
@@ -19,7 +18,8 @@ export default class UIScene extends Phaser.Scene {
       close: imgKeys.CLOSE_BUTTON_KEY,
       logoLine: imgKeys.LOGO_LINE_KEY,
       logo: '',
-      
+      buttonFrame: configs.DEFAULT_BUTTON_ANIM,
+      toDoListLimit: 8,
     },
     this.css = {
       menuButton: { x: 565,  y: 30 },
@@ -29,7 +29,7 @@ export default class UIScene extends Phaser.Scene {
       motto: { x: 89, y: 460, w: 210, h: 130, padding: 3 },
       menuOptions: { x: 340, y: 220, yPlus: 62 , w: 198, h: 40, padding: { left: 50, top: 3 } },
       closeButton: { x: 535, y: 165 },
-      toDoList: { x: 100, y: 210, xPlus: 258 , yPlus: 95,  w: 190, h: 80, padding: 4 },
+      toDoList: { x: 120, y: 210, xPlus: 250 , yPlus: 95,  w: 170, h: 80, padding: 4 },
     };
     this.textMaxLength = new Map([
       [configs.LANG_KR, 27],
@@ -45,6 +45,7 @@ export default class UIScene extends Phaser.Scene {
     this.closeButton = { /* sprite */ };
     this.toDoList = [];
     this.toDoListEditors = [];
+    this.toDoListNumbers = [];
   }
 
   init(data) {
@@ -265,16 +266,22 @@ export default class UIScene extends Phaser.Scene {
   }
 
   #showToDoList() {
+    const characterToDoList = this.scene.get(this.currentSceneName)
+      .mainCharacter.get('to_do_list');
+
     for (let i = 0, len = this.toDoList.length; i < len; i++) {
+      this.toDoListNumbers[i].setVisible(true);
+
       let content = this.toDoList[i];
       content.setVisible(true)
         .on('pointerdown', () => {
           this.toDoListEditors[i] = this.#setTextEditor(content);
+          characterToDoList[i] = content;
         });
     }
   }
 
-  #setTextEditor(textContent) {
+  #setTextEditor(content) {
     var config = {
       backgroundColor: this.css.handBook.bgColor,
       onTextChanged: (textObject, text) => {
@@ -286,7 +293,7 @@ export default class UIScene extends Phaser.Scene {
       },
     }
   
-    return this.plugins.get('rexTextEdit').edit(textContent, config);
+    return this.plugins.get('rexTextEdit').edit(content, config);
   }
 
   #setCharacterSelectionButtonAction() {
@@ -355,29 +362,34 @@ export default class UIScene extends Phaser.Scene {
   }
 
   #initToDoList() {
-    var x = this.css.toDoList.x;
-    var y = this.css.toDoList.y;
+    let x = this.css.toDoList.x;
+    let y = this.css.toDoList.y;
+    const nextPage = this.keys.toDoListLimit / 2;
 
-    for (let i = 0; i < 8; i++) {
-      if (i == 4) {
+    for (let i = 0; i < this.keys.toDoListLimit; i++) {
+      if (i == nextPage) {
         x += this.css.toDoList.xPlus;
         y = this.css.toDoList.y;
       }
   
-      const content = this.#createToDoContent(x, y);
-      this.toDoList.push(content);
+      const content = this.#createToDoContent(x, y).setInteractive();
+      this.toDoList[i] = content;
+
+      const num = this.#createToDoContent(x-30, y).disableInteractive();
+      num.text = `${i+1}. `;
+      this.toDoListNumbers[i] = num;
+      
       y += this.css.toDoList.yPlus;
     }
 
     // TODO: alarming service
-    // TODO: insert To-Do list to character.events for random text event
   }
 
   #createToDoContent(x, y) {
     return this.make.text({
       x: x,
       y: y,
-      text: gameData.NOTICE.get(this.lang).get('todo-place-holder'),
+      // text: gameData.NOTICE.get(this.lang).get('todo-place-holder'),
       style: {
         fixedWidth: this.css.toDoList.w,
         fixedHeight: this.css.toDoList.h,
@@ -395,7 +407,6 @@ export default class UIScene extends Phaser.Scene {
         y: this.css.toDoList.padding
       }
     })
-    .setInteractive()
     .setDepth(configs.LAYER_POPUP_OBJECT_CONTENTS)
     .setVisible(false)
     .setOrigin(0, 0);
@@ -408,9 +419,9 @@ export default class UIScene extends Phaser.Scene {
 
   #setDefaultFrame(sprite, isIdle) {
     if (isIdle) {
-      sprite.setFrame(this.buttonFrame.get('idle'));
+      sprite.setFrame(this.keys.buttonFrame.get('idle'));
     } else {
-      sprite.setFrame(this.buttonFrame.get('clicked'));
+      sprite.setFrame(this.keys.buttonFrame.get('clicked'));
     }
   }
 
@@ -441,13 +452,15 @@ export default class UIScene extends Phaser.Scene {
   }
 
   #hideToDoList() {
-    this.toDoListEditors.forEach(editor => {
-      editor.close();
-    });
+    for (let i = 0; i < this.keys.toDoListLimit; i++) {
+      let editor = this.toDoListEditors[i];
+      if (editor !== undefined && editor !== null) {
+        editor.close();
+      }
 
-    this.toDoList.forEach(content => {
-      content.setVisible(false);
-    });
+      this.toDoList[i].setVisible(false); // the toDo text object must be hidden after closing editor
+      this.toDoListNumbers[i].setVisible(false);
+    }
   }
 
   #goToNext(nextSceneName) {

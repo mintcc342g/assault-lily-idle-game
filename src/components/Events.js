@@ -1,8 +1,9 @@
 import * as events from '../consts/events.js';
 import * as utils from '../utils/utils.js';
-import * as configs from '../consts/configs.js';
+import * as gameData from '../consts/gameData.js';
 import * as imgKeys from '../consts/imgKeys.js';
 import * as css from '../consts/css.js';
+import * as configs from '../consts/configs.js';
 import { createTextBox } from './TextBox.js';
 
 const { EventEmitter } = require('events');
@@ -13,7 +14,7 @@ export default class MariaHillEventEmitter extends EventEmitter {
     this.nextPageKey = imgKeys.NEXT_PAGE_KEY;
     this.css = {
       popUp: { x: 40, y: 570, speed: 50 },
-      action: { x: 600, y: 750 },
+      action: { x: 550, y: 620 },
       box: {
         x: 40,
         y: 570,
@@ -34,7 +35,8 @@ export default class MariaHillEventEmitter extends EventEmitter {
         }
       },
     };
-    this.on(events.EVENT_RAIMU_TEXTBOX, this.selfSpeechBubbleEvent);
+    this.on(events.EVENT_TEXTBOX, this.selfSpeechBubbleEvent);
+    this.on(events.EVENT_TO_DO_TEXTBOX, this.eventToDoTextBox);
     // this.on(events.EVENT_CONVERSATION_WITH_SACHIE, this.sachieEvent);
     // this.on(events.EVENT_WATCHED_OVER_BY_MIRAI, this.miraiEvent);
   }
@@ -56,39 +58,46 @@ export default class MariaHillEventEmitter extends EventEmitter {
   }
 
   #getCharacterRandomEvent(character) {
-    const eventList =  character.get('events');
-    return eventList[utils.rand(0, eventList.length-1)]
+    const probability = utils.rand(0, 100);
+    const eventMap =  character.get('events');
+
+    if (probability <= events.EVENT_PROBABILITY_15) {
+      return eventMap.get(events.EVENT_PROBABILITY_15);
+    }
+    
+    return eventMap.get(events.EVENT_PROBABILITY_90);
   }
 
   #repeatEvent(scene, textbox) {
     setTimeout(() => {
-      textbox.destroy();
+      if (textbox != undefined) {
+        textbox.destroy();
+      }
+
       const delay = utils.msToSec(utils.rand(10, 15));
       this.eventHandler(scene, delay);
     }, 2000);
   }
 
-  selfSpeechBubbleEvent(scene) {
-    const texts = scene.mainCharacter.get('random_texts').get(scene.lang);
-    const radNum = utils.rand(0, texts.length-1);
+  #createTextBox(scene, text) {
     const action = scene.add.image(
-        this.css.action.x,
-        this.css.action.y,
-        this.nextPageKey
-      )
-      .setTint(css.DEFAULT_MENU_COLOR_RGB)
-      .setOrigin(0, 0)
-      .setVisible(false);
-    
-    const textbox = createTextBox(scene, this.css.box, action).start(texts[radNum], this.css.popUp.speed);
+      this.css.action.x,
+      this.css.action.y,
+      this.nextPageKey
+    )
+    .setTint(css.DEFAULT_MENU_COLOR_RGB)
+    .setOrigin(0, 0)
+    .setVisible(false);
+  
+    const textbox = createTextBox(scene, this.css.box, action).start(text, this.css.popUp.speed);
 
     textbox
       .on('pointerdown', function () {
-        action.setVisible(false);
-        // this.resetChildVisibleState(action);
         if (this.isTyping) {
           this.stop(true);
         } else if (!this.isLastPage) {
+          action.setVisible(false);
+          // this.resetChildVisibleState(action);
           this.typeNextPage();
         } else {
           this.destroy();
@@ -97,14 +106,27 @@ export default class MariaHillEventEmitter extends EventEmitter {
       .on('complete', this.#repeatEvent.bind(this, scene, textbox));
   }
 
-  // sachieEvent() {
-  //   // TODO
-  //   this.repeatEvent();
-  // }
-  
-  // miraiEvent() {
-  //   // TODO
-  //   this.repeatEvent();
-  // }
-}
+  selfSpeechBubbleEvent(scene) {
+    const texts = scene.mainCharacter.get('random_texts').get(scene.lang);
+    const randNum = utils.rand(0, texts.length-1);
 
+    this.#createTextBox(scene, texts[randNum]);
+  }
+
+  eventToDoTextBox(scene) {
+    const toDoList = scene.mainCharacter.get('to_do_list');
+    if (toDoList.length == 0) {
+      return this.selfSpeechBubbleEvent(scene)
+    }
+    
+    let toDoContent = gameData.NOTICE.get(scene.lang).get('todo-list-prefix');
+    toDoList.forEach((textObject)=>{
+      let text = textObject.text;
+      if (text !== '') {
+        toDoContent += `▶ ${text}\n`;
+      }
+    });
+
+    this.#createTextBox(scene, toDoContent);
+  }
+}

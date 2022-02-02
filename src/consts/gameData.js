@@ -33,21 +33,21 @@ export const NOTICE = new Map([
     configs.LANG_KR, new Map([
       ['main-info', '언어를 선택한 후 [START] 버튼을 눌러주세요.'],
       ['todo-alert', '(내용이 너무 긴 것 같아. 좀 줄일까..?)'],
-      ['todo-place-holder', '할 일을 적고 엔터키를 입력하자.'],
+      ['todo-list-prefix', '이따 뭘해야 했더라...?\n'],
     ])
   ],
   [
     configs.LANG_EN, new Map([
       ['main-info', 'select language, then press [START] button.'],
       ['todo-alert', '(I think the text is too long.. How about shortening it?)'],
-      ['todo-place-holder', 'Let\'s input To-do things. Then press Enter.'],
+      ['todo-list-prefix', 'Let\'s check my to-do list.\n'], 
     ])
   ],
   [
     configs.LANG_JP, new Map([
       ['main-info', '言語を選択した後、[START] ボタンを押してください。'],
       ['todo-alert', '(ちょっと長いかな。短くした方がいいかも。)'],
-      ['todo-place-holder', 'やることを書いた後、エンターキーを押そう。'],
+      ['todo-list-prefix', '後で何しようとしたっけ…？\n'],
     ])
   ],
 ]);
@@ -69,37 +69,37 @@ const INTRODUCTION_RAIMU = new Map([
 // random texts
 const RANDOM_TEXTS_RAIMU = new Map([
   [configs.LANG_KR, [
-    `(마리아 언덕... 난 여기가 좋아.)`,
-    `(미라이 언니... 보고 싶다...)`,
-    `(사치에 언니는 지금 어디 계실까?)`,
-    `(사치에 언니랑 크레이프 먹으러 가는 거 기대된다! 헤헷.)`,
-    `(졸려...)`,
-    `(후아암...)`,
-    `(더 강해지지 않으면...!)`,
-    `(클라라쨩 아까 세렌쨩을 찾던데... 찾았으려나?)`,
-    `(매미는 어떻게 생겼을까?)`,
+    '(마리아 언덕... 난 여기가 좋아.)',
+    '(미라이 언니... 보고 싶다...)',
+    '(사치에 언니는 지금 어디 계실까?)',
+    '(사치에 언니랑 크레이프 먹으러 가는 거 기대된다! 헤헷.)',
+    '(졸려...)',
+    '(후아암...)',
+    '(더 강해지지 않으면...!)',
+    '(클라라쨩 아까 세렌쨩을 찾던데... 찾았으려나?)',
+    '(매미는 어떻게 생겼을까?)',
   ]],
   [configs.LANG_EN, [
-    `(The hill of Maria... I like this place.)`,
-    `(My sister, Mirai... I miss you a lot.)`,
-    `(I wonder where Sachie-Sama is now.)`,
-    `(I look forward to eat crepes with Sachie-Sama!)`,
-    `(I'm so sleepy...)`,
-    `(YAWN...)`,
-    `(I want to be stronger...!)`,
-    `(Clara-chan was looking for Seren-chan a minute ago. I wonder whether she met Seren-chan or not.)`,
-    `(I wonder what does a cicada look like.`,
+    '(The hill of Maria... I like this place.)',
+    '(My sister, Mirai... I miss you a lot.)',
+    '(I wonder where Sachie-Sama is now.)',
+    '(I look forward to eat crepes with Sachie-Sama!)',
+    '(I\'m so sleepy...)',
+    '(YAWN...)',
+    '(I want to be stronger...!)',
+    '(Clara-chan was looking for Seren-chan a minute ago. I wonder whether she met Seren-chan or not.)',
+    '(I wonder what does a cicada look like.',
   ]],
   [configs.LANG_JP, [
-    `(マリアの丘…。ここ好きなの。)`,
-    `(未来お姉ちゃん…。会いたいな…。)`,
-    `(幸恵お姉さま、今どこにいらっしゃるんだろう。)`,
-    `(幸恵お姉さまとクレープ食べに行くの楽しみ！\nへへっ。)`,
-    `(眠いな…。)`,
-    `(ふぁーぁ…。)`,
-    `(もっと強くならなきゃ…!)`,
-    `(クララちゃん、さっき聖恋ちゃん探してたよね。\n会えたのかな。)`,
-    `(セミってどんな形をしているんだろう。)`,
+    '(マリアの丘…。ここ好きなの。)',
+    '(未来お姉ちゃん…。会いたいな…。)',
+    '(幸恵お姉さま、今どこにいらっしゃるんだろう。)',
+    '(幸恵お姉さまとクレープ食べに行くの楽しみ！\nへへっ。)',
+    '(眠いな…。)',
+    '(ふぁーぁ…。)',
+    '(もっと強くならなきゃ…!)',
+    '(クララちゃん、さっき聖恋ちゃん探してたよね。\n会えたのかな。)',
+    '(セミってどんな形をしているんだろう。)',
   ]]
 ]);
 
@@ -113,6 +113,7 @@ export const CHARACTER_DATA = new Map([
       ['academy', ACADEMY_LUDOVIC],
       ['events', events.EVENT_LIST_RAIMU],
       ['random_texts', RANDOM_TEXTS_RAIMU],
+      ['to_do_list', [/* to-do list array*/]],
     ])
   ],
 ]);

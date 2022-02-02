@@ -27,7 +27,7 @@ export function createTextBox(scene, config, action) {
     .setInteractive()
     .on('pageend', function () {
       if (this.isLastPage) {
-        return;
+        return
       }
 
       action.setVisible(true);
@@ -41,7 +41,11 @@ export function createTextBox(scene, config, action) {
           duration: 500,
           repeat: 0, // -1: infinity
           yoyo: false
-      })
+      });
+
+      setTimeout(() => {
+        this.typeNextPage();
+      }, 2000);
     }, textBox, action);
     // .on('type', function () {
     // })
