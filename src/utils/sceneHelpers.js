@@ -12,7 +12,7 @@ export function createTileMap(scene) {
   return tileMap
 }
 
-export function createCharacterAnimation(scene, characterID, keys, frameRate, repeat) {
+export function createCharacterAnimation(scene, characterID, keys, dutaion, repeat) {
   for (const key of keys){
     scene.anims.create({
       key: `${key}`,
@@ -34,7 +34,7 @@ export function createCharacterAnimation(scene, characterID, keys, frameRate, re
           frame: `${key}_04.png`
         },
       ],
-      frameRate: frameRate,
+      duration: dutaion, // ms
       repeat: repeat?repeat:-1
     });
   }

@@ -21,7 +21,7 @@ export default class TheHillOfMariaScene extends Phaser.Scene {
       [imgKeys.CHARACTER_RAIMU_ID, { /* sprite */ }]
     ]);
     this.position = {
-      mainCharacter: { startX: 5, startY: 0, speed: 1 },
+      mainCharacter: { startX: 5, startY: 0, speed: 0.8 },
     };
     this.lang = '';
     this.eventEmitter = { /* Event instance */ };
@@ -58,7 +58,7 @@ export default class TheHillOfMariaScene extends Phaser.Scene {
   #initCharacters() {
     for(let key of this.characters.keys()) {
       this.characters.set(key, this.add.sprite(0, 0, key).setOrigin(0, 0));
-      sceneHelpers.createCharacterAnimation(this, key, configs.CHARACTER_ANIM_KEYS, 6, -1);
+      sceneHelpers.createCharacterAnimation(this, key, configs.CHARACTER_ANIM_KEYS, configs.DEFAULT_FRAME_DURATION, -1);
     }
   }
   
