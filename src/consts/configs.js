@@ -6,7 +6,7 @@ export const LANG_JP = 'jp';
 
 // Grid Engine Constants
 export const GRID_ENGINE_MOVEMENT_DIRECTION = 4;
-export const DEFAULT_FRAME_RATE = 6;
+export const DEFAULT_FRAME_DURATION = 1000;
 
 
 // Scenes

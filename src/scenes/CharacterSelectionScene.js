@@ -85,7 +85,6 @@ export default class CharacterSelectionScene extends Phaser.Scene {
         .setDepth(configs.LAYER_ABOVE_BACKGROUND)
         .setVisible(false);
       characterSlot.addCharacter({ sprite: sprite, info: val });
-			sceneHelpers.createCharacterAnimation(this, key, configs.CHARACTER_ANIM_KEYS, configs.DEFAULT_FRAME_RATE);
     });
 
 		this.currentCharacter = characterSlot.firstCharacter();
