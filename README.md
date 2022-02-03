@@ -38,6 +38,8 @@
 
 ## 변경 사항
 
+- 2022.02.03
+    - 캐릭터 애니메이션 변경
 - 2022.02.02
     - 학생수첩 이벤트 추가
     - 메인화면이나 캐릭터 화면으로 이동해도 학생수첩의 내용이 유지되도록 변경
@@ -135,6 +137,8 @@ Lilies have very busy days to fight with Huge, massive beasts that are the prima
 
 ## Change Log
 
+- 02.03.2022
+    - change character animation
 - 02.02.2022
     - add the student's hand book Event
     - apply the hand book's memos to be not deleted when the user go to the Main screen or the Character screen
@@ -236,6 +240,8 @@ Lilies have very busy days to fight with Huge, massive beasts that are the prima
 
 ## アップデート
 
+- 2022.02.03
+    - キャラクターアニメーションの変更
 - 2022.02.02
     - 生徒手帳イベントの追加
     - タイトル画面やキャラクター選択画面へ移動しても生徒手帳の内容が無くならないように変更
