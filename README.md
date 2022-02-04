@@ -129,7 +129,7 @@
 # Assault Lily Idle Game
 This project is a fan-made(unofficial) web game based on the concept of the Assault Lily project which is Japanese mixed-media franchise.  
 
-Lilies have very busy days to fight with Huge, massive beasts that are the primary threat to humanity's survival. Lilies visit their favorite place to take a break. How about relaxing with them in the oasis to be made with pixel art?
+Lilies have very busy days to fight with Huge, massive beasts that are the primary threat to humanity's survival. Lilies visit their favorite place to take a break. How about relaxing with them in the oasis being made with pixel art?
 
 - [Let's take a break!](https://mintcc342g.github.io/assault-lily-idle-game/)
 
@@ -156,7 +156,7 @@ Lilies have very busy days to fight with Huge, massive beasts that are the prima
 
 ### Characters
 
-- The Lily who is relaxing think to herself or remind some memos written on the student's hand book.
+- The Lily who is relaxing thinks to herself or remind some memos written on the student's hand book.
 - Playerble Lily List
     - Raimu Ruchia Kishimoto
 
@@ -167,7 +167,6 @@ Lilies have very busy days to fight with Huge, massive beasts that are the prima
 - It is a simple note.
     - There are 8 input boxes. You can write texts(maximum characters are 42) on it.
 - There is no server to store data. So you will lose your data that you wrote on it if you do following:
-    - Going back to the main screen or the character selection screen.
     - Refreshing or leaving the page.
     - Closing the browser.
 
@@ -270,7 +269,6 @@ Lilies have very busy days to fight with Huge, massive beasts that are the prima
 - メモが作成出来ます。
     - 最大２７文字まで入力可能な８つの欄が提供されます.
 - ゲームのデータを保存するサーバーがないため、生徒手帳に入力された内容は以下の行動を取ると無くなりますのご注意ください。
-    - タイトル画面やキャラクター選択画面にもどる。
     - ウェブページのリフレッシュや移動
     - ブラウザを消す。
 
