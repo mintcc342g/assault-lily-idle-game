@@ -1,15 +1,11 @@
-import Parser from 'phaser';
-
-import CharacterSlot from '../components/CharacterSlot.js';
-import { createTextBox } from '../components/TextBox.js';
-import * as sceneHelpers from '../utils/sceneHelpers.js';
-
 import * as configs from '../consts/configs.js';
 import * as css from '../consts/css.js';
-var gameData = require('../consts/gameData.js');
+import * as gameData from '../consts/gameData.js';
 import * as imgKeys from '../consts/imgKeys.js';
+import CharacterSlot from '../components/CharacterSlot.js';
+import { CharacterSelectionBaseScene } from './BaseScene.js'
 
-export default class CharacterSelectionScene extends Phaser.Scene {
+export default class CharacterSelectionScene extends CharacterSelectionBaseScene {
   constructor() {
     super(configs.SCENE_CHARACTER_SELECTION);
     this.name = configs.SCENE_CHARACTER_SELECTION;
@@ -48,7 +44,7 @@ export default class CharacterSelectionScene extends Phaser.Scene {
 	}
 
 	create() {
-    sceneHelpers.setResponsiveScreen(this);
+    this.initResponsiveScreen();
 		this.cameras.main.fadeIn(1000,
       css.DEFAULT_BACKGROUND_COLOR_RED,
       css.DEFAULT_BACKGROUND_COLOR_GREEN,
@@ -88,14 +84,14 @@ export default class CharacterSelectionScene extends Phaser.Scene {
     });
 
 		this.currentCharacter = characterSlot.firstCharacter();
-    this.currentTextBox = this.#createTextBox();
+    this.currentTextBox = this.#initTextBox();
 
     this.#showCharacter(true);
     this.#showBackground(true);
 		setTimeout(() => { this.#playTextBox(); }, 1000);
 	}
 
-  #createTextBox() {
+  #initTextBox() {
     const config = {
       x: this.position.textBox.x,
       y: this.position.textBox.y,
@@ -122,7 +118,7 @@ export default class CharacterSelectionScene extends Phaser.Scene {
       .setOrigin(0, 0)
       .setVisible(false);
 
-    const textbox = createTextBox(this, config, action).setVisible(false);
+    const textbox = this.createTextBox(config, action).setVisible(false);
     
     textbox
       .on('pointerdown', function () {
@@ -170,7 +166,7 @@ export default class CharacterSelectionScene extends Phaser.Scene {
           this.currentTextBox.destroy();
 
           setCurrentCharacter(arrowKeys[i]);
-          this.currentTextBox = this.#createTextBox();
+          this.currentTextBox = this.#initTextBox();
           this.#showBackground(true);
           this.#showCharacter(true);
           this.#playTextBox();
