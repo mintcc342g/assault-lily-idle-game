@@ -28,7 +28,7 @@ import MenuButtonFourthImg from '../assets/ui/menu_select_button_4.png';
 // hill scene imgs
 import MenuButtonImg from '../assets/ui/menu_button.png';
 import MariaHillJSON from '../assets/maps/map-maria-hill.json';
-import MariaHillImage from '../assets/maps/map-maria-hill-tiles.png';
+import BackgroundTileImage from '../assets/maps/background_tiles.png';
 
 // characters imgs
 import PlayerRaimuJSON from '../assets/sprites/player-raimu.json';
@@ -151,7 +151,7 @@ export default class BootScene extends Phaser.Scene {
 
   loadHillSceneImgs() {
     this.load.spritesheet(imgKeys.MENU_BUTTON_KEY, MenuButtonImg, { frameWidth: 39, frameHeight: 54 });
-    this.load.image(imgKeys.MARIA_HILL_MAP_IMG_KEY, MariaHillImage);
+    this.load.image(imgKeys.BACKGROUND_TILE_IMG_KEY, BackgroundTileImage);
     this.load.tilemapTiledJSON(imgKeys.MARIA_HILL_TILESET_CONFIG_KEY, MariaHillJSON);
   }
 }

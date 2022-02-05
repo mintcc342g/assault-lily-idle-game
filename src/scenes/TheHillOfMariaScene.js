@@ -13,15 +13,15 @@ export default class TheHillOfMariaScene extends Phaser.Scene {
     this.buttonFrame = configs.DEFAULT_BUTTON_ANIM;
     this.layers = configs.MARIA_HILL_LAYERS;
     this.tileset = {
-      key: configs.MARIA_HILL_TILESET_KEY,
-      imgKey: imgKeys.MARIA_HILL_MAP_IMG_KEY,
+      key: configs.BACKGROUND_TILESET_KEY,
+      imgKey: imgKeys.BACKGROUND_TILE_IMG_KEY,
       configKey: imgKeys.MARIA_HILL_TILESET_CONFIG_KEY,
     };
     this.characters = new Map([
       [imgKeys.CHARACTER_RAIMU_ID, { /* sprite */ }]
     ]);
     this.position = {
-      mainCharacter: { startX: 5, startY: 0, speed: 0.8 },
+      mainCharacter: { startX: 5, startY: 0, speed: 1 },
     };
     this.lang = '';
     this.eventEmitter = { /* Event instance */ };

@@ -1,5 +1,10 @@
 import * as configs from './configs.js';
-var gameData = require('./gameData.js');
+// var gameData = require('./gameData.js');
+
+
+// Map Tile Img
+export const BACKGROUND_TILE_IMG_KEY = 'background_tileset';
+
 
 // Characters
 export const CHARACTER_RAIMU_ID = 'player_raimu';
@@ -59,7 +64,9 @@ export const MENU_OPTION_KEYS = new Map([
 ]);
 
 
-// The Hill Of Maria
+// Game Play Common
 export const MENU_BUTTON_KEY = 'menu_button';
-export const MARIA_HILL_MAP_IMG_KEY = 'maria_hill_tileset';
+
+
+// The Hill Of Maria
 export const MARIA_HILL_TILESET_CONFIG_KEY = 'map_maria_hill';

@@ -6,7 +6,7 @@ export const LANG_JP = 'jp';
 
 // Grid Engine Constants
 export const GRID_ENGINE_MOVEMENT_DIRECTION = 4;
-export const DEFAULT_FRAME_DURATION = 1000;
+export const DEFAULT_FRAME_DURATION = 800;
 
 
 // Scenes
@@ -39,10 +39,11 @@ export const DEFAULT_BUTTON_ANIM = new Map([
 ]);
 
 
-// The Hill Of Maria
-export const MARIA_HILL_TILESET_KEY = 'maria_hill_tiles';
+// Tile JSON
+export const BACKGROUND_TILESET_KEY = 'background_tiles';
+
 const MARIA_HILL_LAYER_GROUND = 'ground_unwalkable';
-const MARIA_HILL_LAYER_FENCE = 'fence';
 const MARIA_HILL_LAYER_ROAD = 'road_walkable';
-const MARIA_HILL_LAYER_GRAVESTONE = 'gravestone';
-export const MARIA_HILL_LAYERS = [MARIA_HILL_LAYER_GROUND, MARIA_HILL_LAYER_FENCE, MARIA_HILL_LAYER_ROAD, MARIA_HILL_LAYER_GRAVESTONE];
+const MARIA_HILL_LAYER_FLOWER = 'flower';
+const MARIA_HILL_LAYER_COLLIDE = 'collide';
+export const MARIA_HILL_LAYERS = [MARIA_HILL_LAYER_GROUND, MARIA_HILL_LAYER_ROAD, MARIA_HILL_LAYER_FLOWER, MARIA_HILL_LAYER_COLLIDE];
