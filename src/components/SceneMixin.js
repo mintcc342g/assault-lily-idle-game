@@ -9,9 +9,9 @@ export const CameraMixin = superclass => class extends superclass {
 
 export const GraphicMixin = superclass => class extends superclass {
   createTileMap() {
-    const tileMap = this.make.tilemap({ key: this.tileset.configKey });
-    const tileset = tileMap.addTilesetImage(this.tileset.key, this.tileset.imgKey);
-    for (const layerName of this.layers) {
+    const tileMap = this.make.tilemap({ key: this.keys.tileset.config });
+    const tileset = tileMap.addTilesetImage(this.keys.tileset.name, this.keys.tileset.img);
+    for (const layerName of this.keys.layers) {
       tileMap.createLayer(layerName, tileset);
       // this.physics.add.collider(player, layer);
       // layer.setCollisionByProperty({ collides: true });

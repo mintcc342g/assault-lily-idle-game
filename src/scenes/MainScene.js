@@ -7,32 +7,29 @@ import { BaseScene } from './BaseScene.js';
 export default class MainScene extends BaseScene {
   constructor() {
     super(configs.SCENE_MAIN);
-    this.name = configs.SCENE_MAIN;
-    this.lang = '';
-    this.mainImgKey = imgKeys.MAIN_BACKGROUND_KEY;
-    this.startButtonKey = imgKeys.START_BUTTON_KEY;
-    this.krButtonKey = imgKeys.KR_BUTTON_KEY;
-    this.enButtonKey = imgKeys.EN_BUTTON_KEY;
-    this.jpButtonKey = imgKeys.JP_BUTTON_KEY;
-    this.langButtons = new Map([
-      [this.krButtonKey, new Map([ ['lang', configs.LANG_KR], ['button', { /* sprite */ }] ])],
-      [this.enButtonKey, new Map([ ['lang', configs.LANG_EN], ['button', { /* sprite */ }] ])],
-      [this.jpButtonKey, new Map([ ['lang', configs.LANG_JP], ['button', { /* sprite */ }] ])]
-    ]);
+    this.keys = {
+      background: imgKeys.MAIN_BACKGROUND_KEY,
+      start: imgKeys.START_BUTTON_KEY,
+      kr: imgKeys.KR_BUTTON_KEY,
+      en: imgKeys.EN_BUTTON_KEY,
+      jp: imgKeys.JP_BUTTON_KEY
+    };
     this.position = {
       start: { x: 225, y: 532 },
       lang: { x: 140, y: 654, plus: 129 },
-    }
-    this.buttonFrame = configs.DEFAULT_BUTTON_ANIM;
+    };
+    this.langButtons = new Map([
+      [this.keys.kr, new Map([ ['lang', configs.LANG_KR], ['button', { /* sprite */ }] ])],
+      [this.keys.en, new Map([ ['lang', configs.LANG_EN], ['button', { /* sprite */ }] ])],
+      [this.keys.jp, new Map([ ['lang', configs.LANG_JP], ['button', { /* sprite */ }] ])]
+    ]);
   }
 
-	init(data) {
-    if (!data.hasOwnProperty('lang')) {
-      this.lang = configs.LANG_KR  // default lang
-    } else {
+  init(data) {
+    if (data.hasOwnProperty('lang')) {
       this.lang = data.lang;
     }
-	}
+  }
 
   create() {
     this.initResponsiveScreen();
@@ -49,9 +46,9 @@ export default class MainScene extends BaseScene {
   }
 
   #initBackground() {
-    this.add.image(0, 0, this.mainImgKey)
-    .setDepth(configs.LAYER_BACKGROUND)
-    .setOrigin(0, 0);
+    this.add.image(0, 0, this.keys.background)
+      .setDepth(configs.LAYER_BACKGROUND)
+      .setOrigin(0, 0);
   }
 
   #initInfoText() {
@@ -72,7 +69,7 @@ export default class MainScene extends BaseScene {
       tween.data.forEach((datum) => {
         setTimeout(() => {
           datum.target.setDepth(configs.LAYER_ABOVE_BACKGROUND);
-        },datum.delay+100, datum);
+        }, datum.delay+100, datum);
       });
     });
   }
@@ -106,14 +103,14 @@ export default class MainScene extends BaseScene {
   }
 
   #initStartButton() {
-    const startButton = this.#createButton(this.startButtonKey, this.position.start.x, this.position.start.y);
+    const startButton = this.#createButton(this.keys.start, this.position.start.x, this.position.start.y);
 
     startButton
       .on('pointerdown', () => {
-        this.#setDefaultFrame(startButton, false)
+        this.#setDefaultFrame(startButton, false);
       })
       .on('pointerout', () => {
-        this.#setDefaultFrame(startButton, true)
+        this.#setDefaultFrame(startButton, true);
       })
       .on('pointerup', () => {
         startButton.disableInteractive();
@@ -133,7 +130,7 @@ export default class MainScene extends BaseScene {
       x += this.position.lang.plus;
     }
 
-    this.#setDefaultFrame(this.langButtons.get(this.krButtonKey).get('button'), false);
+    this.#setDefaultFrame(this.langButtons.get(this.keys.kr).get('button'), false);
   }
 
   #createButton(buttonKey, x, y) {
@@ -169,6 +166,7 @@ export default class MainScene extends BaseScene {
       css.DEFAULT_BACKGROUND_COLOR_GREEN,
       css.DEFAULT_BACKGROUND_COLOR_BLUE
     );
+
     this.cameras.main.once('camerafadeoutcomplete', (cam, effect) => {
       this.time.delayedCall(1000, () => {
         this.scene.start(configs.SCENE_CHARACTER_SELECTION, { lang: this.lang });
@@ -178,9 +176,9 @@ export default class MainScene extends BaseScene {
   
   #setDefaultFrame(sprite, isIdle) {
     if (isIdle) {
-      sprite.setFrame(this.buttonFrame.get('idle'));
+      sprite.setFrame(this.customAnim.button.get('idle'));
     } else {
-      sprite.setFrame(this.buttonFrame.get('clicked'));
+      sprite.setFrame(this.customAnim.button.get('clicked'));
     }
   }
 }
