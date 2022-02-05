@@ -40,12 +40,12 @@ import { BaseScene } from './BaseScene.js';
 export default class BootScene extends BaseScene {
   constructor() {
     super(configs.SCENE_BOOT);
-    this.name = configs.SCENE_BOOT;
   }
 
   preload() {
     this.startLoadingBar();
     this.loadCharacterImgs();
+    this.loadMapImgs();
     this.loadMainSceneImgs();
     this.loadSelectionSceneImgs();
     this.loadUISceneImgs();
@@ -118,6 +118,10 @@ export default class BootScene extends BaseScene {
     this.load.atlas(imgKeys.CHARACTER_RAIMU_ID, PlayerRaimuImg, PlayerRaimuJSON);
   }
 
+  loadMapImgs() {
+    this.load.image(imgKeys.BACKGROUND_TILE_IMG_KEY, BackgroundTileImage);
+  }
+
   loadMainSceneImgs() {
     this.load.image(imgKeys.MAIN_BACKGROUND_KEY, MainImg);
     this.load.spritesheet(imgKeys.START_BUTTON_KEY, StartButtonImg, { frameWidth: 188, frameHeight: 92 });
@@ -149,7 +153,6 @@ export default class BootScene extends BaseScene {
 
   loadHillSceneImgs() {
     this.load.spritesheet(imgKeys.MENU_BUTTON_KEY, MenuButtonImg, { frameWidth: 39, frameHeight: 54 });
-    this.load.image(imgKeys.BACKGROUND_TILE_IMG_KEY, BackgroundTileImage);
     this.load.tilemapTiledJSON(imgKeys.MARIA_HILL_TILESET_CONFIG_KEY, MariaHillJSON);
   }
 }

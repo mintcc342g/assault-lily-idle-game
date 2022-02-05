@@ -7,33 +7,26 @@ import { GamePlayBaseScene } from './BaseScene.js';
 export default class TheHillOfMariaScene extends GamePlayBaseScene {
   constructor() {
     super(configs.SCENE_THE_HILL_OF_MARIA);
-    this.name = configs.SCENE_THE_HILL_OF_MARIA;
-    this.menuButtonKey = imgKeys.MENU_BUTTON_KEY;
-    this.buttonFrame = configs.DEFAULT_BUTTON_ANIM;
-    this.layers = configs.MARIA_HILL_LAYERS;
-    this.tileset = {
-      key: configs.BACKGROUND_TILESET_KEY,
-      imgKey: imgKeys.BACKGROUND_TILE_IMG_KEY,
-      configKey: imgKeys.MARIA_HILL_TILESET_CONFIG_KEY,
+    this.keys = {
+      layers: configs.MARIA_HILL_LAYERS,
+      tileset: {
+        name: configs.BACKGROUND_TILESET_NAME,
+        img: imgKeys.BACKGROUND_TILE_IMG_KEY,
+        config: imgKeys.MARIA_HILL_TILESET_CONFIG_KEY
+      }
+    };
+    this.position = {
+      mainCharacter: { startX: 5, startY: 0, speed: 1 },
     };
     this.characters = new Map([
       [imgKeys.CHARACTER_RAIMU_ID, { /* sprite */ }]
     ]);
-    this.position = {
-      mainCharacter: { startX: 5, startY: 0, speed: 1 },
-    };
-    this.lang = '';
-    this.eventEmitter = { /* Event instance */ };
     this.mainCharacter = { /* map */ };
+    this.eventEmitter = { /* Event instance */ };
   }
 
   init(data) {
-    if (!data.hasOwnProperty('lang')) {
-      this.lang = configs.LANG_KR  // default lang
-    } else {
-      this.lang = data.lang;
-    }
-    
+    this.lang = data.lang;
     this.mainCharacter = data.mainCharacter
   }
 

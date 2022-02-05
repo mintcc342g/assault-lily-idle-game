@@ -8,40 +8,33 @@ import { CharacterSelectionBaseScene } from './BaseScene.js'
 export default class CharacterSelectionScene extends CharacterSelectionBaseScene {
   constructor() {
     super(configs.SCENE_CHARACTER_SELECTION);
-    this.name = configs.SCENE_CHARACTER_SELECTION;
-    this.buttonFrame = configs.DEFAULT_BUTTON_ANIM;
     this.keys = {
       background: gameData.SELECTION_BACKGROUND_KEYS,
       slot: imgKeys.CHARACTER_SLOT_KEY,
-      prevArrow: imgKeys.PREV_BUTTON_KEY,
-      nextArrow: imgKeys.NEXT_BUTTON_KEY,
+      prev: imgKeys.PREV_BUTTON_KEY,
+      next: imgKeys.NEXT_BUTTON_KEY,
       play: imgKeys.PLAY_BUTTON_KEY,
       back: imgKeys.BACK_BUTTON_KEY,
       nextPage: imgKeys.NEXT_PAGE_KEY
     };
     this.position = {
-      character: { x: 120, y:130 },
+      character: { x: 120, y: 130 },
       slot: { x: 110, y: 124 },
       textBox: { x: 234, y: 105, w: 228, h: 100 },
       action: { x: 475, y: 170 },
       arrows: { x: 27, y: 185, plus: 552 },
-      back: { x: 234, y:259 },
-      play: { x: 400, y:259 }
-    }
-    this.lang = '';
+      back: { x: 234, y: 259 },
+      play: { x: 400, y: 259 }
+    };
     this.currentCharacter = { /* sprite and info */ };
 		this.currentTextBox = { /* rexUI textBox */ };
     this.backgrounds = new Map();
     this.uiGroup = [];
   }
 
-	init(data) {
-    if (!data.hasOwnProperty('lang')) {
-      this.lang = configs.LANG_KR  // default lang
-    } else {
-      this.lang = data.lang;
-    }
-	}
+  init(data) {
+    this.lang = data.lang;
+  }
 
 	create() {
     this.initResponsiveScreen();
@@ -138,9 +131,9 @@ export default class CharacterSelectionScene extends CharacterSelectionBaseScene
     let x = this.position.arrows.x;
     let y = this.position.arrows.y;
     const arrows = [];
-    const arrowKeys = [this.keys.prevArrow, this.keys.nextArrow];
+    const arrowKeys = [this.keys.prev, this.keys.next];
     const setCurrentCharacter = (key)=>{
-      if(key == this.keys.prevArrow) {
+      if(key == this.keys.prev) {
         this.currentCharacter = this.currentCharacter.prev;
       } else {
         this.currentCharacter = this.currentCharacter.next;
@@ -209,9 +202,9 @@ export default class CharacterSelectionScene extends CharacterSelectionBaseScene
 
   #setDefaultFrame(sprite, isIdle) {
     if (isIdle) {
-      sprite.setFrame(this.buttonFrame.get('idle'));
+      sprite.setFrame(this.customAnim.button.get('idle'));
     } else {
-      sprite.setFrame(this.buttonFrame.get('clicked'));
+      sprite.setFrame(this.customAnim.button.get('clicked'));
     }
   }
 

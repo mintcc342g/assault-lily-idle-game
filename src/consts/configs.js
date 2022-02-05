@@ -40,7 +40,7 @@ export const DEFAULT_BUTTON_ANIM = new Map([
 
 
 // Tile JSON
-export const BACKGROUND_TILESET_KEY = 'background_tiles';
+export const BACKGROUND_TILESET_NAME = 'background_tiles';
 
 const MARIA_HILL_LAYER_GROUND = 'ground_unwalkable';
 const MARIA_HILL_LAYER_ROAD = 'road_walkable';

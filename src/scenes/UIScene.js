@@ -7,7 +7,6 @@ import { BaseScene } from './BaseScene.js';
 export default class UIScene extends BaseScene {
   constructor() {
     super(configs.SCENE_UI)
-    this.name = configs.SCENE_UI;
     this.menuOptionTextSuffix = '_text';
     this.logoPrefix = 'logo_';
     this.keys = {
@@ -17,8 +16,7 @@ export default class UIScene extends BaseScene {
       close: imgKeys.CLOSE_BUTTON_KEY,
       logoLine: imgKeys.LOGO_LINE_KEY,
       logo: '',
-      buttonFrame: configs.DEFAULT_BUTTON_ANIM,
-      toDoListLimit: 8,
+      toDoListLimit: 8
     },
     this.css = {
       menuButton: { x: 565,  y: 30 },
@@ -26,16 +24,15 @@ export default class UIScene extends BaseScene {
       logoLine: { x: 102, y: 214 },
       logo: { x: 121, y: 236 },
       motto: { x: 89, y: 460, w: 210, h: 130, padding: 3 },
-      menuOptions: { x: 340, y: 220, yPlus: 62 , w: 198, h: 40, padding: { left: 50, top: 3 } },
+      menuOptions: { x: 340, y: 220, yPlus: 62, w: 198, h: 40, padding: { left: 40, top: 3 } },
       closeButton: { x: 535, y: 165 },
-      toDoList: { x: 120, y: 210, xPlus: 250 , yPlus: 95,  w: 170, h: 80, padding: 4 },
+      toDoList: { x: 120, y: 210, xPlus: 250, yPlus: 95,  w: 170, h: 80, padding: 4 },
     };
     this.textMaxLength = new Map([
       [configs.LANG_KR, 27],
       [configs.LANG_EN, 42],
       [configs.LANG_JP, 27]
     ]);
-    this.lang = '';
     this.currentSceneName = '';
     this.academy = '';
     this.menuGroup = new Map();
@@ -51,6 +48,7 @@ export default class UIScene extends BaseScene {
     this.lang = data.lang;
     this.currentSceneName = data.sceneName;
     this.academy = data.academy;
+    this.logo = this.logoPrefix + this.academy;
   }
   
   create() {
@@ -147,16 +145,15 @@ export default class UIScene extends BaseScene {
       .setOrigin(0, 0);
       this.menuGroup.set(this.keys.logoLine, logoLine);
       
-    const logoKey = this.logoPrefix + this.academy;
     const logo = this.add.sprite(
         this.css.logo.x,
         this.css.logo.y,
-        logoKey)
+        this.logo)
       .setDepth(configs.LAYER_POPUP_OBJECT_CONTENTS)
       .setVisible(false)
       .disableInteractive()
       .setOrigin(0, 0);
-    this.menuGroup.set(logoKey, logo);
+    this.menuGroup.set(this.logo, logo);
   }
 
   #initLogoTextBox() {
@@ -218,7 +215,7 @@ export default class UIScene extends BaseScene {
           fixedWidth: this.css.menuOptions.w,
           fixedHeight: this.css.menuOptions.h,
           color: css.DEFAULT_MENU_COLOR,
-          fontSize: '20px',
+          fontSize: '18px',
           align: 'left',
         },
         padding: {
@@ -414,9 +411,9 @@ export default class UIScene extends BaseScene {
 
   #setDefaultFrame(sprite, isIdle) {
     if (isIdle) {
-      sprite.setFrame(this.keys.buttonFrame.get('idle'));
+      sprite.setFrame(this.customAnim.button.get('idle'));
     } else {
-      sprite.setFrame(this.keys.buttonFrame.get('clicked'));
+      sprite.setFrame(this.customAnim.button.get('clicked'));
     }
   }
 
