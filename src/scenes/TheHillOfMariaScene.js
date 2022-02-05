@@ -33,51 +33,16 @@ export default class TheHillOfMariaScene extends GamePlayBaseScene {
   create() {
     this.initResponsiveScreen();
 
-    const tileMap = this.createTileMap();
-    this.#initCharacters();
-    this.#initGridEngine(tileMap);
+    this.initCharacters();
     this.#initEventEmitter();
+
+    const tileMap = this.createTileMap();
+    this.initGridEngine(tileMap);
+    this.#initPositionChangeSubscriber(tileMap);
     
     // start scene
-    this.cameras.main.fadeIn(1000,
-      css.DEFAULT_BACKGROUND_COLOR_RED,
-      css.DEFAULT_BACKGROUND_COLOR_GREEN,
-      css.DEFAULT_BACKGROUND_COLOR_BLUE
-    );
+    this.fadeIn(1000);
     this.gridEngine.moveTo(imgKeys.CHARACTER_RAIMU_ID, { x: 1, y: 5 });
-  }
-
-  #initCharacters() {
-    for(let key of this.characters.keys()) {
-      this.characters.set(key, this.add.sprite(0, 0, key).setOrigin(0, 0));
-      this.createCharacterAnimation(key, configs.CHARACTER_ANIM_KEYS, configs.DEFAULT_FRAME_DURATION, -1);
-    }
-  }
-  
-  #initGridEngine(tileMap) {
-    const charactersConfig = [];
-    
-    this.characters.forEach((val, key) => {
-      charactersConfig.push({
-        id: key,
-        sprite: val,
-        startPosition: {
-          x: this.position.mainCharacter.startX,
-          y: this.position.mainCharacter.startY
-        },
-        speed: this.position.mainCharacter.speed,
-      });
-    });
-    this.initGridEngine(tileMap, charactersConfig);
-
-    this.#initMovementSubscriber();
-    this.#initPositionChangeSubscriber(tileMap);
-  }
-
-  #initMovementSubscriber() {
-    this.characters.forEach((val) => {
-      this.subscribeCharacterMovements(val, 'walking', 'down');
-    });
   }
 
   #initEventEmitter() {
@@ -88,7 +53,7 @@ export default class TheHillOfMariaScene extends GamePlayBaseScene {
     this.gridEngine
     .positionChangeFinished()
     .subscribe(({ charId, exitTile, enterTile }) => {
-      if (this.#isGameStartTrigger(tileMap, enterTile)) {
+      if (this.#sceneStart(tileMap, enterTile)) {
         this.scene.launch(configs.SCENE_UI,
           {
             lang: this.lang,
@@ -101,7 +66,7 @@ export default class TheHillOfMariaScene extends GamePlayBaseScene {
     });
   }
 
-  #isGameStartTrigger(tileMap, position) {
+  #sceneStart(tileMap, position) {
     return tileMap.layers.some((layer) => {
       const tile = tileMap.getTileAt(position.x, position.y, false, layer.name);
       return tile?.properties?.speechBubbleTrigger;

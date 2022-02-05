@@ -1,10 +1,9 @@
 import * as configs from '../consts/configs.js';
-import * as css from '../consts/css.js';
 import * as gameData from '../consts/gameData.js';
 import * as imgKeys from '../consts/imgKeys.js';
-import { BaseScene } from './BaseScene.js';
+import { UIBaseScene } from './BaseScene.js';
 
-export default class MainScene extends BaseScene {
+export default class MainScene extends UIBaseScene {
   constructor() {
     super(configs.SCENE_MAIN);
     this.keys = {
@@ -33,11 +32,7 @@ export default class MainScene extends BaseScene {
 
   create() {
     this.initResponsiveScreen();
-    this.cameras.main.fadeIn(1000,
-      css.DEFAULT_BACKGROUND_COLOR_RED,
-      css.DEFAULT_BACKGROUND_COLOR_GREEN,
-      css.DEFAULT_BACKGROUND_COLOR_BLUE
-    );
+    this.fadeIn(1000);
     
     this.#initBackground();
     this.#initInfoText();
@@ -86,7 +81,7 @@ export default class MainScene extends BaseScene {
       padding: {
         y: 4
       }
-    }
+    };
 
     // TODO: fix a delay problem when use gameData.NOTICE.forEach(() => {})
 
@@ -107,14 +102,14 @@ export default class MainScene extends BaseScene {
 
     startButton
       .on('pointerdown', () => {
-        this.#setDefaultFrame(startButton, false);
+        this.clickAnim(startButton, false);
       })
       .on('pointerout', () => {
-        this.#setDefaultFrame(startButton, true);
+        this.clickAnim(startButton, true);
       })
       .on('pointerup', () => {
         startButton.disableInteractive();
-        this.#setDefaultFrame(startButton, true);
+        this.clickAnim(startButton, true);
         this.#startGame();
       });
   }
@@ -130,7 +125,7 @@ export default class MainScene extends BaseScene {
       x += this.position.lang.plus;
     }
 
-    this.#setDefaultFrame(this.langButtons.get(this.keys.kr).get('button'), false);
+    this.clickAnim(this.langButtons.get(this.keys.kr).get('button'), false);
   }
 
   #createButton(buttonKey, x, y) {
@@ -141,17 +136,16 @@ export default class MainScene extends BaseScene {
   }
 
   #setButtonInteraction(button) {
-    return button
-      .on('pointerup', () => { this.#selectLanguage(button) });
+    return button.on('pointerup', () => { this.#selectLanguage(button) });
   }
 
   #selectLanguage(selectedButton) {
     this.langButtons.forEach(item => {
       if (selectedButton.texture.key == item.get('button').texture.key) {
-        this.#setDefaultFrame(item.get('button'), false);
+        this.clickAnim(item.get('button'), false);
         this.lang = item.get('lang');
       } else {
-        this.#setDefaultFrame(item.get('button'), true);
+        this.clickAnim(item.get('button'), true);
       }
     });
   }
@@ -161,24 +155,12 @@ export default class MainScene extends BaseScene {
       item.get('button').disableInteractive();
     });
 
-    this.cameras.main.fadeOut(1000,
-      css.DEFAULT_BACKGROUND_COLOR_RED,
-      css.DEFAULT_BACKGROUND_COLOR_GREEN,
-      css.DEFAULT_BACKGROUND_COLOR_BLUE
-    );
+    this.fadeOut(1000);
 
     this.cameras.main.once('camerafadeoutcomplete', (cam, effect) => {
       this.time.delayedCall(1000, () => {
         this.scene.start(configs.SCENE_CHARACTER_SELECTION, { lang: this.lang });
       });
     });
-  }
-  
-  #setDefaultFrame(sprite, isIdle) {
-    if (isIdle) {
-      sprite.setFrame(this.customAnim.button.get('idle'));
-    } else {
-      sprite.setFrame(this.customAnim.button.get('clicked'));
-    }
   }
 }
