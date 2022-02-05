@@ -5,9 +5,28 @@ export const CameraMixin = superclass => class extends superclass {
   initResponsiveScreen() {
     this.rexScaleOuter.add(this.cameras.main);
   }
+
+  fadeIn(delay) {
+    this.cameras.main.fadeIn(delay,
+      css.DEFAULT_BACKGROUND_COLOR_RED,
+      css.DEFAULT_BACKGROUND_COLOR_GREEN,
+      css.DEFAULT_BACKGROUND_COLOR_BLUE
+    );
+  }
+
+  fadeOut(delay) {
+    this.cameras.main.fadeOut(delay,
+      css.DEFAULT_BACKGROUND_COLOR_RED,
+      css.DEFAULT_BACKGROUND_COLOR_GREEN,
+      css.DEFAULT_BACKGROUND_COLOR_BLUE
+    );
+  }
 }
 
 export const GraphicMixin = superclass => class extends superclass {
+
+  /// Phaser 3
+
   createTileMap() {
     const tileMap = this.make.tilemap({ key: this.keys.tileset.config });
     const tileset = tileMap.addTilesetImage(this.keys.tileset.name, this.keys.tileset.img);
@@ -18,6 +37,13 @@ export const GraphicMixin = superclass => class extends superclass {
     }
   
     return tileMap
+  }
+
+  initCharacters() {
+    for(let key of this.characters.keys()) {
+      this.characters.set(key, this.add.sprite(0, 0, key).setOrigin(0, 0));
+      this.createCharacterAnimation(key, configs.CHARACTER_ANIM_KEYS, configs.DEFAULT_FRAME_DURATION, -1);
+    }
   }
 
   createCharacterAnimation(characterID, keys, dutaion, repeat) {
@@ -48,12 +74,41 @@ export const GraphicMixin = superclass => class extends superclass {
     }
   }
 
-  initGridEngine(tileMap, characters) {
+  /// Grid Engine
+
+  initGridEngine(tileMap) {
+    const charactersConfig = this.#createCharacterConfig();
     const gridEngineConfig = {
-      characters: characters,
+      characters: charactersConfig,
       numberOfDirections: configs.GRID_ENGINE_MOVEMENT_DIRECTION,
     };
+
     this.gridEngine.create(tileMap, gridEngineConfig);
+    this.#subscribeDefaultMovement();
+  }
+
+  #createCharacterConfig() {
+    const charactersConfig = [];
+
+    this.characters.forEach((val, key) => {
+      charactersConfig.push({
+        id: key,
+        sprite: val,
+        startPosition: {
+          x: this.position.mainCharacter.startX,
+          y: this.position.mainCharacter.startY
+        },
+        speed: this.position.mainCharacter.speed,
+      });
+    });
+
+    return charactersConfig
+  }
+
+  #subscribeDefaultMovement() {
+    this.characters.forEach((val) => {
+      this.subscribeCharacterMovements(val, 'walking', 'down'); // 추가 'sleep'
+    });
   }
 
   subscribeCharacterMovements(character, movingMotion, stopMotion) {
@@ -63,15 +118,15 @@ export const GraphicMixin = superclass => class extends superclass {
     
     this.gridEngine.movementStopped().subscribe(({ direction }) => {
       character.anims.stop();
-      character.setFrame(this.getStopFrame(stopMotion));
+      character.setFrame(this.getIdleStopFrame(stopMotion));
     });
     
     this.gridEngine.directionChanged().subscribe(({ direction }) => {
-      character.setFrame(this.getStopFrame(direction));
+      character.setFrame(this.getIdleStopFrame(direction));
     });
   }
 
-  getStopFrame(direction) {
+  getIdleStopFrame(direction) {
     return `idle_${direction}_01.png`;
   }  
 };
@@ -127,5 +182,15 @@ export const TextBoxMixin = superclass => class extends superclass {
       // })
   
     return textBox;
+  }
+}
+
+export const AnimMixin = superclass => class extends superclass {
+  clickAnim(sprite, isIdle) {
+    if (isIdle) {
+      sprite.setFrame(this.customAnim.button.get('idle'));
+    } else {
+      sprite.setFrame(this.customAnim.button.get('clicked'));
+    }
   }
 }

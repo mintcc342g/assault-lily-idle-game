@@ -38,11 +38,7 @@ export default class CharacterSelectionScene extends CharacterSelectionBaseScene
 
 	create() {
     this.initResponsiveScreen();
-		this.cameras.main.fadeIn(1000,
-      css.DEFAULT_BACKGROUND_COLOR_RED,
-      css.DEFAULT_BACKGROUND_COLOR_GREEN,
-      css.DEFAULT_BACKGROUND_COLOR_BLUE
-    );
+		this.fadeIn(1000);
 
 		this.#initBackground();
 		this.#initCharacterSlot();
@@ -63,24 +59,25 @@ export default class CharacterSelectionScene extends CharacterSelectionBaseScene
 	}
 
 	#initCharacterSlot() {
-    this.add.sprite(this.position.slot.x, this.position.slot.y, this.keys.slot)
-      .setDepth(configs.LAYER_ABOVE_BACKGROUND)
-      .setOrigin(0, 0);
+    this.#createSprite(this.position.slot.x, this.position.slot.y, this.keys.slot);
 
 		const characterSlot = new CharacterSlot();
-		gameData.CHARACTER_DATA.forEach((val, key) => {
-      let sprite = this.add.sprite(this.position.character.x, this.position.character.y, key)
-        .setOrigin(0, 0)
-        .setDepth(configs.LAYER_ABOVE_BACKGROUND)
-        .setVisible(false);
-      characterSlot.addCharacter({ sprite: sprite, info: val });
+
+    gameData.CHARACTER_DATA.forEach((val, key) => {
+      let sprite = this.#createSprite(
+          this.position.character.x,
+          this.position.character.y,
+          key
+        ).setVisible(false);
+
+        characterSlot.addCharacter({ sprite: sprite, info: val });
     });
 
 		this.currentCharacter = characterSlot.firstCharacter();
     this.currentTextBox = this.#initTextBox();
 
-    this.#showCharacter(true);
-    this.#showBackground(true);
+    this.#changeCharacter(true);
+
 		setTimeout(() => { this.#playTextBox(); }, 1000);
 	}
 
@@ -132,36 +129,25 @@ export default class CharacterSelectionScene extends CharacterSelectionBaseScene
     let y = this.position.arrows.y;
     const arrows = [];
     const arrowKeys = [this.keys.prev, this.keys.next];
-    const setCurrentCharacter = (key)=>{
-      if(key == this.keys.prev) {
-        this.currentCharacter = this.currentCharacter.prev;
-      } else {
-        this.currentCharacter = this.currentCharacter.next;
-      }
-    };
 
     for (let i = 0; i < arrowKeys.length; i++) {
-      let arrow = this.add.sprite(x, y, arrowKeys[i])
-        .setDepth(configs.LAYER_ABOVE_BACKGROUND)
-        .setInteractive()
-        .setOrigin(0, 0);
+      let arrow = this.#createSprite(x, y, arrowKeys[i]);
 
       arrow
+        .setInteractive()
         .on('pointerover', () => {
-          this.#setDefaultFrame(arrow, false);
+          this.clickAnim(arrow, false);
         })
         .on('pointerout', () => {
-          this.#setDefaultFrame(arrow, true);
+          this.clickAnim(arrow, true);
         })
         .on('pointerup', () => {
-          this.#showCharacter(false);
-          this.#showBackground(false);
+          this.#changeCharacter(false);
           this.currentTextBox.destroy();
 
-          setCurrentCharacter(arrowKeys[i]);
+          this.#setCurrentCharacter(arrowKeys[i]);
           this.currentTextBox = this.#initTextBox();
-          this.#showBackground(true);
-          this.#showCharacter(true);
+          this.#changeCharacter(true);
           this.#playTextBox();
         });
 
@@ -176,53 +162,42 @@ export default class CharacterSelectionScene extends CharacterSelectionBaseScene
       repeat: -1,
       yoyo: true,
     });
+
     this.uiGroup.push(...arrows);
 	}
 
 	#initBackButton() {
-		const button = this.add.sprite(this.position.back.x, this.position.back.y, this.keys.back)
-			.setDepth(configs.LAYER_ABOVE_BACKGROUND)
-			.setInteractive()
-			.setOrigin(0, 0);
+		const button = this.#createSprite(this.position.back.x, this.position.back.y, this.keys.back);
 		
 		button
+      .setInteractive()
 			.on('pointerdown', () => {
-        this.#setDefaultFrame(button, false);
+        this.clickAnim(button, false);
 			})
       .on('pointerout', () => {
-        this.#setDefaultFrame(button, true);
+        this.clickAnim(button, true);
       })
       .on('pointerup', () => {
-        this.#setDefaultFrame(button, true);
+        this.clickAnim(button, true);
         this.#goToNext(configs.SCENE_MAIN);
       });
     
     this.uiGroup.push(button);
 	}
 
-  #setDefaultFrame(sprite, isIdle) {
-    if (isIdle) {
-      sprite.setFrame(this.customAnim.button.get('idle'));
-    } else {
-      sprite.setFrame(this.customAnim.button.get('clicked'));
-    }
-  }
-
 	#initPlayButton() {
-		const button = this.add.sprite(this.position.play.x, this.position.play.y, this.keys.play)
-			.setDepth(configs.LAYER_ABOVE_BACKGROUND)
-			.setInteractive()
-			.setOrigin(0, 0);
+		const button =  this.#createSprite(this.position.play.x, this.position.play.y, this.keys.play);
 		
 		button
+      .setInteractive()
 			.on('pointerdown', () => {
-        this.#setDefaultFrame(button, false);
+        this.clickAnim(button, false);
 			})
       .on('pointerout', () => {
-        this.#setDefaultFrame(button, true);
+        this.clickAnim(button, true);
       })
       .on('pointerup', () => {
-        this.#setDefaultFrame(button, true);
+        this.clickAnim(button, true);
         this.#goToNext(
           this.currentCharacter.data.info.get('scene'),
           { lang: this.lang, mainCharacter: this.currentCharacter.data.info }
@@ -232,28 +207,38 @@ export default class CharacterSelectionScene extends CharacterSelectionBaseScene
     this.uiGroup.push(button);
 	}
 
-  #showCharacter(visible) {
-    this.currentCharacter.data.sprite.setVisible(visible);
+  #setCurrentCharacter(key) {
+    if(key == this.keys.prev) {
+      this.currentCharacter = this.currentCharacter.prev;
+    } else {
+      this.currentCharacter = this.currentCharacter.next;
+    }
   }
 
-  #showBackground(visible) {
+  #createSprite(x, y, key) {
+    return this.add.sprite(x, y, key)
+      .setDepth(configs.LAYER_ABOVE_BACKGROUND)
+      .setOrigin(0, 0);
+  }
+
+  #changeCharacter(visible) {
+    this.currentCharacter.data.sprite.setVisible(visible);
     this.backgrounds.get(this.currentCharacter.data.info.get('academy')).setVisible(visible);
   }
-
-  #playTextBox() {
-    this.currentTextBox
-      .setVisible(true)
-      .start(this.currentCharacter.data.info.get('intro').get(this.lang), 50)
+  
+  #diableAllInteractions() {
+    this.uiGroup.forEach((ui) => {
+      ui.disableInteractive();
+    });
+    this.currentTextBox.disableInteractive();
+    this.currentTextBox.pause();
   }
 
   #goToNext(nextSceneName, data) {
     this.#diableAllInteractions();
 
-    this.cameras.main.fadeOut(1000,
-      css.DEFAULT_BACKGROUND_COLOR_RED,
-      css.DEFAULT_BACKGROUND_COLOR_GREEN,
-      css.DEFAULT_BACKGROUND_COLOR_BLUE
-    );
+    this.fadeOut(1000);
+
     this.cameras.main.once('camerafadeoutcomplete', (cam, effect) => {					
       this.time.delayedCall(1000, () => {
         this.scene.start(nextSceneName, data);
@@ -261,11 +246,9 @@ export default class CharacterSelectionScene extends CharacterSelectionBaseScene
     });
   }
 
-  #diableAllInteractions() {
-    this.uiGroup.forEach((ui) => {
-      ui.disableInteractive();
-    });
-    this.currentTextBox.disableInteractive();
-    this.currentTextBox.pause();
+  #playTextBox() {
+    this.currentTextBox
+      .setVisible(true)
+      .start(this.currentCharacter.data.info.get('intro').get(this.lang), 50);
   }
 }

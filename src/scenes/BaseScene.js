@@ -1,9 +1,9 @@
 import Phaser from 'phaser';
 import compose from 'lodash/fp/compose';
 import * as configs from '../consts/configs.js';
-import { CameraMixin, GraphicMixin, TextBoxMixin } from '../components/SceneMixin.js';
+import * as mixin from '../components/SceneMixin.js';
 
-class BaseScene extends CameraMixin(Phaser.Scene) {
+class BaseScene extends mixin.CameraMixin(Phaser.Scene) {
   constructor(name) {
     super(name);
     this.name = name;
@@ -14,8 +14,10 @@ class BaseScene extends CameraMixin(Phaser.Scene) {
   }
 }
 
-const CharacterSelectionBaseScene = TextBoxMixin(BaseScene);
+const UIBaseScene = mixin.AnimMixin(BaseScene);
 
-const GamePlayBaseScene = compose(GraphicMixin, TextBoxMixin)(BaseScene);
+const CharacterSelectionBaseScene = compose(mixin.TextBoxMixin, mixin.AnimMixin)(BaseScene);
 
-export { BaseScene, CharacterSelectionBaseScene, GamePlayBaseScene };
+const GamePlayBaseScene = compose(mixin.GraphicMixin, mixin.TextBoxMixin)(BaseScene);
+
+export { BaseScene, CharacterSelectionBaseScene, GamePlayBaseScene, UIBaseScene };

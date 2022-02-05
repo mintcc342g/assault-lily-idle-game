@@ -2,9 +2,9 @@ import * as configs from '../consts/configs.js';
 import * as css from '../consts/css.js';
 import * as gameData from '../consts/gameData.js';
 import * as imgKeys from '../consts/imgKeys.js';
-import { BaseScene } from './BaseScene.js';
+import { UIBaseScene } from './BaseScene.js';
 
-export default class UIScene extends BaseScene {
+export default class UIScene extends UIBaseScene {
   constructor() {
     super(configs.SCENE_UI)
     this.menuOptionTextSuffix = '_text';
@@ -48,7 +48,7 @@ export default class UIScene extends BaseScene {
     this.lang = data.lang;
     this.currentSceneName = data.sceneName;
     this.academy = data.academy;
-    this.logo = this.logoPrefix + this.academy;
+    this.keys.logo = this.logoPrefix + this.academy;
   }
   
   create() {
@@ -74,13 +74,13 @@ export default class UIScene extends BaseScene {
 
     this.menuButton
       .on('pointerout', () => {
-        this.#setDefaultFrame(this.menuButton, true);
+        this.clickAnim(this.menuButton, true);
       })
       .on('pointerdown', () => {
-        this.#setDefaultFrame(this.menuButton, false);
+        this.clickAnim(this.menuButton, false);
       })
       .on('pointerup', () => {
-        this.#setDefaultFrame(this.menuButton, true);
+        this.clickAnim(this.menuButton, true);
         this.#activeMenuButton(false);
         this.#openMenu();
       });
@@ -115,13 +115,13 @@ export default class UIScene extends BaseScene {
     
     this.closeButton
       .on('pointerout', () => {
-        this.#setDefaultFrame(this.closeButton, true);
+        this.clickAnim(this.closeButton, true);
       })
       .on('pointerdown', () => {
-        this.#setDefaultFrame(this.closeButton, false);
+        this.clickAnim(this.closeButton, false);
       })
       .on('pointerup', () => {
-        this.#setDefaultFrame(this.closeButton, true);
+        this.clickAnim(this.closeButton, true);
         this.#closeHandBook();
         this.#activeMenuButton(true);
         this.scene.resume(this.currentSceneName);
@@ -135,25 +135,26 @@ export default class UIScene extends BaseScene {
 
   #initLogo() {
     const logoLine =  this.add.sprite(
-      this.css.logoLine.x,
-      this.css.logoLine.y,
-      this.keys.logoLine
+        this.css.logoLine.x,
+        this.css.logoLine.y,
+        this.keys.logoLine
       )
       .setDepth(configs.LAYER_POPUP_OBJECT_CONTENTS)
       .setVisible(false)
       .disableInteractive()
       .setOrigin(0, 0);
-      this.menuGroup.set(this.keys.logoLine, logoLine);
-      
     const logo = this.add.sprite(
         this.css.logo.x,
         this.css.logo.y,
-        this.logo)
+        this.keys.logo
+      )
       .setDepth(configs.LAYER_POPUP_OBJECT_CONTENTS)
       .setVisible(false)
       .disableInteractive()
       .setOrigin(0, 0);
-    this.menuGroup.set(this.logo, logo);
+
+    this.menuGroup.set(this.keys.logoLine, logoLine);
+    this.menuGroup.set(this.keys.logo, logo);
   }
 
   #initLogoTextBox() {
@@ -175,7 +176,7 @@ export default class UIScene extends BaseScene {
         },
       },
       padding: {
-        y: this.css.motto.padding,
+        y: this.css.motto.padding
       }
     };
       
@@ -216,11 +217,11 @@ export default class UIScene extends BaseScene {
           fixedHeight: this.css.menuOptions.h,
           color: css.DEFAULT_MENU_COLOR,
           fontSize: '18px',
-          align: 'left',
+          align: 'left'
         },
         padding: {
           left: this.css.menuOptions.padding.left,
-          top: this.css.menuOptions.padding.top,
+          top: this.css.menuOptions.padding.top
         }
       })
       .setDepth(configs.LAYER_POPUP_OBJECT_CONTENTS)
@@ -242,15 +243,15 @@ export default class UIScene extends BaseScene {
     text
       .on('pointerout', () => {
         this.#setDefaultTextColor(text, true);
-        this.#setDefaultFrame(button, true);
+        this.clickAnim(button, true);
       })
       .on('pointerdown', () => {
         this.#setDefaultTextColor(text, false);
-        this.#setDefaultFrame(button, false);
+        this.clickAnim(button, false);
       })
       .on('pointerup', () => {
         this.#setDefaultTextColor(text, true);
-        this.#setDefaultFrame(button, true);
+        this.clickAnim(button, true);
         this.#openHandBook();
       });
   }
@@ -299,15 +300,15 @@ export default class UIScene extends BaseScene {
     text
       .on('pointerout', () => {
         this.#setDefaultTextColor(text, true);
-        this.#setDefaultFrame(button, true);
+        this.clickAnim(button, true);
       })
       .on('pointerdown', () => {
         this.#setDefaultTextColor(text, false);
-        this.#setDefaultFrame(button, false);
+        this.clickAnim(button, false);
       })
       .on('pointerup', () => {
         this.#setDefaultTextColor(text, true);
-        this.#setDefaultFrame(button, true);
+        this.clickAnim(button, true);
         this.#goToNext(configs.SCENE_CHARACTER_SELECTION);
       });
   }
@@ -320,15 +321,15 @@ export default class UIScene extends BaseScene {
     text
       .on('pointerout', () => {
         this.#setDefaultTextColor(text, true);
-        this.#setDefaultFrame(button, true);
+        this.clickAnim(button, true);
       })
       .on('pointerdown', () => {
         this.#setDefaultTextColor(text, false);
-        this.#setDefaultFrame(button, false);
+        this.clickAnim(button, false);
       })
       .on('pointerup', () => {
         this.#setDefaultTextColor(text, true);
-        this.#setDefaultFrame(button, true);
+        this.clickAnim(button, true);
         this.#goToNext(configs.SCENE_MAIN);
       });
   }
@@ -341,15 +342,15 @@ export default class UIScene extends BaseScene {
     text
       .on('pointerout', () => {
         this.#setDefaultTextColor(text, true);
-        this.#setDefaultFrame(button, true);
+        this.clickAnim(button, true);
       })
       .on('pointerdown', () => {
         this.#setDefaultTextColor(text, false);
-        this.#setDefaultFrame(button, false);
+        this.clickAnim(button, false);
       })
       .on('pointerup', () => {
         this.#setDefaultTextColor(text, true);
-        this.#setDefaultFrame(button, true);
+        this.clickAnim(button, true);
         this.#closeHandBook();
         this.#activeMenuButton(true);
         this.scene.resume(this.currentSceneName);
@@ -409,14 +410,6 @@ export default class UIScene extends BaseScene {
     this.menuButton.setVisible(isActive);
   }
 
-  #setDefaultFrame(sprite, isIdle) {
-    if (isIdle) {
-      sprite.setFrame(this.customAnim.button.get('idle'));
-    } else {
-      sprite.setFrame(this.customAnim.button.get('clicked'));
-    }
-  }
-
   #setDefaultTextColor(textObj, isIdle) {
     if (isIdle) {
       textObj.setColor(css.DEFAULT_MENU_COLOR);
@@ -458,11 +451,8 @@ export default class UIScene extends BaseScene {
   #goToNext(nextSceneName) {
     this.#closeHandBook();
     
-    this.cameras.main.fadeOut(1000,
-      css.DEFAULT_BACKGROUND_COLOR_RED,
-      css.DEFAULT_BACKGROUND_COLOR_GREEN,
-      css.DEFAULT_BACKGROUND_COLOR_BLUE
-    );
+    this.fadeOut(1000);
+
     this.cameras.main.once('camerafadeoutcomplete', (cam, effect) => {
       this.scene.stop(this.currentSceneName);
       this.time.delayedCall(1000, () => {
