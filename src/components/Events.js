@@ -4,7 +4,6 @@ import * as gameData from '../consts/gameData.js';
 import * as imgKeys from '../consts/imgKeys.js';
 import * as css from '../consts/css.js';
 import * as configs from '../consts/configs.js';
-import { createTextBox } from './TextBox.js';
 
 const { EventEmitter } = require('events');
 
@@ -79,7 +78,7 @@ export default class MariaHillEventEmitter extends EventEmitter {
     }, 2000);
   }
 
-  #createTextBox(scene, text) {
+  #initTextBox(scene, text) {
     const action = scene.add.image(
       this.css.action.x,
       this.css.action.y,
@@ -89,7 +88,7 @@ export default class MariaHillEventEmitter extends EventEmitter {
     .setOrigin(0, 0)
     .setVisible(false);
   
-    const textbox = createTextBox(scene, this.css.box, action).start(text, this.css.popUp.speed);
+    const textbox = scene.createTextBox(this.css.box, action).start(text, this.css.popUp.speed);
 
     textbox
       .on('pointerdown', function () {
@@ -110,7 +109,7 @@ export default class MariaHillEventEmitter extends EventEmitter {
     const texts = scene.mainCharacter.get('random_texts').get(scene.lang);
     const randNum = utils.rand(0, texts.length-1);
 
-    this.#createTextBox(scene, texts[randNum]);
+    this.#initTextBox(scene, texts[randNum]);
   }
 
   eventToDoTextBox(scene) {
@@ -124,6 +123,6 @@ export default class MariaHillEventEmitter extends EventEmitter {
         toDoContent += textObj.text?`▶ ${textObj.text}\n`:'';
     });
 
-    this.#createTextBox(scene, toDoContent);
+    this.#initTextBox(scene, toDoContent);
   }
 }

@@ -1,11 +1,10 @@
-import Phaser from 'phaser';
-import MariaHillEventEmitter from '../components/Events.js';
-import * as sceneHelpers from '../utils/sceneHelpers.js';
 import * as configs from '../consts/configs.js';
 import * as css from '../consts/css.js';
 import * as imgKeys from '../consts/imgKeys.js';
+import MariaHillEventEmitter from '../components/Events.js';
+import { GamePlayBaseScene } from './BaseScene.js';
 
-export default class TheHillOfMariaScene extends Phaser.Scene {
+export default class TheHillOfMariaScene extends GamePlayBaseScene {
   constructor() {
     super(configs.SCENE_THE_HILL_OF_MARIA);
     this.name = configs.SCENE_THE_HILL_OF_MARIA;
@@ -39,9 +38,9 @@ export default class TheHillOfMariaScene extends Phaser.Scene {
   }
 
   create() {
-    sceneHelpers.setResponsiveScreen(this);
+    this.initResponsiveScreen();
 
-    const tileMap = sceneHelpers.createTileMap(this);
+    const tileMap = this.createTileMap();
     this.#initCharacters();
     this.#initGridEngine(tileMap);
     this.#initEventEmitter();
@@ -58,7 +57,7 @@ export default class TheHillOfMariaScene extends Phaser.Scene {
   #initCharacters() {
     for(let key of this.characters.keys()) {
       this.characters.set(key, this.add.sprite(0, 0, key).setOrigin(0, 0));
-      sceneHelpers.createCharacterAnimation(this, key, configs.CHARACTER_ANIM_KEYS, configs.DEFAULT_FRAME_DURATION, -1);
+      this.createCharacterAnimation(key, configs.CHARACTER_ANIM_KEYS, configs.DEFAULT_FRAME_DURATION, -1);
     }
   }
   
@@ -76,7 +75,7 @@ export default class TheHillOfMariaScene extends Phaser.Scene {
         speed: this.position.mainCharacter.speed,
       });
     });
-    sceneHelpers.initGridEngine(this, tileMap, charactersConfig);
+    this.initGridEngine(tileMap, charactersConfig);
 
     this.#initMovementSubscriber();
     this.#initPositionChangeSubscriber(tileMap);
@@ -84,7 +83,7 @@ export default class TheHillOfMariaScene extends Phaser.Scene {
 
   #initMovementSubscriber() {
     this.characters.forEach((val) => {
-      sceneHelpers.subscribeCharacterMovements(this, val, 'walking', 'down');
+      this.subscribeCharacterMovements(val, 'walking', 'down');
     });
   }
 

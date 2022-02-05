@@ -1,5 +1,3 @@
-import Parser from 'phaser';
-
 // main scene imgs
 import MainImg from '../assets/ui/main.png';
 import StartButtonImg from '../assets/ui/start_button.png';
@@ -37,9 +35,9 @@ import PlayerRaimuImg from '../assets/sprites/player-raimu.png';
 import * as configs from '../consts/configs.js';
 import * as gameData from '../consts/gameData.js';
 import * as imgKeys from '../consts/imgKeys.js';
-import * as sceneHelpers from '../utils/sceneHelpers.js';
+import { BaseScene } from './BaseScene.js';
 
-export default class BootScene extends Phaser.Scene {
+export default class BootScene extends BaseScene {
   constructor() {
     super(configs.SCENE_BOOT);
     this.name = configs.SCENE_BOOT;
@@ -55,7 +53,7 @@ export default class BootScene extends Phaser.Scene {
   }
 
   create() {
-    sceneHelpers.setResponsiveScreen(this);
+    this.initResponsiveScreen();
     this.scene.start(configs.SCENE_MAIN);
   }
 
