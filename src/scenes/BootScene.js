@@ -51,9 +51,9 @@ import GladeJSON from '../assets/maps/map_yurigaoka_glade.json';
 import * as configs from '../consts/configs.js';
 import * as gameData from '../consts/gameData.js';
 import * as imgKeys from '../consts/imgKeys.js';
-import { BaseScene } from './BaseScene.js';
+import { BaseSetting } from '../mixins/BaseSetting.js';
 
-export default class BootScene extends BaseScene {
+export default class BootScene extends BaseSetting {
   constructor() {
     super(configs.SCENE_BOOT);
   }

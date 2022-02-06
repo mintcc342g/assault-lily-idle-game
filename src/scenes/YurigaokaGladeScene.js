@@ -1,8 +1,8 @@
 import * as configs from '../consts/configs.js';
 import * as imgKeys from '../consts/imgKeys.js';
-import { GamePlayBaseScene } from './BaseScene.js';
+import { YurigaokaGladeSetting } from '../mixins/BaseSetting.js';
 
-export default class YurigaokaGladeScene extends GamePlayBaseScene {
+export default class YurigaokaGladeScene extends YurigaokaGladeSetting {
   constructor() {
     super(configs.SCENE_YURIGAOKA_GLADE);
     this.keys = {
@@ -40,7 +40,7 @@ export default class YurigaokaGladeScene extends GamePlayBaseScene {
     this.initResponsiveScreen();
 
     this.initCharacters();
-    // this.#initEventEmitter();
+    this.initEvent();
 
     const tileMap = this.createTileMap();
     this.initGridEngine(tileMap);
@@ -48,13 +48,11 @@ export default class YurigaokaGladeScene extends GamePlayBaseScene {
     this.#sceneStart();
   }
 
-  // #initEventEmitter() {
-  //   this.eventEmitter = new YurigaokaGladeEventEmitter();
-  // }
 
   #sceneStart() {
     this.fadeIn(1000);
-    this.characters.get(imgKeys.CHARACTER_MAI_ID).play('sleep');
+
+    this.characters.get(this.mainCharacter.get('id')).play('sleep');
 
     setTimeout(()=>{
       this.scene.launch(configs.SCENE_UI,
@@ -65,7 +63,7 @@ export default class YurigaokaGladeScene extends GamePlayBaseScene {
         }
       );
 
-      // this.eventEmitter.eventHandler(this, 0);
+      this.eventHandler(1000);
     }, 1000);
   }
 }

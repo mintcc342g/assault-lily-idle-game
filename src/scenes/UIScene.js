@@ -2,9 +2,9 @@ import * as configs from '../consts/configs.js';
 import * as css from '../consts/css.js';
 import * as gameData from '../consts/gameData.js';
 import * as imgKeys from '../consts/imgKeys.js';
-import { UIBaseScene } from './BaseScene.js';
+import { UISetting } from '../mixins/BaseSetting.js';
 
-export default class UIScene extends UIBaseScene {
+export default class UIScene extends UISetting {
   constructor() {
     super(configs.SCENE_UI)
     this.menuOptionTextSuffix = '_text';

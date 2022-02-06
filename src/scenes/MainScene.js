@@ -1,9 +1,9 @@
 import * as configs from '../consts/configs.js';
 import * as gameData from '../consts/gameData.js';
 import * as imgKeys from '../consts/imgKeys.js';
-import { UIBaseScene } from './BaseScene.js';
+import { UISetting } from '../mixins/BaseSetting.js';
 
-export default class MainScene extends UIBaseScene {
+export default class MainScene extends UISetting {
   constructor() {
     super(configs.SCENE_MAIN);
     this.keys = {
