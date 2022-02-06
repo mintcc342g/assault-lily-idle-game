@@ -1,7 +1,7 @@
 {
 	"textures": [
 		{
-			"image": "player-raimu.png",
+			"image": "character_mai.png",
 			"format": "RGBA8888",
 			"size": {
 				"w": 288,
@@ -425,6 +425,90 @@
 					"frame": {
 						"x": 216,
 						"y": 384,
+						"w": 72,
+						"h": 96
+					}
+				},
+				{
+					"filename": "sleep_01.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 72,
+						"h": 96
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 72,
+						"h": 96
+					},
+					"frame": {
+						"x": 0,
+						"y": 480,
+						"w": 72,
+						"h": 96
+					}
+				},
+				{
+					"filename": "sleep_02.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 72,
+						"h": 96
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 72,
+						"h": 96
+					},
+					"frame": {
+						"x": 72,
+						"y": 480,
+						"w": 72,
+						"h": 96
+					}
+				},
+				{
+					"filename": "sleep_03.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 72,
+						"h": 96
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 72,
+						"h": 96
+					},
+					"frame": {
+						"x": 144,
+						"y": 480,
+						"w": 72,
+						"h": 96
+					}
+				},
+				{
+					"filename": "sleep_04.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 72,
+						"h": 96
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 72,
+						"h": 96
+					},
+					"frame": {
+						"x": 216,
+						"y": 480,
 						"w": 72,
 						"h": 96
 					}

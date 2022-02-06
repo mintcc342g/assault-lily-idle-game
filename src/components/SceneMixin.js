@@ -41,37 +41,59 @@ export const GraphicMixin = superclass => class extends superclass {
 
   initCharacters() {
     for(let key of this.characters.keys()) {
-      this.characters.set(key, this.add.sprite(0, 0, key).setOrigin(0, 0));
-      this.createCharacterAnimation(key, configs.CHARACTER_ANIM_KEYS, configs.DEFAULT_FRAME_DURATION, -1);
+      let sprite = this.add.sprite(0, 0, key).setOrigin(0, 0);
+      this.characters.set(key, sprite);
+      this.createCharacterAnimation(key, configs.CHARACTER_ANIM_KEYS, configs.DEFAULT_ANIM_FRAME_DURATION, -1);
     }
   }
 
-  createCharacterAnimation(characterID, keys, dutaion, repeat) {
+  createCharacterAnimation(characterID, keys, duration, repeat) {
     for (const key of keys){
-      this.anims.create({
-        key: `${key}`,
-        frames: [
-          {
-            key: characterID,
-            frame: `${key}_01.png`
-          },
-          {
-            key: characterID,
-            frame: `${key}_02.png`
-          },
-          {
-            key: characterID,
-            frame: `${key}_03.png`
-          },
-          {
-            key: characterID,
-            frame: `${key}_04.png`
-          },
-        ],
-        duration: dutaion, // ms
-        repeat: repeat?repeat:-1
-      });
+      let config = this.#createDefaultAnimationConfig(characterID, key, duration, repeat);
+
+      if (key == configs.DEFAULT_ANIM_SLEEP_KEY) {
+        config.duration = configs.DEFAULT_SLEEP_ANIM_FRAME_DURATION;
+        config.repeatDuration = configs.DEFAULT_SLEEP_ANIM_REPEAT_DURATION;
+      }
+
+      this.anims.create(config);
     }
+
+    this.#setCleanUpEvent(keys);
+  }
+
+  #createDefaultAnimationConfig(characterID, key, duration, repeat) {
+    return {
+      key: `${key}`,
+      frames: [
+        {
+          key: characterID,
+          frame: `${key}_01.png`
+        },
+        {
+          key: characterID,
+          frame: `${key}_02.png`
+        },
+        {
+          key: characterID,
+          frame: `${key}_03.png`
+        },
+        {
+          key: characterID,
+          frame: `${key}_04.png`
+        },
+      ],
+      duration: duration, // ms
+      repeat: repeat?repeat:-1,
+    }
+  }
+
+  #setCleanUpEvent(keys) {
+    this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
+      for (let key of keys) {
+        this.anims.remove(key);
+      }
+    });
   }
 
   /// Grid Engine
@@ -107,7 +129,7 @@ export const GraphicMixin = superclass => class extends superclass {
 
   #subscribeDefaultMovement() {
     this.characters.forEach((val) => {
-      this.subscribeCharacterMovements(val, 'walking', 'down'); // 추가 'sleep'
+      this.subscribeCharacterMovements(val, 'walking', 'down');
     });
   }
 
@@ -176,7 +198,7 @@ export const TextBoxMixin = superclass => class extends superclass {
   
         setTimeout(() => {
           textBox.typeNextPage();
-        }, 2000);
+        }, 5000);
       }, this);
       // .on('type', function () {
       // })

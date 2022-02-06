@@ -1,3 +1,21 @@
+// characters imgs
+import CharacterRaimuJSON from '../assets/sprites/character_raimu.json';
+import CharacterRaimuImg from '../assets/sprites/character_raimu.png';
+import CharacterMaiJSON from '../assets/sprites/character_mai.json';
+import CharacterMaiImg from '../assets/sprites/character_mai.png';
+
+// map imgs
+import BackgroundTileImage from '../assets/maps/background_tiles.png';
+
+// object imgs
+import CatImage01 from '../assets/objects/cat_01.png';
+import CatImage02 from '../assets/objects/cat_02.png';
+import CatImage03 from '../assets/objects/cat_03.png';
+import CatImage04 from '../assets/objects/cat_04.png';
+import CatImage05 from '../assets/objects/cat_05.png';
+import CatImage06 from '../assets/objects/cat_06.png';
+
+
 // main scene imgs
 import MainImg from '../assets/ui/main.png';
 import StartButtonImg from '../assets/ui/start_button.png';
@@ -7,6 +25,7 @@ import EnButtonImg from '../assets/ui/lang_button_en.png';
 
 // selection scene imgs
 import SelectionBackgroundImgLudovic from '../assets/ui/character_selection_ludovic.png';
+import SelectionBackgroundImgYurigaoka from '../assets/ui/character_selection_yurigaoka.png';
 import CharacterSlotImg from '../assets/ui/character_slot.png';
 import PrevButtonImg from '../assets/ui/prev_button.png';
 import NextButtonImg from '../assets/ui/next_button.png';
@@ -18,19 +37,16 @@ import HandBookImg from '../assets/ui/hand_book.png';
 import CloseButtonImg from '../assets/ui/close_button.png';
 import LogoLineImg from '../assets/ui/logo_line_motto.png';
 import LogoLudovicImg from '../assets/ui/logo_ludovic_small.png';
+import LogoYurigaokaImg from '../assets/ui/logo_yurigaoka_middle.png';
+import MenuButtonImg from '../assets/ui/menu_button.png';
 import MenuButtonFirstImg from '../assets/ui/menu_select_button_1.png';
 import MenuButtonSecondImg from '../assets/ui/menu_select_button_2.png';
 import MenuButtonThirdImg from '../assets/ui/menu_select_button_3.png';
 import MenuButtonFourthImg from '../assets/ui/menu_select_button_4.png';
 
 // hill scene imgs
-import MenuButtonImg from '../assets/ui/menu_button.png';
-import MariaHillJSON from '../assets/maps/map-maria-hill.json';
-import BackgroundTileImage from '../assets/maps/background_tiles.png';
-
-// characters imgs
-import PlayerRaimuJSON from '../assets/sprites/player-raimu.json';
-import PlayerRaimuImg from '../assets/sprites/player-raimu.png';
+import MariaHillJSON from '../assets/maps/map_maria_hill.json';
+import GladeJSON from '../assets/maps/map_yurigaoka_glade.json';
 
 import * as configs from '../consts/configs.js';
 import * as gameData from '../consts/gameData.js';
@@ -46,10 +62,10 @@ export default class BootScene extends BaseScene {
     this.startLoadingBar();
     this.loadCharacterImgs();
     this.loadMapImgs();
+    this.loadObjectImgs();
     this.loadMainSceneImgs();
     this.loadSelectionSceneImgs();
     this.loadUISceneImgs();
-    this.loadHillSceneImgs();
   }
 
   create() {
@@ -115,11 +131,24 @@ export default class BootScene extends BaseScene {
   }
 
   loadCharacterImgs() {
-    this.load.atlas(imgKeys.CHARACTER_RAIMU_ID, PlayerRaimuImg, PlayerRaimuJSON);
+    this.load.atlas(imgKeys.CHARACTER_RAIMU_ID, CharacterRaimuImg, CharacterRaimuJSON);
+    this.load.atlas(imgKeys.CHARACTER_MAI_ID, CharacterMaiImg, CharacterMaiJSON);
   }
 
   loadMapImgs() {
     this.load.image(imgKeys.BACKGROUND_TILE_IMG_KEY, BackgroundTileImage);
+
+    this.load.tilemapTiledJSON(imgKeys.MARIA_HILL_TILESET_CONFIG_KEY, MariaHillJSON);
+    this.load.tilemapTiledJSON(imgKeys.YURIGAOKA_GLADE_TILESET_CONFIG_KEY, GladeJSON);
+  }
+  
+  loadObjectImgs() {
+    this.load.image(imgKeys.CAT_01_IMG_KEY, CatImage01);
+    this.load.image(imgKeys.CAT_02_IMG_KEY, CatImage02);
+    this.load.image(imgKeys.CAT_03_IMG_KEY, CatImage03);
+    this.load.image(imgKeys.CAT_04_IMG_KEY, CatImage04);
+    this.load.image(imgKeys.CAT_05_IMG_KEY, CatImage05);
+    this.load.image(imgKeys.CAT_06_IMG_KEY, CatImage06);
   }
 
   loadMainSceneImgs() {
@@ -132,6 +161,7 @@ export default class BootScene extends BaseScene {
 
   loadSelectionSceneImgs() {
     this.load.image(gameData.SELECTION_BACKGROUND_KEYS.get(gameData.ACADEMY_LUDOVIC), SelectionBackgroundImgLudovic);
+    this.load.image(gameData.SELECTION_BACKGROUND_KEYS.get(gameData.ACADEMY_YURIGAOKA), SelectionBackgroundImgYurigaoka);
     this.load.image(imgKeys.CHARACTER_SLOT_KEY, CharacterSlotImg);
     this.load.image(imgKeys.NEXT_PAGE_KEY, 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/assets/images/arrow-down-left.png');
     this.load.spritesheet(imgKeys.PREV_BUTTON_KEY, PrevButtonImg, { frameWidth: 36, frameHeight: 42 });
@@ -144,15 +174,12 @@ export default class BootScene extends BaseScene {
     this.load.image(imgKeys.HAND_BOOK_KEY, HandBookImg);
     this.load.image(imgKeys.LOGO_LINE_KEY, LogoLineImg);
     this.load.image(imgKeys.LOGO_LUDOVIC_KEY, LogoLudovicImg);
+    this.load.image(imgKeys.LOGO_YURIGAOKA_KEY, LogoYurigaokaImg);
     this.load.spritesheet(imgKeys.CLOSE_BUTTON_KEY, CloseButtonImg, { frameWidth: 45, frameHeight: 45 });
+    this.load.spritesheet(imgKeys.MENU_BUTTON_KEY, MenuButtonImg, { frameWidth: 39, frameHeight: 54 });
     this.load.spritesheet(imgKeys.MENU_BUTTON_1_KEY, MenuButtonFirstImg, { frameWidth: 198, frameHeight: 50 });
     this.load.spritesheet(imgKeys.MENU_BUTTON_2_KEY, MenuButtonSecondImg, { frameWidth: 198, frameHeight: 50 });
     this.load.spritesheet(imgKeys.MENU_BUTTON_3_KEY, MenuButtonThirdImg, { frameWidth: 198, frameHeight: 50 });
     this.load.spritesheet(imgKeys.MENU_BUTTON_4_KEY, MenuButtonFourthImg, { frameWidth: 198, frameHeight: 50 });
-  }
-
-  loadHillSceneImgs() {
-    this.load.spritesheet(imgKeys.MENU_BUTTON_KEY, MenuButtonImg, { frameWidth: 39, frameHeight: 54 });
-    this.load.tilemapTiledJSON(imgKeys.MARIA_HILL_TILESET_CONFIG_KEY, MariaHillJSON);
   }
 }

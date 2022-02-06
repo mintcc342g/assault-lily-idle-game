@@ -60,8 +60,8 @@ export default class MariaHillEventEmitter extends EventEmitter {
     const probability = utils.rand(0, 100);
     const eventMap =  character.get('events');
 
-    if (probability <= events.EVENT_PROBABILITY_15) {
-      return eventMap.get(events.EVENT_PROBABILITY_15);
+    if (probability <= events.EVENT_PROBABILITY_20) {
+      return eventMap.get(events.EVENT_PROBABILITY_20);
     }
     
     return eventMap.get(events.EVENT_PROBABILITY_90);

@@ -16,6 +16,8 @@ import MainScene from './scenes/MainScene';
 import CharacterSelectionScene from './scenes/CharacterSelectionScene';
 import UIScene from './scenes/UIScene';
 import TheHillOfMariaScene from './scenes/TheHillOfMariaScene';
+import YurigaokaGladeScene from './scenes/YurigaokaGladeScene';
+
 
 export const config = {
   type: Phaser.AUTO,
@@ -49,6 +51,7 @@ export const config = {
     MainScene,
     CharacterSelectionScene,
     TheHillOfMariaScene,
+    YurigaokaGladeScene,
     UIScene, // UIScene have to be set in the last of the scene array
   ],
   physics: {

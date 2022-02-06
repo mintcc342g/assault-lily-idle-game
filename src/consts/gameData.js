@@ -17,10 +17,18 @@ export const USER_DATA = new Map([
  * 
  */
 export const ACADEMY_LUDOVIC = 'ludovic';
-export const ACADEMY_LIST = [ACADEMY_LUDOVIC];
+export const ACADEMY_YURIGAOKA = 'yurigaoka';
 
 export const ACADEMY_INFO = new Map([
   [ACADEMY_LUDOVIC, new Map([
+    ['motto', new Map([
+      // these would be changed to a academy motto.
+      [configs.LANG_KR, ['이 학생수첩은 데이터를 저장하지 않습니다. 이 사이트를 벗어나거나 (새로고침 포함), 브라우저를 닫을 경우 기입했던 내용은 전부 없어집니다. 사용에 유의해주세요.']],
+      [configs.LANG_JP, ['この生徒手帳はデータを保存しません。このサイトから離れたり （ページの更新も含む）、ブラウザーを閉じたりすると記入した内容は全部なくなります。ご利用に参考して下さい。']],
+      [configs.LANG_EN, ['This Handbook never save any data. If you leave this page, include refresh, or close it, you could lose all data that you inserted. Please note that.']],
+    ])],
+  ])],
+  [ACADEMY_YURIGAOKA, new Map([
     ['motto', new Map([
       [configs.LANG_KR, ['이 학생수첩은 데이터를 저장하지 않습니다. 이 사이트를 벗어나거나 (새로고침 포함), 브라우저를 닫을 경우 기입했던 내용은 전부 없어집니다. 사용에 유의해주세요.']],
       [configs.LANG_JP, ['この生徒手帳はデータを保存しません。このサイトから離れたり （ページの更新も含む）、ブラウザーを閉じたりすると記入した内容は全部なくなります。ご利用に参考して下さい。']],
@@ -30,7 +38,8 @@ export const ACADEMY_INFO = new Map([
 ]);
 
 export const SELECTION_BACKGROUND_KEYS = new Map([ // TODO: fix import issue, then move this to the imgKeys.js file.
-  [ACADEMY_LUDOVIC, 'background_img_ludovic']
+  [ACADEMY_LUDOVIC, 'background_img_ludovic'],
+  [ACADEMY_YURIGAOKA, 'background_img_yurigaoka'],
 ]);
 
 
@@ -70,9 +79,15 @@ export const NOTICE = new Map([
 
 // introduction
 const INTRODUCTION_RAIMU = new Map([
-  [configs.LANG_KR, '사립 루도비코 여학원의 1학년생. 소속 레기온은 \'아이언 사이드\'. 언니의 의지를 이어 릴리가 되었다. 마리아 언덕에 자주 가는 듯 하다.'],
-  [configs.LANG_EN, 'A new first-year student at the private Ludovic Girls Academy. She became a lily to inherit her sister\'s will. Apparently she often go to the Hill Of Maria.'],
+  [configs.LANG_KR, '사립 루도비코 여학원의 1학년생. 소속 레기온은 \'아이언 사이드\'. 언니의 의지를 이어 릴리가 되었다. 전사한 릴리들이 잠들어 있는 마리아 언덕에 자주 가는 듯 하다.'],
+  [configs.LANG_EN, 'A new first-year student at the private Ludovic Girls Academy. She became a lily to inherit her sister\'s will. Apparently she often go to the Hill Of Maria where Lilyes killed in action rest in peace.'],
   [configs.LANG_JP, '私立ルドビコ女学院の1年生。所属レギオンは「アイアンサイド」。姉の意思を継いでリリィになった。戦死したリリィたちが眠っているマリアの丘によく行くらしい。'],
+]);
+
+const INTRODUCTION_MAI = new Map([
+  [configs.LANG_KR, '사립 유리가오카 여학원의 2학년생. 소속 레기온은 \'라드그리드(통칭 히토츠야나기대)\'. 낙천적인 성격의 분위기 메이커. 학교 뒷산에서 고양이들과 낮잠 자는 것을 즐긴다.'],
+  [configs.LANG_EN, 'A second-year student at the private Yurigaoka Girls Academy. Mai is a natural mood-maker and prefers laid-back approach. She likes to take a nap with cats at a glade of the academy\'s hill.'],
+  [configs.LANG_JP, '私立百合ヶ丘女学院の2年生。所属レギオンは「ラーズグリーズ（通称、一柳隊）」。楽天的な性格のムードメーカー。学校の裏山でよく猫たちとお昼寝をしている。'],
 ]);
 
 
@@ -113,6 +128,33 @@ const RANDOM_TEXTS_RAIMU = new Map([
   ]]
 ]);
 
+const RANDOM_TEXTS_MAI = new Map([
+  [configs.LANG_KR, [
+    '더 이상은...못 먹는..다구...',
+    '마이는..모두를..좋아..한다구...',
+    '분짜....음냐...',
+    '마이의...속도를...따라올...음냐...',
+    '리리...유유를..부탁한다...쿨쿨...',
+    '후배는 다들...쿨쿨...귀엽구만...',
+  ]],
+  [configs.LANG_EN, [
+    'I cannot eat....any..more.....zzzz',
+    'I...love...you guys.....zzz',
+    'Bún Chả.....zzzzzz',
+    'Can you guys...follow....Mai\'s speed....zzzzzz',
+    'Riri...I...leave...Yuyu.....with you......zzz',
+    'What a...lovely...Kouhai....zzz',
+  ]],
+  [configs.LANG_JP, [
+    'もうこれ以上……食べられ……ないゾ……。',
+    '梅は…みんなが……好き…なんだゾ……。',
+    'ブンチャー……むにゃむにゃ……。',
+    '梅のスピードに……ついて……来れる…………むにゃ……。',
+    '梨璃……夢結は……頼んだゾ………すやすや……。',
+    '後輩たちは皆………すやすや……可愛いな……。',
+  ]]
+]);
+
 
 // character data
 export const CHARACTER_DATA = new Map([
@@ -123,6 +165,15 @@ export const CHARACTER_DATA = new Map([
       ['academy', ACADEMY_LUDOVIC],
       ['events', events.EVENT_LIST_RAIMU],
       ['random_texts', RANDOM_TEXTS_RAIMU],
+    ])
+  ],
+  [
+    imgKeys.CHARACTER_MAI_ID, new Map([
+      ['scene', configs.SCENE_YURIGAOKA_GLADE],
+      ['intro', INTRODUCTION_MAI],
+      ['academy', ACADEMY_YURIGAOKA],
+      ['events', events.EVENT_LIST_MAI],
+      ['random_texts', RANDOM_TEXTS_MAI],
     ])
   ],
 ]);
