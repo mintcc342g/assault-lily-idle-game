@@ -27,7 +27,7 @@ export default class TheHillOfMariaScene extends GamePlayBaseScene {
 
   init(data) {
     this.lang = data.lang;
-    this.mainCharacter = data.mainCharacter
+    this.mainCharacter = data.mainCharacter;
   }
 
   create() {
@@ -35,7 +35,7 @@ export default class TheHillOfMariaScene extends GamePlayBaseScene {
 
     this.initCharacters();
     this.#initEventEmitter();
-
+    
     const tileMap = this.createTileMap();
     this.initGridEngine(tileMap);
     this.#initPositionChangeSubscriber(tileMap);

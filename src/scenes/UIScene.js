@@ -8,21 +8,21 @@ export default class UIScene extends UIBaseScene {
   constructor() {
     super(configs.SCENE_UI)
     this.menuOptionTextSuffix = '_text';
-    this.logoPrefix = 'logo_';
+    this.logoImgPrefix = 'logo_';
     this.keys = {
       menuButton: imgKeys.MENU_BUTTON_KEY,
       menuOptions: imgKeys.MENU_OPTION_KEYS,
       handBook: imgKeys.HAND_BOOK_KEY,
       close: imgKeys.CLOSE_BUTTON_KEY,
       logoLine: imgKeys.LOGO_LINE_KEY,
-      logo: '',
+      logo: imgKeys.LOGO_KEY,
       toDoListLimit: 8
     },
     this.css = {
       menuButton: { x: 565,  y: 30 },
       handBook: { x: 0, y: 195, bgColor: css.DEFAULT_HAND_BOOK_BACKGROUND_COLOR },
       logoLine: { x: 102, y: 214 },
-      logo: { x: 121, y: 236 },
+      logo: { x: 124, y: 236 },
       motto: { x: 89, y: 460, w: 210, h: 130, padding: 3 },
       menuOptions: { x: 340, y: 220, yPlus: 62, w: 198, h: 40, padding: { left: 40, top: 3 } },
       closeButton: { x: 535, y: 165 },
@@ -48,7 +48,6 @@ export default class UIScene extends UIBaseScene {
     this.lang = data.lang;
     this.currentSceneName = data.sceneName;
     this.academy = data.academy;
-    this.keys.logo = this.logoPrefix + this.academy;
   }
   
   create() {
@@ -134,6 +133,8 @@ export default class UIScene extends UIBaseScene {
   }
 
   #initLogo() {
+    const logoImgKey = this.logoImgPrefix + this.academy;
+
     const logoLine =  this.add.sprite(
         this.css.logoLine.x,
         this.css.logoLine.y,
@@ -143,10 +144,11 @@ export default class UIScene extends UIBaseScene {
       .setVisible(false)
       .disableInteractive()
       .setOrigin(0, 0);
+
     const logo = this.add.sprite(
         this.css.logo.x,
         this.css.logo.y,
-        this.keys.logo
+        logoImgKey
       )
       .setDepth(configs.LAYER_POPUP_OBJECT_CONTENTS)
       .setVisible(false)
