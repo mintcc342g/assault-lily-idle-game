@@ -2,10 +2,10 @@ import * as configs from '../consts/configs.js';
 import * as css from '../consts/css.js';
 import * as gameData from '../consts/gameData.js';
 import * as imgKeys from '../consts/imgKeys.js';
-import CharacterSlot from '../components/CharacterSlot.js';
-import { CharacterSelectionBaseScene } from './BaseScene.js'
+import CharacterSlot from '../utils/CharacterSlot.js';
+import { CharacterSelectionSetting } from '../mixins/BaseSetting.js'
 
-export default class CharacterSelectionScene extends CharacterSelectionBaseScene {
+export default class CharacterSelectionScene extends CharacterSelectionSetting {
   constructor() {
     super(configs.SCENE_CHARACTER_SELECTION);
     this.keys = {

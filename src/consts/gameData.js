@@ -130,12 +130,12 @@ const RANDOM_TEXTS_RAIMU = new Map([
 
 const RANDOM_TEXTS_MAI = new Map([
   [configs.LANG_KR, [
-    '더 이상은...못 먹는..다구...',
-    '마이는..모두를..좋아..한다구...',
+    '더 이상은...못 먹는..다구...음냐음냐...',
+    '마이는..모두를..좋아..한다구...쿨쿨...',
     '분짜....음냐...',
     '마이의...속도를...따라올...음냐...',
     '리리...유유를..부탁한다...쿨쿨...',
-    '후배는 다들...쿨쿨...귀엽구만...',
+    '후배는 다들...귀엽구만...쿨쿨...',
   ]],
   [configs.LANG_EN, [
     'I cannot eat....any..more.....zzzz',
@@ -146,12 +146,12 @@ const RANDOM_TEXTS_MAI = new Map([
     'What a...lovely...Kouhai....zzz',
   ]],
   [configs.LANG_JP, [
-    'もうこれ以上……食べられ……ないゾ……。',
-    '梅は…みんなが……好き…なんだゾ……。',
+    'もうこれ以上……食べられ……ないゾ……すやすや……。',
+    '梅は…みんなが……好き…なんだゾ……むにゃ……。',
     'ブンチャー……むにゃむにゃ……。',
     '梅のスピードに……ついて……来れる…………むにゃ……。',
     '梨璃……夢結は……頼んだゾ………すやすや……。',
-    '後輩たちは皆………すやすや……可愛いな……。',
+    '後輩たちは皆………可愛いな……すやすや……。',
   ]]
 ]);
 
@@ -160,6 +160,7 @@ const RANDOM_TEXTS_MAI = new Map([
 export const CHARACTER_DATA = new Map([
   [
     imgKeys.CHARACTER_RAIMU_ID, new Map([
+      ['id', imgKeys.CHARACTER_RAIMU_ID],
       ['scene', configs.SCENE_THE_HILL_OF_MARIA],
       ['intro', INTRODUCTION_RAIMU],
       ['academy', ACADEMY_LUDOVIC],
@@ -169,6 +170,7 @@ export const CHARACTER_DATA = new Map([
   ],
   [
     imgKeys.CHARACTER_MAI_ID, new Map([
+      ['id', imgKeys.CHARACTER_MAI_ID],
       ['scene', configs.SCENE_YURIGAOKA_GLADE],
       ['intro', INTRODUCTION_MAI],
       ['academy', ACADEMY_YURIGAOKA],

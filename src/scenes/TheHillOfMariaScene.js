@@ -1,10 +1,8 @@
 import * as configs from '../consts/configs.js';
-import * as css from '../consts/css.js';
 import * as imgKeys from '../consts/imgKeys.js';
-import MariaHillEventEmitter from '../components/Events.js';
-import { GamePlayBaseScene } from './BaseScene.js';
+import { TheHillOfMariaSetting } from '../mixins/BaseSetting.js';
 
-export default class TheHillOfMariaScene extends GamePlayBaseScene {
+export default class TheHillOfMariaScene extends TheHillOfMariaSetting {
   constructor() {
     super(configs.SCENE_THE_HILL_OF_MARIA);
     this.keys = {
@@ -34,7 +32,7 @@ export default class TheHillOfMariaScene extends GamePlayBaseScene {
     this.initResponsiveScreen();
 
     this.initCharacters();
-    this.#initEventEmitter();
+    this.initEvent();
     
     const tileMap = this.createTileMap();
     this.initGridEngine(tileMap);
@@ -43,10 +41,6 @@ export default class TheHillOfMariaScene extends GamePlayBaseScene {
     // start scene
     this.fadeIn(1000);
     this.gridEngine.moveTo(imgKeys.CHARACTER_RAIMU_ID, { x: 1, y: 5 });
-  }
-
-  #initEventEmitter() {
-    this.eventEmitter = new MariaHillEventEmitter();
   }
 
   #initPositionChangeSubscriber(tileMap) {
@@ -61,7 +55,7 @@ export default class TheHillOfMariaScene extends GamePlayBaseScene {
             academy: this.mainCharacter.get('academy'),
           }
         );
-        this.eventEmitter.eventHandler(this, 0);
+        this.eventHandler(0);
       }
     });
   }

@@ -1,4 +1,4 @@
-import * as utils from '../utils/utils.js';
+import * as utils from './utils.js';
 
 class Character {
   constructor(data) {
