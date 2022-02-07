@@ -1,5 +1,8 @@
 import * as configs from '../consts/configs.js';
+import * as css from '../consts/css.js';
+import * as gameData from '../consts/gameData.js';
 import * as imgKeys from '../consts/imgKeys.js';
+import * as utils from '../utils/utils.js';
 import { YurigaokaGladeSetting } from '../mixins/BaseSetting.js';
 
 export default class YurigaokaGladeScene extends YurigaokaGladeSetting {
@@ -23,6 +26,17 @@ export default class YurigaokaGladeScene extends YurigaokaGladeSetting {
     };
     this.position = {
       mainCharacter: { startX: 3, startY: 4, speed: 1 },
+      cats: [
+        { x: 182, y: 182, w: 148, h: 58 },
+        { x: 92, y: 272, w: 238, h: 58 },
+        { x: 92, y: 362, w: 148, h: 148 },
+        { x: 92, y: 542, w: 148, h: 148 },
+        { x: 272, y: 542, w: 238, h: 58 },
+        { x: 272, y: 632, w: 148, h: 148 },
+      ],
+      bubble: {
+        cat: { w: 40, h: 16 }
+      }
     };
     this.characters = new Map([
       [imgKeys.CHARACTER_MAI_ID, { /* sprite */ }]
@@ -40,6 +54,7 @@ export default class YurigaokaGladeScene extends YurigaokaGladeSetting {
     this.initResponsiveScreen();
 
     this.initCharacters();
+    this.#initCats();
     this.initEvent();
 
     const tileMap = this.createTileMap();
@@ -48,6 +63,107 @@ export default class YurigaokaGladeScene extends YurigaokaGladeSetting {
     this.#sceneStart();
   }
 
+  #initCats() {
+    utils.shuffle(this.position.cats);
+    
+    let i = 0;
+    this.position.cats.forEach((item)=>{
+      let range =  new Phaser.Geom.Rectangle(item.x, item.y, item.w, item.h);
+      let point = range.getRandomPoint();
+      
+      let cat = this.add.sprite(point.x, point.y, this.keys.cats[i])
+        .setDepth(configs.LAYER_ON_THE_BACKGROUND)
+        .setVisible(true)
+        .setOrigin(0, 0)
+        .setInteractive();
+
+      cat
+        .on('pointerdown', () => {
+          cat.disableInteractive();
+
+          const bubble = this.#createBubble(
+            cat.x-10,
+            cat.y-3,
+            this.position.bubble.cat.w,
+            this.position.bubble.cat.h,
+            '13px'
+          );
+          
+          bubble
+            .on('complete', () => {
+              const timeline = this.tweens.createTimeline();
+              this.#setHideCatAnim(timeline, bubble, cat);
+              this.#setAppearCatAnim(timeline, cat, range.getRandomPoint());
+              timeline.play();
+            });
+          
+          bubble.start(gameData.NOTICE.get(this.lang).get('cat'), 50)
+        });
+      i++;
+    });
+  }
+
+  #createBubble(x, y, w, h, fontSize) {
+    const config = {
+      x: 0,
+      y: 0,
+      style: {
+        fixedWidth: w,
+        fixedHeight: h,
+        color: css.DEFAULT_TEXT_COLOR_RGB,
+        fontSize: fontSize,
+      },
+      padding: {
+        left: 2,
+        top: 4
+      }
+    }
+  
+    return this.createSpeechBubble(x, y, config)
+  }
+
+  #setHideCatAnim(timeline, bubble, cat) {
+    timeline.add({
+      targets: bubble,
+      alpha: { from: 1, to: 0 },
+      delay: 1000,
+      duration: 0,
+    });
+    timeline.add({
+      targets: cat,
+      alpha: { from: 1, to: 0 },
+      delay: 200,
+      duration: 700,
+      repeat: 1,
+      yoyo: true,
+    });
+    timeline.add({
+      targets: cat,
+      alpha: { from: 1, to: 0 },
+      duration: 1000,
+    });
+  }
+
+  #setAppearCatAnim(timeline, cat, point) {
+    timeline.on('complete', () => {
+      const min = utils.rand(1, 5);
+      const delay = utils.minToMs(min);
+  
+      setTimeout(()=>{
+        cat.setPosition(point.x, point.y);
+
+        this.tweens.add(
+          {
+            targets: cat,
+            alpha: { from: 0, to: 1 },
+            duration: 1000,
+          }
+        );
+
+        cat.setInteractive();
+      }, delay);
+    });
+  }
 
   #sceneStart() {
     this.fadeIn(1000);

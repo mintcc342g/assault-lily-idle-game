@@ -9,9 +9,9 @@ export default class MainScene extends UISetting {
     this.keys = {
       background: imgKeys.MAIN_BACKGROUND_KEY,
       start: imgKeys.START_BUTTON_KEY,
-      kr: imgKeys.KR_BUTTON_KEY,
-      en: imgKeys.EN_BUTTON_KEY,
-      jp: imgKeys.JP_BUTTON_KEY
+      kr: configs.LANG_KR,
+      en: configs.LANG_EN,
+      jp: configs.LANG_JP
     };
     this.position = {
       start: { x: 225, y: 532 },
@@ -63,7 +63,7 @@ export default class MainScene extends UISetting {
     .on('start', function(tween, targets){
       tween.data.forEach((datum) => {
         setTimeout(() => {
-          datum.target.setDepth(configs.LAYER_ABOVE_BACKGROUND);
+          datum.target.setDepth(configs.LAYER_ON_THE_BACKGROUND);
         }, datum.delay+100, datum);
       });
     });
@@ -86,7 +86,7 @@ export default class MainScene extends UISetting {
     // TODO: fix a delay problem when use gameData.NOTICE.forEach(() => {})
 
     conf.text = gameData.NOTICE.get(configs.LANG_EN).get('main-info');
-    result.push(this.make.text(conf).setOrigin(0, 0).setDepth(configs.LAYER_ABOVE_BACKGROUND));
+    result.push(this.make.text(conf).setOrigin(0, 0).setDepth(configs.LAYER_ON_THE_BACKGROUND));
 
     conf.text = gameData.NOTICE.get(configs.LANG_KR).get('main-info');
     result.push(this.make.text(conf).setOrigin(0, 0).setDepth(configs.LAYER_HIDDEN_ITEM));
@@ -125,7 +125,7 @@ export default class MainScene extends UISetting {
       x += this.position.lang.plus;
     }
 
-    this.clickAnim(this.langButtons.get(this.keys.kr).get('button'), false);
+    this.clickAnim(this.langButtons.get(this.lang).get('button'), false);
   }
 
   #createButton(buttonKey, x, y) {

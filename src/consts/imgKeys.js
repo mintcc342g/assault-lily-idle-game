@@ -20,13 +20,9 @@ export const CAT_05_IMG_KEY = 'cat_05';
 export const CAT_06_IMG_KEY = 'cat_06';
 
 
-
 // Main
 export const MAIN_BACKGROUND_KEY = 'main_background';
 export const START_BUTTON_KEY = 'start_button';
-export const KR_BUTTON_KEY = 'kr_button';
-export const EN_BUTTON_KEY = 'en_button';
-export const JP_BUTTON_KEY = 'jp_button';
 
 
 // Character Selection

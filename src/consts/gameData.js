@@ -53,6 +53,7 @@ export const NOTICE = new Map([
       ['main-info', '언어를 선택한 후 [START] 버튼을 눌러주세요.'],
       ['todo-alert', '(내용이 너무 긴 것 같아. 좀 줄일까..?)'],
       ['todo-list-prefix', '이따 뭘해야 했더라...?\n'],
+      ['cat', '야옹~'],
     ])
   ],
   [
@@ -60,6 +61,7 @@ export const NOTICE = new Map([
       ['main-info', 'select language, then press [START] button.'],
       ['todo-alert', '(I think the text is too long.. How about shortening it?)'],
       ['todo-list-prefix', 'Let\'s check my to-do list.\n'], 
+      ['cat', 'meow~'],
     ])
   ],
   [
@@ -67,6 +69,7 @@ export const NOTICE = new Map([
       ['main-info', '言語を選択した後、[START] ボタンを押してください。'],
       ['todo-alert', '(ちょっと長いかな。短くした方がいいかも。)'],
       ['todo-list-prefix', '後で何しようとしたっけ…？\n'],
+      ['cat', 'ニャー'],
     ])
   ],
 ]);

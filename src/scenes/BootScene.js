@@ -154,9 +154,9 @@ export default class BootScene extends BaseSetting {
   loadMainSceneImgs() {
     this.load.image(imgKeys.MAIN_BACKGROUND_KEY, MainImg);
     this.load.spritesheet(imgKeys.START_BUTTON_KEY, StartButtonImg, { frameWidth: 188, frameHeight: 92 });
-    this.load.spritesheet(imgKeys.KR_BUTTON_KEY, KrButtonImg, { frameWidth: 100, frameHeight: 64 });
-    this.load.spritesheet(imgKeys.EN_BUTTON_KEY, EnButtonImg, { frameWidth: 100, frameHeight: 64 });
-    this.load.spritesheet(imgKeys.JP_BUTTON_KEY, JpButtonImg, { frameWidth: 100, frameHeight: 64 });
+    this.load.spritesheet(configs.LANG_KR, KrButtonImg, { frameWidth: 100, frameHeight: 64 });
+    this.load.spritesheet(configs.LANG_EN, EnButtonImg, { frameWidth: 100, frameHeight: 64 });
+    this.load.spritesheet(configs.LANG_JP, JpButtonImg, { frameWidth: 100, frameHeight: 64 });
   }
 
   loadSelectionSceneImgs() {
