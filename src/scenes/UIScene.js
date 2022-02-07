@@ -311,7 +311,7 @@ export default class UIScene extends UISetting {
       .on('pointerup', () => {
         this.#setDefaultTextColor(text, true);
         this.clickAnim(button, true);
-        this.#goToNext(configs.SCENE_CHARACTER_SELECTION);
+        this.#goToNext(configs.SCENE_CHARACTER_SELECTION, { lang: this.lang });
       });
   }
 
@@ -332,7 +332,7 @@ export default class UIScene extends UISetting {
       .on('pointerup', () => {
         this.#setDefaultTextColor(text, true);
         this.clickAnim(button, true);
-        this.#goToNext(configs.SCENE_MAIN);
+        this.#goToNext(configs.SCENE_MAIN, { lang: this.lang });
       });
   }
 
@@ -450,7 +450,7 @@ export default class UIScene extends UISetting {
     }
   }
 
-  #goToNext(nextSceneName) {
+  #goToNext(nextSceneName, data) {
     this.#closeHandBook();
     
     this.fadeOut(1000);
@@ -458,7 +458,7 @@ export default class UIScene extends UISetting {
     this.cameras.main.once('camerafadeoutcomplete', (cam, effect) => {
       this.scene.stop(this.currentSceneName);
       this.time.delayedCall(1000, () => {
-        this.scene.start(nextSceneName);
+        this.scene.start(nextSceneName, data);
       });
     });
   }

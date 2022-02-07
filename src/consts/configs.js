@@ -37,8 +37,8 @@ export const SCENE_YURIGAOKA_GLADE = 'YurigaokaGladeScene';
 // Game Layers
 export const LAYER_HIDDEN_ITEM = 0;
 export const LAYER_BACKGROUND = 1;
-export const LAYER_ABOVE_BACKGROUND = 2;
-export const LAYER_MAP = 5;
+export const LAYER_ON_THE_BACKGROUND = 2;
+export const LAYER_ON_THE_LAST_LAYER = 5;
 export const LAYER_TEXTBOX = 6;
 export const LAYER_POPUP_OBJECT = 7;
 export const LAYER_POPUP_OBJECT_CONTENTS = 8;

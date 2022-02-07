@@ -55,4 +55,50 @@ export const TextBoxMixin = superclass => class extends superclass {
   
     return textBox;
   }
+
+  createSpeechBubble(x, y, config) {
+    const bubble = this.rexUI.add.textBox({
+      x: x,
+      y: y,
+      background: this.#createSpeechBubbleShape(css.DEFAULT_TEXTBOX_BACKGROUND_COLOR_RGB, css.DEFAULT_MENU_COLOR_RGB),
+      text: this.make.text(config).setOrigin(0, 0), // text param should be located next of background param
+      space: {
+        left: 10, right: 10, top: 10, bottom: 25,
+        text: 10,
+      }
+    })
+    .setOrigin(0, 1)
+    .setDepth(configs.LAYER_TEXTBOX)
+    .layout();
+    
+    return bubble;
+  }
+
+  #createSpeechBubbleShape(fillColor, strokeColor) {
+    return this.rexUI.add.customShapes({
+      create: { lines: 1 },
+      update: function () {
+        var radius = 20;
+        var indent = 10; // triangle 
+        var left = 0, right = this.width,
+            top = 0, bottom = this.height,
+            boxBottom = bottom - indent;
+
+        this.getShapes()[0]
+          .lineStyle(2, strokeColor, 1)
+          .fillStyle(fillColor, 1)
+          // top line, right arc
+          .startAt(left + radius, top).lineTo(right - radius, top).arc(right - radius, top + radius, radius, 270, 360)
+          // right line, bottom arc
+          .lineTo(right, boxBottom - radius).arc(right - radius, boxBottom - radius, radius, 0, 90)
+          // bottom indent                    
+          .lineTo(left + 40, boxBottom).lineTo(left + 30, bottom).lineTo(left + 20, boxBottom)
+          // bottom line, left arc
+          .lineTo(left + radius, boxBottom).arc(left + radius, boxBottom - radius, radius, 90, 180)
+          // left line, top arc
+          .lineTo(left, top + radius).arc(left + radius, top + radius, radius, 180, 270)
+          .close();
+      }
+    });
+  }
 }

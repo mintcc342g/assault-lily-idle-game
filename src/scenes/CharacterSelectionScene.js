@@ -179,7 +179,7 @@ export default class CharacterSelectionScene extends CharacterSelectionSetting {
       })
       .on('pointerup', () => {
         this.clickAnim(button, true);
-        this.#goToNext(configs.SCENE_MAIN);
+        this.#goToNext(configs.SCENE_MAIN, { lang: this.lang });
       });
     
     this.uiGroup.push(button);
@@ -217,7 +217,7 @@ export default class CharacterSelectionScene extends CharacterSelectionSetting {
 
   #createSprite(x, y, key) {
     return this.add.sprite(x, y, key)
-      .setDepth(configs.LAYER_ABOVE_BACKGROUND)
+      .setDepth(configs.LAYER_ON_THE_BACKGROUND)
       .setOrigin(0, 0);
   }
 

@@ -12,4 +12,5 @@ export const DEFAULT_HAND_BOOK_BACKGROUND_COLOR = '#d8d8d8';
 export const DEFAULT_MENU_CLICKED_COLOR = '#d9c0a3';
 export const DEFAULT_FONT_SIZE = '20px';
 export const DEFAULT_LINE_SPACING = 7;
+export const DEFAULT_TEXTBOX_BACKGROUND_COLOR = '#fefefe';
 export const DEFAULT_TEXTBOX_BACKGROUND_COLOR_RGB = 0xfefefe;
