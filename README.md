@@ -38,14 +38,10 @@
 
 ## 변경 사항
 
-- 2022.02.03
-    - 캐릭터 애니메이션 변경
-- 2022.02.02
-    - 학생수첩 이벤트 추가
-    - 메인화면이나 캐릭터 화면으로 이동해도 학생수첩의 내용이 유지되도록 변경
-- 2022.02.01
-    - 모바일 기기를 위한 반응형 웹 적용
-    - 성능개선
+- v1.0.0
+    - 선택 가능한 릴리 및 관련 이벤트 추가
+    - 새로운 맵 및 상호작용 오브젝트 추가
+    - 메인화면 이동 시 선택했던 언어가 유지되도록 변경
 
 <br/>
 
@@ -60,6 +56,7 @@
 - 휴식 중인 릴리는 가끔 이런저런 생각을 하거나, 학생수첩에 메모된 내용을 상기하곤 합니다.
 - 선택 가능 릴리 목록
     - 키시모토 루치아 라이무
+    - 요시무라 Thi 마이
 
 <br/>
 
@@ -106,10 +103,11 @@
 - 이 프로젝트는 다음의 라이브러리를 이용하여 구현되었습니다.
     - React
     - Phaser 3 (게임 엔진)
-    - Grid Engine (모션 및 애니메이션)
-- 이 프로젝트의 일부 이미지는 다음의 원본 이미지를 수정한 것입니다.
+    - Grid Engine (모션)
+- 이 프로젝트의 일부 이미지는 다음의 원본 이미지를 수정하거나 참고한 것입니다.
     - [핸드북 출처](https://opengameart.org/content/open-book-0)
     - [일부 배경 출처](https://opengameart.org/content/zelda-like-tilesets-and-sprites)
+    - [고양이 오브젝트 참고 영상](https://youtu.be/LYTl7OAXWk8)
 - 이 프로젝트의 캐릭터 이미지는 일본 부시로드사의 어설트 릴리 굿즈로부터 오마주 한 것입니다.
 - 주의사항
     - 이 프로젝트의 개발자는 게임 개발자도 아니며, 이 프로젝트를 시작하며 js를 독학한 js 뉴비입니다.
@@ -137,14 +135,10 @@ Lilies have very busy days to fight with Huge, massive beasts that are the prima
 
 ## Change Log
 
-- 02.03.2022
-    - change character animation
-- 02.02.2022
-    - add the student's hand book Event
-    - apply the hand book's memos to be not deleted when the user go to the Main screen or the Character screen
-- 02.01.2022
-    - apply responsive web for mobile browsers
-    - improve performance
+- v1.0.0
+    - add a new Lily and related events
+    - add a new map and interactive objects
+    - change to keep the selected language
 
 <br/>
 
@@ -159,6 +153,7 @@ Lilies have very busy days to fight with Huge, massive beasts that are the prima
 - The Lily who is relaxing thinks to herself or remind some memos written on the student's hand book.
 - Playerble Lily List
     - Raimu Ruchia Kishimoto
+    - Mai Thi Yoshimura
 
 <br/>
 
@@ -208,9 +203,10 @@ Lilies have very busy days to fight with Huge, massive beasts that are the prima
     - React
     - Phaser 3
     - Grid Engine
-- Some images used in this project are modified from the origin images.
+- Some images used in this project are modified or referenced from the origin.
     - Thanks to Min, for [the hand book](https://opengameart.org/content/open-book-0)
     - Thanks to ArMM1998, for [some background images](https://opengameart.org/content/zelda-like-tilesets-and-sprites)
+    - Thanks to IamJagvinderSingh, for [cats](https://youtu.be/LYTl7OAXWk8)
 - Character images is painted in homage to Bushroad company's goods.
 - CAUTION
     - I'm neither a game developer or a js professionalist. I'm a real Newbie of js.
@@ -239,14 +235,10 @@ Lilies have very busy days to fight with Huge, massive beasts that are the prima
 
 ## アップデート
 
-- 2022.02.03
-    - キャラクターアニメーションの変更
-- 2022.02.02
-    - 生徒手帳イベントの追加
-    - タイトル画面やキャラクター選択画面へ移動しても生徒手帳の内容が無くならないように変更
-- 2022.02.01
-    - レスポンシブウェブデザインの適用
-    - パフォーマンス改善
+- v1.0.0
+    - 新しいリリィと、そのリリィのイベントの追加
+    - 新しいマップと相互作用可能なオブジェクトの追加
+    - タイトル画面に移っても選択した言語が維持できるように変更
 
 <br/>
 
@@ -261,6 +253,7 @@ Lilies have very busy days to fight with Huge, massive beasts that are the prima
 - 休憩中のリリィは時々何かを考えたり、学生手帳に書かれているメモを思い出したりします。
 - 現在選択可能なリリィ
     - 岸本・ルチア・来夢
+    - 吉村・Thi・梅
 
 <br/>
 
@@ -308,9 +301,10 @@ Lilies have very busy days to fight with Huge, massive beasts that are the prima
     - React
     - Phaser 3 (ゲームエンジン)
     - Grid Engine (モーションとアニメーション)
-- このゲームの一部画像は以下の画像を修正して使ったものです。
+- このゲームの一部画像は以下の画像を修正したり、参考にしたものです。
     - [生徒手帳の中身の方](https://opengameart.org/content/open-book-0)
     - [一部背景画像](https://opengameart.org/content/zelda-like-tilesets-and-sprites)
+    - [猫の描き方](https://youtu.be/LYTl7OAXWk8)
 - キャラクター画像はブシロード社のアサルトリリィグッズをオマージュしたものです。
 - 注意事項
     - このプロジェクトの開発者はゲーム開発者でもないし、この個人プロジェクトを始めてからｊｓを独学したｊｓの完全初心者です。
