@@ -265,33 +265,43 @@ export default class UIScene extends UISetting {
   }
 
   #showToDoList() {
-    const userToDoList = gameData.USER_DATA.get('to_do_list');
-
     for (let i = 0, len = this.toDoList.length; i < len; i++) {
       this.toDoListNumbers[i].setVisible(true);
 
       let content = this.toDoList[i];
+      
       content.setVisible(true)
         .on('pointerdown', () => {
-          this.toDoListEditors[i] = this.#setTextEditor(content);
-          userToDoList[i] = content;
+          let config = this.#getEditorConfig();
+
+          this.toDoListEditors[i] = this.plugins.get('rexTextEdit').edit(content, config);
+          this.#storeChanedContent(i, content);
         });
     }
   }
 
-  #setTextEditor(content) {
-    var config = {
+  #storeChanedContent(index, content) {
+    const userToDoList = gameData.USER_DATA.get('to_do_list');
+
+    if (userToDoList[index] == null || userToDoList[index] == undefined) {
+      userToDoList[index] = { content: content, time: 0 };
+    }
+  }
+
+  #getEditorConfig() {
+    const maxTextLength = this.textMaxLength.get(this.lang);
+    const alertText = gameData.NOTICE.get(this.lang).get('todo-alert');
+
+    return {
       backgroundColor: this.css.handBook.bgColor,
-      onTextChanged: (textObject, text) => {
-        if (text.length > this.textMaxLength.get(this.lang)) {
-          alert(gameData.NOTICE.get(this.lang).get('todo-alert'));
+      onTextChanged: (content, text) => {
+        if (text.length > maxTextLength) {
+          alert(alertText);
           return
         }
-        textObject.text = text;
+        content.text = text;
       },
     }
-  
-    return this.plugins.get('rexTextEdit').edit(content, config);
   }
 
   #setCharacterSelectionButtonAction() {
@@ -370,8 +380,8 @@ export default class UIScene extends UISetting {
         y = this.css.toDoList.y;
       }
   
-      let textObj = gameData.USER_DATA.get('to_do_list')[i];
-      this.toDoList[i] = this.#createToDoContent(x, y, textObj?textObj.text:'').setInteractive();
+      let item = gameData.USER_DATA.get('to_do_list')[i];
+      this.toDoList[i] = this.#createToDoContent(x, y, item?item.content.text:'').setInteractive();
       this.toDoListNumbers[i] = this.#createToDoContent(x-30, y, `${i+1}. `).disableInteractive();
       
       y += this.css.toDoList.yPlus;
