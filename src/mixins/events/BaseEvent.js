@@ -72,12 +72,12 @@ export const BaseEventMixin = superclass => class extends superclass {
       return this.selfSpeechBubbleEvent()
     }
     
-    let toDoContent = gameData.NOTICE.get(this.lang).get('todo-list-prefix');
-    toDoList.forEach((textObj)=>{
-        toDoContent += textObj.text?`▶ ${textObj.text}\n`:'';
+    let toDoEventText = gameData.NOTICE.get(this.lang).get('todo-list-prefix');
+    toDoList.forEach((item)=>{
+      toDoEventText += item.content.text?`▶ ${item.content.text}\n`:'';
     });
 
-    this.#startTextBox(toDoContent);
+    this.#startTextBox(toDoEventText);
   }
 
   #getCharacterRandomEvent() {
