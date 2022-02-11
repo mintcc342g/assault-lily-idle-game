@@ -152,7 +152,7 @@ Lilies have very busy days to fight with Huge, massive beasts that are the prima
 
 - The Lily who is relaxing thinks to herself or remind some memos written on the student's hand book.
 - Playerble Lily List
-    - Raimu Ruchia Kishimoto
+    - Raimu Lucia Kishimoto
     - Mai Thi Yoshimura
 
 <br/>

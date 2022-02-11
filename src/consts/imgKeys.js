@@ -9,6 +9,7 @@ export const BACKGROUND_TILE_IMG_KEY = 'background_tileset';
 // Characters
 export const CHARACTER_RAIMU_ID = 'character_raimu';
 export const CHARACTER_MAI_ID = 'character_mai';
+export const CHARACTER_SACHIE_ID = 'character_sachie';
 
 
 // Object Img

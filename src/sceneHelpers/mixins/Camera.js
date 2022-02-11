@@ -1,4 +1,4 @@
-import * as css from '../consts/css.js';
+import * as css from '../../consts/css.js';
 
 export const CameraMixin = superclass => class extends superclass {
   initResponsiveScreen() {
