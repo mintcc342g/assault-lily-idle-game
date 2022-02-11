@@ -94,91 +94,26 @@ const INTRODUCTION_MAI = new Map([
 ]);
 
 
-// random texts
-const RANDOM_TEXTS_RAIMU = new Map([
-  [configs.LANG_KR, [
-    '(마리아 언덕... 난 여기가 좋아.)',
-    '(미라이 언니... 보고 싶다...)',
-    '(사치에 언니는 지금 어디 계실까?)',
-    '(사치에 언니랑 크레이프 먹으러 가는 거 기대된다! 헤헷.)',
-    '(졸려...)',
-    '(후아암...)',
-    '(더 강해지지 않으면...!)',
-    '(클라라쨩 아까 세렌쨩을 찾던데... 찾았으려나?)',
-    '(매미는 어떻게 생겼을까?)',
-  ]],
-  [configs.LANG_EN, [
-    '(The hill of Maria... I like this place.)',
-    '(My sister, Mirai... I miss you a lot.)',
-    '(I wonder where Sachie-Sama is now.)',
-    '(I look forward to eat crepes with Sachie-Sama!)',
-    '(I\'m so sleepy...)',
-    '(YAWN...)',
-    '(I want to be stronger...!)',
-    '(Clara-chan was looking for Seren-chan a minute ago. I wonder whether she met Seren-chan or not.)',
-    '(I wonder what does a cicada look like.',
-  ]],
-  [configs.LANG_JP, [
-    '(マリアの丘…。ここ好きなの。)',
-    '(未来お姉ちゃん…。会いたいな…。)',
-    '(幸恵お姉さま、今どこにいらっしゃるんだろう。)',
-    '(幸恵お姉さまとクレープ食べに行くの楽しみ！\nへへっ。)',
-    '(眠いな…。)',
-    '(ふぁーぁ…。)',
-    '(もっと強くならなきゃ…!)',
-    '(クララちゃん、さっき聖恋ちゃん探してたよね。\n会えたのかな。)',
-    '(セミってどんな形をしているんだろう。)',
-  ]]
-]);
-
-const RANDOM_TEXTS_MAI = new Map([
-  [configs.LANG_KR, [
-    '더 이상은...못 먹는..다구...음냐음냐...',
-    '마이는..모두를..좋아..한다구...쿨쿨...',
-    '분짜....음냐...',
-    '마이의...속도를...따라올...음냐...',
-    '리리...유유를..부탁한다...쿨쿨...',
-    '후배는 다들...귀엽구만...쿨쿨...',
-  ]],
-  [configs.LANG_EN, [
-    'I cannot eat....any..more.....zzzz',
-    'I...love...you guys.....zzz',
-    'Bún Chả.....zzzzzz',
-    'Can you guys...follow....Mai\'s speed....zzzzzz',
-    'Riri...I...leave...Yuyu.....with you......zzz',
-    'What a...lovely...Kouhai....zzz',
-  ]],
-  [configs.LANG_JP, [
-    'もうこれ以上……食べられ……ないゾ……すやすや……。',
-    '梅は…みんなが……好き…なんだゾ……むにゃ……。',
-    'ブンチャー……むにゃむにゃ……。',
-    '梅のスピードに……ついて……来れる…………むにゃ……。',
-    '梨璃……夢結は……頼んだゾ………すやすや……。',
-    '後輩たちは皆………可愛いな……すやすや……。',
-  ]]
-]);
-
-
 // character data
 export const CHARACTER_DATA = new Map([
   [
     imgKeys.CHARACTER_RAIMU_ID, new Map([
       ['id', imgKeys.CHARACTER_RAIMU_ID],
+      ['name', new Map([ [configs.LANG_KR, '키시모토 루치아 라이무'], [configs.LANG_EN, 'Raimu Lucia Kishimoto'], [configs.LANG_JP, '岸本・ルチア・来夢'] ])],
       ['scene', configs.SCENE_THE_HILL_OF_MARIA],
       ['intro', INTRODUCTION_RAIMU],
       ['academy', ACADEMY_LUDOVIC],
       ['events', events.EVENT_LIST_RAIMU],
-      ['random_texts', RANDOM_TEXTS_RAIMU],
     ])
   ],
   [
     imgKeys.CHARACTER_MAI_ID, new Map([
       ['id', imgKeys.CHARACTER_MAI_ID],
+      ['name', new Map([ [configs.LANG_KR, '요시무라 Thi 마이'], [configs.LANG_EN, 'Mai Thi Yoshimura'], [configs.LANG_JP, '吉村・Thi・梅'] ])],
       ['scene', configs.SCENE_YURIGAOKA_GLADE],
       ['intro', INTRODUCTION_MAI],
       ['academy', ACADEMY_YURIGAOKA],
       ['events', events.EVENT_LIST_MAI],
-      ['random_texts', RANDOM_TEXTS_MAI],
     ])
   ],
 ]);

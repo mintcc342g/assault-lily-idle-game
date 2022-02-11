@@ -2,8 +2,8 @@ import * as configs from '../consts/configs.js';
 import * as css from '../consts/css.js';
 import * as gameData from '../consts/gameData.js';
 import * as imgKeys from '../consts/imgKeys.js';
-import CharacterSlot from '../utils/CharacterSlot.js';
-import { CharacterSelectionSetting } from '../mixins/BaseSetting.js'
+import CharacterSlot from '../sceneHelpers/CharacterSlot.js';
+import { CharacterSelectionSetting } from '../sceneHelpers/BaseSetting.js'
 
 export default class CharacterSelectionScene extends CharacterSelectionSetting {
   constructor() {
@@ -15,36 +15,42 @@ export default class CharacterSelectionScene extends CharacterSelectionSetting {
       next: imgKeys.NEXT_BUTTON_KEY,
       play: imgKeys.PLAY_BUTTON_KEY,
       back: imgKeys.BACK_BUTTON_KEY,
-      nextPage: imgKeys.NEXT_PAGE_KEY
     };
     this.position = {
-      character: { x: 120, y: 130 },
-      slot: { x: 110, y: 124 },
-      textBox: { x: 234, y: 105, w: 228, h: 100 },
-      action: { x: 475, y: 170 },
+      character: { x: 120, y: 136 },
+      characterName: { x: 233, y: 93, w: 240, h: 27 },
+      slot: { x: 110, y: 130 },
+      textBox: { x: 234, y: 120, w: 228, h: 90 },
+      textBoxAction: { x: 477, y: 178 },
       arrows: { x: 27, y: 185, plus: 552 },
-      back: { x: 234, y: 259 },
-      play: { x: 400, y: 259 }
+      back: { x: 234, y: 263 },
+      play: { x: 400, y: 263 }
     };
-    this.currentCharacter = { /* sprite and info */ };
+    this.currentCharacter = { /* sprite, intro and academy */ };
 		this.currentTextBox = { /* rexUI textBox */ };
     this.backgrounds = new Map();
-    this.uiGroup = [];
   }
 
   init(data) {
     this.lang = data.lang;
+    this.uiGroup = [];
   }
 
 	create() {
     this.initResponsiveScreen();
 		this.fadeIn(1000);
 
+    this.initTextBox();
 		this.#initBackground();
 		this.#initCharacterSlot();
 		this.#initArrowButtons();
 		this.#initPlayButton();
     this.#initBackButton();
+
+    setTimeout(() => {
+      this.currentCharacter.data.name.setVisible(true);
+      this.#playTextBox();
+    }, 1000);
 	}
 
 	#initBackground() {
@@ -70,18 +76,44 @@ export default class CharacterSelectionScene extends CharacterSelectionSetting {
           key
         ).setVisible(false);
 
-        characterSlot.addCharacter({ sprite: sprite, info: val });
+        characterSlot.addCharacter({
+          sprite: sprite,
+          id: val.get('id'),
+          intro: val.get('intro').get(this.lang),
+          academy: val.get('academy'),
+          scene: val.get('scene'),
+          name: this.#createCharacterName(val),
+        });
     });
 
 		this.currentCharacter = characterSlot.firstCharacter();
-    this.currentTextBox = this.#initTextBox();
-
+    this.currentTextBox = this.#makeTextBox();
     this.#changeCharacter(true);
-
-		setTimeout(() => { this.#playTextBox(); }, 1000);
 	}
 
-  #initTextBox() {
+  #createCharacterName(characterData) {
+    const conf = {
+      x: this.position.characterName.x,
+      y: this.position.characterName.y,
+      text: characterData.get('name').get(this.lang),
+      style: {
+        fixedWidth: this.position.characterName.w,
+        fixedHeight: this.position.characterName.h,
+        color: css.DEFAULT_MENU_CLICKED_COLOR,
+        backgroundColor: css.DEFAULT_MENU_COLOR,
+        fontSize: '16px',
+        align: 'left'
+      },
+      padding: {
+        top: 7,
+        left: 7,
+      }
+    }
+
+    return this.make.text(conf).setOrigin(0, 0).setDepth(configs.LAYER_TEXTBOX).setVisible(false);
+  }
+
+  #makeTextBox() {
     const config = {
       x: this.position.textBox.x,
       y: this.position.textBox.y,
@@ -89,7 +121,7 @@ export default class CharacterSelectionScene extends CharacterSelectionSetting {
         fixedWidth: this.position.textBox.w,
         fixedHeight: this.position.textBox.h,
         color: css.DEFAULT_TEXT_COLOR,
-        fontSize: '18px',
+        fontSize: '16px',
         maxLines: 4,
         lineSpacing: css.DEFAULT_LINE_SPACING,
         wordWrap: {
@@ -98,30 +130,13 @@ export default class CharacterSelectionScene extends CharacterSelectionSetting {
         }        
       },
       padding: {
-        y: 3
+        top: 3
       }
     }
 
-    const action = this.add.image(this.position.action.x, this.position.action.y, this.keys.nextPage)
-      .setDepth(configs.LAYER_POPUP_OBJECT)
-      .setTint(css.DEFAULT_MENU_COLOR_RGB)
-      .setOrigin(0, 0)
-      .setVisible(false);
+    const actionConf = this.position.textBoxAction;
 
-    const textbox = this.createTextBox(config, action).setVisible(false);
-    
-    textbox
-      .on('pointerdown', function () {
-        if (this.isTyping) {
-          this.stop(true);
-        } else {
-          action.setVisible(false);
-          // this.resetChildVisibleState(action);
-          this.typeNextPage();
-        }
-      }, textbox, action);
-    
-    return textbox
+    return this.createIntroduceTextBox(config, actionConf).setVisible(true);
   }
 
 	#initArrowButtons() {
@@ -146,7 +161,7 @@ export default class CharacterSelectionScene extends CharacterSelectionSetting {
           this.currentTextBox.destroy();
 
           this.#setCurrentCharacter(arrowKeys[i]);
-          this.currentTextBox = this.#initTextBox();
+          this.currentTextBox = this.#makeTextBox();
           this.#changeCharacter(true);
           this.#playTextBox();
         });
@@ -199,8 +214,8 @@ export default class CharacterSelectionScene extends CharacterSelectionSetting {
       .on('pointerup', () => {
         this.clickAnim(button, true);
         this.#goToNext(
-          this.currentCharacter.data.info.get('scene'),
-          { lang: this.lang, mainCharacter: this.currentCharacter.data.info }
+          this.currentCharacter.data.scene,
+          { lang: this.lang, mainCharacterID: this.currentCharacter.data.id }
         );
       });
   
@@ -223,19 +238,26 @@ export default class CharacterSelectionScene extends CharacterSelectionSetting {
 
   #changeCharacter(visible) {
     this.currentCharacter.data.sprite.setVisible(visible);
-    this.backgrounds.get(this.currentCharacter.data.info.get('academy')).setVisible(visible);
+    this.currentCharacter.data.name.setVisible(visible);
+    this.backgrounds.get(this.currentCharacter.data.academy).setVisible(visible);
   }
   
-  #diableAllInteractions() {
-    this.uiGroup.forEach((ui) => {
-      ui.disableInteractive();
-    });
-    this.currentTextBox.disableInteractive();
-    this.currentTextBox.pause();
+  #uiGroupInteraction(active) {
+    if (active) {
+      this.uiGroup.forEach((ui) => {
+        ui.setVisible(active);
+      });
+    } else {
+      this.uiGroup.forEach((ui) => {
+        ui.disableInteractive();
+      });
+      this.currentTextBox.disableInteractive();
+      this.currentTextBox.pause();
+    }
   }
 
   #goToNext(nextSceneName, data) {
-    this.#diableAllInteractions();
+    this.#uiGroupInteraction(false);
 
     this.fadeOut(1000);
 
@@ -247,8 +269,6 @@ export default class CharacterSelectionScene extends CharacterSelectionSetting {
   }
 
   #playTextBox() {
-    this.currentTextBox
-      .setVisible(true)
-      .start(this.currentCharacter.data.info.get('intro').get(this.lang), 50);
+    this.currentTextBox.start(this.currentCharacter.data.intro, 50);
   }
 }

@@ -1,4 +1,4 @@
-import * as configs from '../consts/configs.js';
+import * as configs from '../../consts/configs.js';
 
 export const GraphicMixin = superclass => class extends superclass {
 
@@ -7,6 +7,7 @@ export const GraphicMixin = superclass => class extends superclass {
   createTileMap() {
     const tileMap = this.make.tilemap({ key: this.keys.tileset.config });
     const tileset = tileMap.addTilesetImage(this.keys.tileset.name, this.keys.tileset.img);
+
     for (const layerName of this.keys.layers) {
       tileMap.createLayer(layerName, tileset);
       // this.physics.add.collider(player, layer);
@@ -16,48 +17,48 @@ export const GraphicMixin = superclass => class extends superclass {
     return tileMap
   }
 
-  initCharacters() {
-    for(let key of this.characters.keys()) {
-      let sprite = this.add.sprite(0, 0, key).setOrigin(0, 0);
-      this.characters.set(key, sprite);
-      this.#createAnimFrame(key, configs.CHARACTER_ANIM_KEYS, configs.DEFAULT_ANIM_FRAME_DURATION, -1);
+  initCharacterSprites() {
+    for(let characterID of this.characters.keys()) {
+      let sprite = this.add.sprite(0, 0, characterID).setOrigin(0, 0).setVisible(false);
+
+      this.characters.get(characterID).setSprite(sprite);
+      this.#createAnimFrame(characterID, configs.CHARACTER_ANIM_KEYS, configs.DEFAULT_ANIM_FRAME_DURATION, -1);
     }
   }
 
-  #createAnimFrame(characterID, keys, duration, repeat) {
-    for (const key of keys){
-      let config = this.#createAnimConfig(characterID, key, duration, repeat);
+  #createAnimFrame(characterID, animKeys, duration, repeat) {
+    for (const animKey of animKeys){
+      let config = this.#createAnimConfig(characterID, animKey, duration, repeat);
 
-      if (key == configs.DEFAULT_ANIM_SLEEP_KEY) {
+      if (animKey == configs.DEFAULT_ANIM_SLEEP_DOWN_KEY) {
         config.duration = configs.DEFAULT_SLEEP_ANIM_FRAME_DURATION;
         config.repeatDuration = configs.DEFAULT_SLEEP_ANIM_REPEAT_DURATION;
       }
 
       this.anims.create(config);
+      this.#setCleanUpAnimEvent(characterID, animKey);
     }
-
-    this.#setCleanUpEvent(keys);
   }
 
-  #createAnimConfig(characterID, key, duration, repeat) {
+  #createAnimConfig(characterID, animKey, duration, repeat) {
     return {
-      key: `${key}`,
+      key: `${characterID}_${animKey}`,
       frames: [
         {
           key: characterID,
-          frame: `${key}_01.png`
+          frame: `${animKey}_01.png`
         },
         {
           key: characterID,
-          frame: `${key}_02.png`
+          frame: `${animKey}_02.png`
         },
         {
           key: characterID,
-          frame: `${key}_03.png`
+          frame: `${animKey}_03.png`
         },
         {
           key: characterID,
-          frame: `${key}_04.png`
+          frame: `${animKey}_04.png`
         },
       ],
       duration: duration, // ms
@@ -65,11 +66,9 @@ export const GraphicMixin = superclass => class extends superclass {
     }
   }
 
-  #setCleanUpEvent(keys) {
+  #setCleanUpAnimEvent(characterID, animKey) {
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
-      for (let key of keys) {
-        this.anims.remove(key);
-      }
+      this.anims.remove(`${characterID}_${animKey}`);
     });
   }
 
@@ -89,15 +88,15 @@ export const GraphicMixin = superclass => class extends superclass {
   #createCharacterConfig() {
     const charactersConfig = [];
 
-    this.characters.forEach((val, key) => {
+    this.characters.forEach((character) => {
       charactersConfig.push({
-        id: key,
-        sprite: val,
+        id: character.id,
+        sprite: character.sprite,
         startPosition: {
-          x: this.position.mainCharacter.startX,
-          y: this.position.mainCharacter.startY
+          x: character.getPosition('start').x,
+          y: character.getPosition('start').y
         },
-        speed: this.position.mainCharacter.speed,
+        speed: character.speed,
       });
     });
 
@@ -105,27 +104,25 @@ export const GraphicMixin = superclass => class extends superclass {
   }
 
   #subscribeDefaultMovement() {
-    this.characters.forEach((val) => {
-      this.subscribeCharacterMovements(val, 'walking', 'down');
+    this.characters.forEach((character) => {
+      this.#subscribeCharacterMovements(character, 'walking');
     });
   }
 
-  subscribeCharacterMovements(character, movingMotion, stopMotion) {
-    this.gridEngine.movementStarted().subscribe(({ direction }) => {
-      character.play(`${movingMotion}_${direction}`);
+  #subscribeCharacterMovements(character, movingMotion) {
+    this.gridEngine.movementStarted().subscribe(({ charId, direction }) => {
+      if (!character.isEqual(charId)) {
+        return
+      }
+      character.play(movingMotion, direction);
     });
     
-    this.gridEngine.movementStopped().subscribe(({ direction }) => {
-      character.anims.stop();
-      character.setFrame(this.getIdleStopFrame(stopMotion));
+    this.gridEngine.movementStopped().subscribe(() => {
+      character.stop();
     });
     
     this.gridEngine.directionChanged().subscribe(({ direction }) => {
-      character.setFrame(this.getIdleStopFrame(direction));
+      character.setIdleFrame(direction);
     });
   }
-
-  getIdleStopFrame(direction) {
-    return `idle_${direction}_01.png`;
-  }  
 };

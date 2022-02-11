@@ -430,7 +430,7 @@
 					}
 				},
 				{
-					"filename": "sleep_01.png",
+					"filename": "sleep_down_01.png",
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
@@ -451,7 +451,7 @@
 					}
 				},
 				{
-					"filename": "sleep_02.png",
+					"filename": "sleep_down_02.png",
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
@@ -472,7 +472,7 @@
 					}
 				},
 				{
-					"filename": "sleep_03.png",
+					"filename": "sleep_down_03.png",
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
@@ -493,7 +493,7 @@
 					}
 				},
 				{
-					"filename": "sleep_04.png",
+					"filename": "sleep_down_04.png",
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {

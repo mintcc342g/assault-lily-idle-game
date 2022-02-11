@@ -3,6 +3,8 @@ import CharacterRaimuJSON from '../assets/sprites/character_raimu.json';
 import CharacterRaimuImg from '../assets/sprites/character_raimu.png';
 import CharacterMaiJSON from '../assets/sprites/character_mai.json';
 import CharacterMaiImg from '../assets/sprites/character_mai.png';
+import CharacterSachieJSON from '../assets/sprites/character_sachie.json';
+import CharacterSachieImg from '../assets/sprites/character_sachie.png';
 
 // map imgs
 import BackgroundTileImage from '../assets/maps/background_tiles.png';
@@ -51,7 +53,7 @@ import GladeJSON from '../assets/maps/map_yurigaoka_glade.json';
 import * as configs from '../consts/configs.js';
 import * as gameData from '../consts/gameData.js';
 import * as imgKeys from '../consts/imgKeys.js';
-import { BaseSetting } from '../mixins/BaseSetting.js';
+import { BaseSetting } from '../sceneHelpers/BaseSetting.js';
 
 export default class BootScene extends BaseSetting {
   constructor() {
@@ -133,11 +135,11 @@ export default class BootScene extends BaseSetting {
   loadCharacterImgs() {
     this.load.atlas(imgKeys.CHARACTER_RAIMU_ID, CharacterRaimuImg, CharacterRaimuJSON);
     this.load.atlas(imgKeys.CHARACTER_MAI_ID, CharacterMaiImg, CharacterMaiJSON);
+    this.load.atlas(imgKeys.CHARACTER_SACHIE_ID, CharacterSachieImg, CharacterSachieJSON);
   }
 
   loadMapImgs() {
     this.load.image(imgKeys.BACKGROUND_TILE_IMG_KEY, BackgroundTileImage);
-
     this.load.tilemapTiledJSON(imgKeys.MARIA_HILL_TILESET_CONFIG_KEY, MariaHillJSON);
     this.load.tilemapTiledJSON(imgKeys.YURIGAOKA_GLADE_TILESET_CONFIG_KEY, GladeJSON);
   }

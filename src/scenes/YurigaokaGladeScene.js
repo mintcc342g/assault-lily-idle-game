@@ -3,9 +3,10 @@ import * as css from '../consts/css.js';
 import * as gameData from '../consts/gameData.js';
 import * as imgKeys from '../consts/imgKeys.js';
 import * as utils from '../utils/utils.js';
-import { YurigaokaGladeSetting } from '../mixins/BaseSetting.js';
+import { GamePlaySetting } from '../sceneHelpers/BaseSetting.js';
+import Character from '../sceneHelpers/Character.js';
 
-export default class YurigaokaGladeScene extends YurigaokaGladeSetting {
+export default class YurigaokaGladeScene extends GamePlaySetting {
   constructor() {
     super(configs.SCENE_YURIGAOKA_GLADE);
     this.keys = {
@@ -25,7 +26,6 @@ export default class YurigaokaGladeScene extends YurigaokaGladeSetting {
       ]
     };
     this.position = {
-      mainCharacter: { startX: 3, startY: 4, speed: 1 },
       cats: [
         { x: 182, y: 182, w: 148, h: 58 },
         { x: 92, y: 272, w: 238, h: 58 },
@@ -38,29 +38,49 @@ export default class YurigaokaGladeScene extends YurigaokaGladeSetting {
         cat: { w: 40, h: 16 }
       }
     };
-    this.characters = new Map([
-      [imgKeys.CHARACTER_MAI_ID, { /* sprite */ }]
-    ]);
-    this.mainCharacter = { /* map */ };
-    this.eventEmitter = { /* Event instance */ };
+    this.mainCharacterID = '';
+    this.eventCharacterID = '';
   }
 
   init(data) {
     this.lang = data.lang;
-    this.mainCharacter = data.mainCharacter;
+    this.mainCharacterID = data.mainCharacterID;
+    this.characters = new Map([]);
   }
 
   create() {
     this.initResponsiveScreen();
 
-    this.initCharacters();
-    this.#initCats();
-    this.initEvent();
+    this.#prepareScenario();
+    this.initCharacterSprites();
+    this.initTextBox();
 
     const tileMap = this.createTileMap();
     this.initGridEngine(tileMap);
 
     this.#sceneStart();
+  }
+
+  #prepareScenario() {
+    this.initDefaultEvents();
+
+    switch (this.mainCharacterID) {
+      case imgKeys.CHARACTER_MAI_ID:
+        this.#createCastsForMai();
+        this.#initCats();
+        break;
+    
+      default:
+        break;
+    }
+  }
+
+  #createCastsForMai() {
+    const mai = new Character(imgKeys.CHARACTER_MAI_ID);
+    mai.addPosition('start', 3, 4, 'down');
+    mai.setSpeed(1);
+
+    this.characters.set(mai.id, mai);
   }
 
   #initCats() {
@@ -99,6 +119,7 @@ export default class YurigaokaGladeScene extends YurigaokaGladeSetting {
           
           bubble.start(gameData.NOTICE.get(this.lang).get('cat'), 50)
         });
+      
       i++;
     });
   }
@@ -168,14 +189,14 @@ export default class YurigaokaGladeScene extends YurigaokaGladeSetting {
   #sceneStart() {
     this.fadeIn(1000);
 
-    this.characters.get(this.mainCharacter.get('id')).play('sleep');
+    this.characters.get(this.mainCharacterID).setVisible(true).play('sleep', 'down');
 
     setTimeout(()=>{
       this.scene.launch(configs.SCENE_UI,
         {
           lang: this.lang,
           sceneName: this.name,
-          academy: this.mainCharacter.get('academy'),
+          academy: gameData.CHARACTER_DATA.get(this.mainCharacterID).get('academy'),
         }
       );
 
