@@ -16,14 +16,6 @@ export default class Character {
     return this
   }
 
-  setFrameByName(name) {
-    const direction = this.position.get(name)?.direction;
-    if (direction) {
-      this.setIdleFrame(direction);
-    }
-    return this
-  }
-
   setIdleFrame(direction) {
     this.sprite.setFrame(`idle_${direction}_01.png`);
     return this
@@ -34,8 +26,8 @@ export default class Character {
     return this
   }
 
-  addPosition(name, x, y, direction) {
-    this.position.set(name, { x: x, y: y, direction: direction });
+  addPosition(name, x, y) {
+    this.position.set(name, { x: x, y: y });
     return this
   }
 
@@ -44,7 +36,7 @@ export default class Character {
   }
 
   play(movingMotion, direction) {
-    this.sprite.play(`${this.id}_${movingMotion}_${direction}`); // key of animation config
+    this.sprite.play(`${this.id}_${movingMotion}_${direction}`);
     return this
   }
 

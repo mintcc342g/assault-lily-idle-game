@@ -1,17 +1,20 @@
-import * as configs from '../../consts/configs.js';
+import {
+  GRID_ENGINE_MOVEMENT_DIRECTION, CHARACTER_ANIM_KEYS, DEFAULT_ANIM_FRAME_DURATION,
+  DEFAULT_ANIM_SLEEP_DOWN_KEY, DEFAULT_SLEEP_ANIM_FRAME_DURATION, DEFAULT_SLEEP_ANIM_REPEAT_DURATION
+} from '../../consts/configs.js';
 
 export const GraphicMixin = superclass => class extends superclass {
 
-  /// Phaser 3
-
+  /**
+   * Phaser 3
+   * 
+   */
   createTileMap() {
     const tileMap = this.make.tilemap({ key: this.keys.tileset.config });
     const tileset = tileMap.addTilesetImage(this.keys.tileset.name, this.keys.tileset.img);
 
     for (const layerName of this.keys.layers) {
       tileMap.createLayer(layerName, tileset);
-      // this.physics.add.collider(player, layer);
-      // layer.setCollisionByProperty({ collides: true });
     }
   
     return tileMap
@@ -22,7 +25,7 @@ export const GraphicMixin = superclass => class extends superclass {
       let sprite = this.add.sprite(0, 0, characterID).setOrigin(0, 0).setVisible(false);
 
       this.characters.get(characterID).setSprite(sprite);
-      this.#createAnimFrame(characterID, configs.CHARACTER_ANIM_KEYS, configs.DEFAULT_ANIM_FRAME_DURATION, -1);
+      this.#createAnimFrame(characterID, CHARACTER_ANIM_KEYS, DEFAULT_ANIM_FRAME_DURATION, -1);
     }
   }
 
@@ -30,9 +33,9 @@ export const GraphicMixin = superclass => class extends superclass {
     for (const animKey of animKeys){
       let config = this.#createAnimConfig(characterID, animKey, duration, repeat);
 
-      if (animKey == configs.DEFAULT_ANIM_SLEEP_DOWN_KEY) {
-        config.duration = configs.DEFAULT_SLEEP_ANIM_FRAME_DURATION;
-        config.repeatDuration = configs.DEFAULT_SLEEP_ANIM_REPEAT_DURATION;
+      if (animKey == DEFAULT_ANIM_SLEEP_DOWN_KEY) {
+        config.duration = DEFAULT_SLEEP_ANIM_FRAME_DURATION;
+        config.repeatDuration = DEFAULT_SLEEP_ANIM_REPEAT_DURATION;
       }
 
       this.anims.create(config);
@@ -42,7 +45,7 @@ export const GraphicMixin = superclass => class extends superclass {
 
   #createAnimConfig(characterID, animKey, duration, repeat) {
     return {
-      key: `${characterID}_${animKey}`,
+      key: `${characterID}_${animKey}`, // NOTE: characterID_movingMotion_direction
       frames: [
         {
           key: characterID,
@@ -61,7 +64,7 @@ export const GraphicMixin = superclass => class extends superclass {
           frame: `${animKey}_04.png`
         },
       ],
-      duration: duration, // ms
+      duration: duration, // NOTE: ms
       repeat: repeat?repeat:-1,
     }
   }
@@ -72,13 +75,16 @@ export const GraphicMixin = superclass => class extends superclass {
     });
   }
 
-  /// Grid Engine
 
+  /**
+   * Grid Engine
+   * 
+   */
   initGridEngine(tileMap) {
     const charactersConfig = this.#createCharacterConfig();
     const gridEngineConfig = {
       characters: charactersConfig,
-      numberOfDirections: configs.GRID_ENGINE_MOVEMENT_DIRECTION,
+      numberOfDirections: GRID_ENGINE_MOVEMENT_DIRECTION,
     };
 
     this.gridEngine.create(tileMap, gridEngineConfig);

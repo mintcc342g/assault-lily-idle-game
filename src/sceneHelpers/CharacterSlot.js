@@ -1,4 +1,4 @@
-import * as utils from '../utils/utils.js';
+import { isEmptyObject } from '../utils/utils.js';
 
 class Character {
   constructor(data) {
@@ -17,7 +17,7 @@ export default class CharacterSlot {
   addCharacter(data) {
     const character = new Character(data);
 
-    if (utils.isEmptyObject(this.first)) {
+    if (isEmptyObject(this.first)) {
       this.first = character;
     } else {
       character.prev = this.last;
