@@ -1,26 +1,28 @@
-import * as configs from '../consts/configs.js';
-import * as gameData from '../consts/gameData.js';
-import * as imgKeys from '../consts/imgKeys.js';
+import { 
+  SCENE_MAIN, SCENE_CHARACTER_SELECTION,
+  LAYER_BACKGROUND, LAYER_ON_THE_BACKGROUND, LAYER_HIDDEN_ITEM, LAYER_UI,
+} from '../consts/configs.js';
+import { MAIN_BACKGROUND_KEY, START_BUTTON_KEY } from '../consts/imgKeys.js';
 import { UISetting } from '../sceneHelpers/BaseSetting.js';
 
 export default class MainScene extends UISetting {
   constructor() {
-    super(configs.SCENE_MAIN);
+    super(SCENE_MAIN);
     this.keys = {
-      background: imgKeys.MAIN_BACKGROUND_KEY,
-      start: imgKeys.START_BUTTON_KEY,
-      kr: configs.LANG_KR,
-      en: configs.LANG_EN,
-      jp: configs.LANG_JP
+      background: MAIN_BACKGROUND_KEY,
+      start: START_BUTTON_KEY,
+      kr: this.keyRepo.kr(),
+      en: this.keyRepo.en(),
+      jp: this.keyRepo.jp(),
     };
     this.position = {
       start: { x: 225, y: 532 },
       lang: { x: 140, y: 654, plus: 129 },
     };
     this.langButtons = new Map([
-      [this.keys.kr, new Map([ ['lang', configs.LANG_KR], ['button', { /* sprite */ }] ])],
-      [this.keys.en, new Map([ ['lang', configs.LANG_EN], ['button', { /* sprite */ }] ])],
-      [this.keys.jp, new Map([ ['lang', configs.LANG_JP], ['button', { /* sprite */ }] ])]
+      [this.keys.kr, new Map([ ['lang', this.keys.kr], ['button', { /* sprite */ }] ])],
+      [this.keys.en, new Map([ ['lang', this.keys.en], ['button', { /* sprite */ }] ])],
+      [this.keys.jp, new Map([ ['lang', this.keys.jp], ['button', { /* sprite */ }] ])]
     ]);
   }
 
@@ -29,9 +31,11 @@ export default class MainScene extends UISetting {
       this.lang = data.lang;
     }
   }
-
+  
   create() {
     this.initResponsiveScreen();
+    this.initCustomAnimation();
+
     this.fadeIn(1000);
     
     this.#initBackground();
@@ -42,7 +46,7 @@ export default class MainScene extends UISetting {
 
   #initBackground() {
     this.add.image(0, 0, this.keys.background)
-      .setDepth(configs.LAYER_BACKGROUND)
+      .setDepth(LAYER_BACKGROUND)
       .setOrigin(0, 0);
   }
 
@@ -63,7 +67,7 @@ export default class MainScene extends UISetting {
     .on('start', function(tween, targets){
       tween.data.forEach((datum) => {
         setTimeout(() => {
-          datum.target.setDepth(configs.LAYER_ON_THE_BACKGROUND);
+          datum.target.setDepth(LAYER_ON_THE_BACKGROUND);
         }, datum.delay+100, datum);
       });
     });
@@ -83,16 +87,14 @@ export default class MainScene extends UISetting {
       }
     };
 
-    // TODO: fix a delay problem when use gameData.NOTICE.forEach(() => {})
+    conf.text = this.transRepo.mainInfo(this.keys.en);
+    result.push(this.make.text(conf).setOrigin(0, 0).setDepth(LAYER_ON_THE_BACKGROUND));
 
-    conf.text = gameData.NOTICE.get(configs.LANG_EN).get('main-info');
-    result.push(this.make.text(conf).setOrigin(0, 0).setDepth(configs.LAYER_ON_THE_BACKGROUND));
+    conf.text = this.transRepo.mainInfo(this.keys.kr);
+    result.push(this.make.text(conf).setOrigin(0, 0).setDepth(LAYER_HIDDEN_ITEM));
 
-    conf.text = gameData.NOTICE.get(configs.LANG_KR).get('main-info');
-    result.push(this.make.text(conf).setOrigin(0, 0).setDepth(configs.LAYER_HIDDEN_ITEM));
-
-    conf.text = gameData.NOTICE.get(configs.LANG_JP).get('main-info');
-    result.push(this.make.text(conf).setOrigin(0, 0).setDepth(configs.LAYER_HIDDEN_ITEM));
+    conf.text = this.transRepo.mainInfo(this.keys.jp);
+    result.push(this.make.text(conf).setOrigin(0, 0).setDepth(LAYER_HIDDEN_ITEM));
 
     return result
   }
@@ -130,7 +132,7 @@ export default class MainScene extends UISetting {
 
   #createButton(buttonKey, x, y) {
     return this.add.sprite(x, y, buttonKey)
-      .setDepth(configs.LAYER_UI)
+      .setDepth(LAYER_UI)
       .setInteractive()
       .setOrigin(0, 0);
   }
@@ -159,7 +161,7 @@ export default class MainScene extends UISetting {
 
     this.cameras.main.once('camerafadeoutcomplete', (cam, effect) => {
       this.time.delayedCall(1000, () => {
-        this.scene.start(configs.SCENE_CHARACTER_SELECTION, { lang: this.lang });
+        this.scene.start(SCENE_CHARACTER_SELECTION, { lang: this.lang });
       });
     });
   }

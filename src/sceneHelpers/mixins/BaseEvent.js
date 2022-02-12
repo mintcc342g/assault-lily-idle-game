@@ -1,7 +1,9 @@
-import * as events from '../../consts/events.js';
-import * as gameData from '../../consts/gameData.js';
-import * as scenario from '../../consts/scenario.js';
-import * as utils from '../../utils/utils.js';
+import {
+  EVENT_THINKING, EVENT_CHECK_TO_DO_LIST,
+  EVENT_CONVERSATION, EVENT_REPEAT_CONVERSATION, EVENT_CONVERSATION_DONE,
+  EVENT_PROBABILITY_20, EVENT_PROBABILITY_30, EVENT_PROBABILITY_90
+} from '../../consts/events.js';
+import { msToSec, minToMs, rand } from '../../utils/utils.js';
 
 const { EventEmitter } = require('events');
 
@@ -15,9 +17,10 @@ export const BaseEventMixin = superclass => class extends superclass {
   initDefaultEvents() {
     this.#initEventConfig();
 
-    this.eventEmitter.on(events.EVENT_SELF_SPEECH, () => { this.eventSelfSpeech() });
-    this.eventEmitter.on(events.EVENT_CHECK_TO_DO_LIST, () => { this.eventCheckToDoList() });
-    this.eventEmitter.on(events.EVENT_CONVERSATION, () => { this.eventConversation() });
+    this.eventEmitter.on(EVENT_THINKING, () => { this.eventThinking() });
+    this.eventEmitter.on(EVENT_CHECK_TO_DO_LIST, () => { this.eventCheckToDoList() });
+    this.eventEmitter.on(EVENT_CONVERSATION, () => { this.eventConversation() });
+    this.eventEmitter.on(EVENT_REPEAT_CONVERSATION, () => { this.repeatConversation() });
   }
 
   addEvent(eventName, callback) {
@@ -27,7 +30,7 @@ export const BaseEventMixin = superclass => class extends superclass {
   eventHandler(delay, event) {
     this.time.addEvent({
       delay: delay,
-      callback: () => { this.eventEmitter.emit(this.#getCharacterRandomEvent(event)) },
+      callback: () => { this.eventEmitter.emit(this.#getCharacterRandomEvent(event), event) },
       // args: [],
       callbackScope: this,
       loop: false,
@@ -38,19 +41,19 @@ export const BaseEventMixin = superclass => class extends superclass {
     });
   }
 	
-  eventSelfSpeech() {
-    const texts = scenario.RANDOM_TEXTS.get(this.mainCharacterID).get(this.lang);
-    const randNum = utils.rand(0, texts.length-1);
+  eventThinking() {
+    const texts = this.dialRepo.characterThinking(this.mainCharacterID, this.lang)
+    const randNum = rand(0, texts.length-1);
     
     this.#startTextBox(texts[randNum]);
   }
 
   eventCheckToDoList() {
-    const userToDoList = gameData.USER_DATA.get('to_do_list');
-    const text = gameData.NOTICE.get(this.lang).get('todo-list-prefix');
+    const userToDoList = this.userRepo.toDoContents();
+    let text = this.transRepo.toDoLine(this.lang);
 
     if (userToDoList.length == 0 || this.characters.get(this.mainCharacterID).isPlaying()) {
-      return this.eventSelfSpeech()
+      return this.eventThinking()
     }
 
     userToDoList.forEach((toDo)=>{
@@ -62,90 +65,49 @@ export const BaseEventMixin = superclass => class extends superclass {
 
   eventConversation() {
     if (this.eventTimeOut) {
-      return this.#eventEndConversation()
+      return this.#finishConversationEvent()
     }
 
     this.#setTimer(15, 30);
-    this.lookCharacter(this.mainCharacterID); // fix: use the speaker_id in scripts?
-    this.lookCharacter(this.eventCharacterID); // fix: see the speaker after first script be finished
 
-    const scenarios = scenario.RANDOM_CONVERSATION.get(this.mainCharacterID).get(this.eventCharacterID).get('random').get(this.lang);
-    const randNum = utils.rand(0, scenarios.length-1);
-    const scripts = scenarios[randNum];
+    const dialogues = this.dialRepo.dialogues(this.mainCharacterID, this.partnerID, 'random', this.lang);
+    const randNum = rand(0, dialogues.length-1);
+    const scripts = dialogues[randNum];
 
-    let scriptNum = 0;
-    let speaker = scripts[scriptNum][0];
-    let script = scripts[scriptNum][1];
-    
-    const scriptReader = (textBox, action) => {
-      scriptNum++;
-
-      if (scriptNum >= scripts.length) {
-        textBox.destroy();
-        this.characters.get(this.mainCharacterID).setIdleFrame('down');
-        this.characters.get(this.eventCharacterID).setIdleFrame('down');
-        this.#repeatEvent(textBox, events.EVENT_CONVERSATION);
-        return
-      }
-
-      speaker = scripts[scriptNum][0]; // fix: show the speaker's name
-      script = scripts[scriptNum][1];
-      action.setVisible(false);
-      textBox.start(script, 50);
-    }
-
-    this.createConversationTextBox(null, null, scriptReader).start(script, 50);
+    this.startDialogue(scripts, EVENT_REPEAT_CONVERSATION);
   }
 
-  #eventEndConversation() {
+  repeatConversation() {
+    this.endConversationAnim();
+    this.#repeatEvent(null, EVENT_CONVERSATION);
+  }
+
+  #finishConversationEvent() {
     this.eventTimeOut = false;
-
-    const scripts = scenario.RANDOM_CONVERSATION.get(this.mainCharacterID).get(this.eventCharacterID).get('end').get(this.lang);
-    const nextPosition = this.characters.get(this.eventCharacterID).getPosition(events.EVENT_CONVERSATION_DONE);
-    
-    let scriptNum = 0;
-    let speaker = scripts[scriptNum][0];
-    let script = scripts[scriptNum][1];
-    
-    this.lookCharacter(this.mainCharacterID);
-    this.lookCharacter(this.eventCharacterID);
-
-    const scriptReader = (textBox, action) => {
-      scriptNum++;
-
-      if (scriptNum >= scripts.length) {
-        this.endConversation(textBox, nextPosition);
-        return
-      }
-
-      speaker = scripts[scriptNum][0]; // fix: show the speaker's name
-      script = scripts[scriptNum][1];
-      action.setVisible(false);
-      textBox.start(script, 50);
-    }
-
-    this.createConversationTextBox(null, null, scriptReader).start(script, 50);
+    const scripts = this.dialRepo.dialogues(this.mainCharacterID, this.partnerID, 'end', this.lang);
+    this.startDialogue(scripts, EVENT_CONVERSATION_DONE);
   }
 
   #getCharacterRandomEvent(event) {
     if (event) {
+      console.log("getCharacterRandomEvent", event)
       return event
     }
 
-    const probability = utils.rand(0, 100);
-    const characterEvents =  gameData.CHARACTER_DATA.get(this.mainCharacterID).get('events');
+    const probability = rand(0, 100);
+    const events =  this.eventRepo.characterEvents(this.mainCharacterID);
 
-    if (probability <= events.EVENT_PROBABILITY_20) {
-      event = characterEvents.get(events.EVENT_PROBABILITY_20);
+    if (probability <= 90) {
+      event = events.get(EVENT_PROBABILITY_20);
       return this.#getCharacterRandomEvent(event);
     }
 
-    if (probability <= events.EVENT_PROBABILITY_30) {
-      event = characterEvents.get(events.EVENT_PROBABILITY_30);
+    if (probability <= EVENT_PROBABILITY_30) {
+      event = events.get(EVENT_PROBABILITY_30);
       return this.#getCharacterRandomEvent(event);
     }
     
-    return characterEvents.get(events.EVENT_PROBABILITY_90);
+    return events.get(EVENT_PROBABILITY_90);
   }
 
   #repeatEvent(textbox, eventName) {
@@ -154,7 +116,7 @@ export const BaseEventMixin = superclass => class extends superclass {
         textbox.destroy();
       }
 
-      const delay = utils.msToSec(utils.rand(10, 15));
+      const delay = msToSec(rand(10, 15));
       this.eventHandler(delay, eventName);
     }, 2000);
   }
@@ -169,7 +131,7 @@ export const BaseEventMixin = superclass => class extends superclass {
       return
     }
 
-    const duration = utils.minToMs(utils.rand(minDuration, maxDuration));
+    const duration = minToMs(rand(minDuration, maxDuration));
     this.timerRunning = true;
 
     setTimeout(() => {

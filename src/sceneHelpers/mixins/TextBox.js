@@ -1,23 +1,31 @@
-import * as configs from '../../consts/configs.js';
-import * as css from '../../consts/css.js';
-import * as imgKeys from '../../consts/imgKeys.js';
+import {
+  DEFAULT_TEXT_COLOR, DEFAULT_MENU_COLOR_RGB, DEFAULT_MENU_COLOR,
+  DEFAULT_TEXTBOX_BACKGROUND_COLOR_RGB, DEFAULT_LINE_SPACING
+} from '../../consts/css.js';
+import { LAYER_TEXTBOX } from '../../consts/configs.js';
+import { NEXT_PAGE_KEY } from '../../consts/imgKeys.js';
 
 export const TextBoxMixin = superclass => class extends superclass {
   initTextBox() {
-    this.nextPageKey = imgKeys.NEXT_PAGE_KEY;
+    this.nextPageKey = NEXT_PAGE_KEY;
     this.defaultConf = {
       popUp: { x: 40, y: 570, speed: 50 },
       action: { x: 550, y: 620 },
+      nameTag: {
+        x: 39, y: 543, w: 240, h: 27,
+        fontSize: '16px',
+        padding: { top: 7, left: 7 },
+      },
       box: {
         x: 40,
         y: 570,
         style: {
           fixedWidth: 500,
           fixedHeight: 80,
-          color: css.DEFAULT_TEXT_COLOR,
+          color: DEFAULT_TEXT_COLOR,
           fontSize: '20px',
           maxLines: 3,
-          lineSpacing: css.DEFAULT_LINE_SPACING,
+          lineSpacing: DEFAULT_LINE_SPACING,
           wordWrap: {
             width: 500,
             useAdvancedWrap: true
@@ -38,14 +46,14 @@ export const TextBoxMixin = superclass => class extends superclass {
     textBox
       .setOrigin(0, 0)
       .setInteractive()
-      .setDepth(configs.LAYER_TEXTBOX)
+      .setDepth(LAYER_TEXTBOX)
       .layout()
       .on('pageend', function () {
         if (textBox.isLastPage) {
           return
         }
         this.#playActionIcon(action, actionX, actionY)
-        timer = this.#nextPageWithDelay(textBox, action, 5000);
+        timer = this.#nextPageWithDelay(textBox, action, 3000);
       }, this)
       .on('pointerdown', function () {
         if (timer) {
@@ -76,7 +84,7 @@ export const TextBoxMixin = superclass => class extends superclass {
     textBox
       .setOrigin(0, 0)
       .setInteractive()
-      .setDepth(configs.LAYER_TEXTBOX)
+      .setDepth(LAYER_TEXTBOX)
       .layout()
       .on('pageend', function () {
         if (textBox.isLastPage) {
@@ -101,17 +109,70 @@ export const TextBoxMixin = superclass => class extends superclass {
     return textBox;
   }
 
-  createConversationTextBox(boxConf, actionConf, scriptReader) { // fix: add a space for a speaker's name in the design
-    const action = this.#createActionIcon(actionConf);
-    const actionX = actionConf?actionConf.x:this.defaultConf.action.x;
-    const actionY = actionConf?actionConf.y:this.defaultConf.action.y;
-    const textBox = this.rexUI.add.textBox(this.#createBoxConfig(boxConf, action));
-    let timer = null;
+  startDialogue(scripts, nextEvent) {
+    let scriptNum = 0;
+    let speakerID = scripts[scriptNum][0];
+    let script = scripts[scriptNum][1];
+
+    const nameTag = this.createNameTag(
+      this.charaRepo.name(speakerID, this.lang),
+      this.defaultConf.nameTag).setVisible(true);
+
+    this.lookOther(speakerID);
+    
+    const scriptReader = (textBox, action) => {
+      scriptNum++;
+      this.lookCharacter(speakerID);
+
+      if (scriptNum >= scripts.length) {
+        this.eventHandler(0, nextEvent);
+        textBox.destroy();
+        nameTag.destroy();
+        return
+      }
+
+      speakerID = scripts[scriptNum][0];
+      script = scripts[scriptNum][1];
+
+      action.setVisible(false);
+      nameTag.setText(this.charaRepo.name(speakerID, this.lang));
+      textBox.start(script, 50);
+    };
+
+    this.createConversationTextBox(scriptReader).start(script, 50);
+  }
+
+  createNameTag(name, config) {
+    const conf = {
+      x: config.x,
+      y: config.y,
+      text: name,
+      style: {
+        fixedWidth: config.w,
+        fixedHeight: config.h,
+        color: '#ffffff',
+        backgroundColor: DEFAULT_MENU_COLOR,
+        fontSize: config.fontSize,
+        align: 'left'
+      },
+      padding: config.padding,
+    }
+
+    return this.make.text(conf).setOrigin(0, 0).setDepth(LAYER_TEXTBOX);
+  }
+
+  createConversationTextBox(scriptReader) {
+    const action = this.#createActionIcon(false);
+    const actionX = this.defaultConf.action.x;
+    const actionY = this.defaultConf.action.y;
+    const textBox = this.rexUI.add.textBox(this.#createBoxConfig(false, action));
+
+    let timer = false;
 
     textBox
       .setOrigin(0, 0)
       .setInteractive()
-      .setDepth(configs.LAYER_TEXTBOX)
+      .setDepth(LAYER_TEXTBOX)
       .layout()
       .on('pageend', function () {
         if (textBox.isLastPage) {
@@ -147,10 +208,10 @@ export const TextBoxMixin = superclass => class extends superclass {
     return {
       x: conf?conf.x:this.defaultConf.box.x,
       y: conf?conf.y:this.defaultConf.box.y,
-      background: this.rexUI.add.roundRectangle(0, 0, 2, 2, 0, css.DEFAULT_TEXTBOX_BACKGROUND_COLOR_RGB)
+      background: this.rexUI.add.roundRectangle(0, 0, 2, 2, 0, DEFAULT_TEXTBOX_BACKGROUND_COLOR_RGB)
         .setOrigin(0, 0)
         .setAlpha(0.85)
-        .setStrokeStyle(2, css.DEFAULT_MENU_COLOR_RGB),
+        .setStrokeStyle(2, DEFAULT_MENU_COLOR_RGB),
       text: this.make.text(conf?conf:this.defaultConf.box).setOrigin(0, 0),
       action: action,
       space: {
@@ -166,7 +227,7 @@ export const TextBoxMixin = superclass => class extends superclass {
       conf?conf.y:this.defaultConf.action.y,
       this.nextPageKey
     )
-    .setTint(css.DEFAULT_MENU_COLOR_RGB)
+    .setTint(DEFAULT_MENU_COLOR_RGB)
     .setOrigin(0, 0)
     .setVisible(false);
   }
@@ -175,15 +236,15 @@ export const TextBoxMixin = superclass => class extends superclass {
     const bubble = this.rexUI.add.textBox({
       x: boxX,
       y: boxY,
-      background: this.#createSpeechBubbleShape(css.DEFAULT_TEXTBOX_BACKGROUND_COLOR_RGB, css.DEFAULT_MENU_COLOR_RGB),
-      text: this.make.text(textConf).setOrigin(0, 0), // text param should be located next of background param
+      background: this.#createSpeechBubbleShape(DEFAULT_TEXTBOX_BACKGROUND_COLOR_RGB, DEFAULT_MENU_COLOR_RGB),
+      text: this.make.text(textConf).setOrigin(0, 0), // NOTE: don't set the text field before the background field.
       space: {
         left: 10, right: 10, top: 10, bottom: 25,
         text: 10,
       }
     })
     .setOrigin(0, 1)
-    .setDepth(configs.LAYER_TEXTBOX)
+    .setDepth(LAYER_TEXTBOX)
     .layout();
     
     return bubble;
