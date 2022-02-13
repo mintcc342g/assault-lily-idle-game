@@ -1,130 +1,137 @@
-import * as configs from '../consts/configs.js';
-import * as css from '../consts/css.js';
-import * as gameData from '../consts/gameData.js';
-import * as imgKeys from '../consts/imgKeys.js';
-import CharacterSlot from '../utils/CharacterSlot.js';
-import { CharacterSelectionSetting } from '../mixins/BaseSetting.js'
+import {
+  LUDOVIC_HANDBOOK_IMG_KEY, YURIGAOKA_HANDBOOK_IMG_KEY,
+  CHARACTER_SLOT_KEY, PREV_BUTTON_KEY, NEXT_BUTTON_KEY, PLAY_BUTTON_KEY, BACK_BUTTON_KEY
+} from '../consts/imgKeys.js';
+import { SCENE_CHARACTER_SELECTION, SCENE_MAIN, LAYER_BACKGROUND, LAYER_ON_THE_BACKGROUND } from '../consts/configs.js';
+import { DEFAULT_TEXT_COLOR, DEFAULT_LINE_SPACING } from '../consts/css.js';
+import { CharacterSelectionSetting } from '../sceneHelpers/BaseSetting.js'
+import CharacterSlot from '../sceneHelpers/CharacterSlot.js';
 
 export default class CharacterSelectionScene extends CharacterSelectionSetting {
   constructor() {
-    super(configs.SCENE_CHARACTER_SELECTION);
+    super(SCENE_CHARACTER_SELECTION);
     this.keys = {
-      background: gameData.SELECTION_BACKGROUND_KEYS,
-      slot: imgKeys.CHARACTER_SLOT_KEY,
-      prev: imgKeys.PREV_BUTTON_KEY,
-      next: imgKeys.NEXT_BUTTON_KEY,
-      play: imgKeys.PLAY_BUTTON_KEY,
-      back: imgKeys.BACK_BUTTON_KEY,
-      nextPage: imgKeys.NEXT_PAGE_KEY
+      slot: CHARACTER_SLOT_KEY,
+      prev: PREV_BUTTON_KEY,
+      next: NEXT_BUTTON_KEY,
+      play: PLAY_BUTTON_KEY,
+      back: BACK_BUTTON_KEY,
+      background: new Map([
+        [this.keyRepo.ludovic(), LUDOVIC_HANDBOOK_IMG_KEY],
+        [this.keyRepo.yurigaoka(), YURIGAOKA_HANDBOOK_IMG_KEY],
+      ])
     };
     this.position = {
-      character: { x: 120, y: 130 },
-      slot: { x: 110, y: 124 },
-      textBox: { x: 234, y: 105, w: 228, h: 100 },
-      action: { x: 475, y: 170 },
+      character: { x: 120, y: 136 },
+      nameTag: {
+        x: 233, y: 93, w: 240, h: 27,
+        fontSize: '16px',
+        padding: { top: 7, left: 7 },
+      },
+      slot: { x: 110, y: 130 },
+      textBox: { x: 234, y: 120, w: 228, h: 90 },
+      textBoxAction: { x: 477, y: 178 },
       arrows: { x: 27, y: 185, plus: 552 },
-      back: { x: 234, y: 259 },
-      play: { x: 400, y: 259 }
+      back: { x: 234, y: 263 },
+      play: { x: 400, y: 263 }
     };
-    this.currentCharacter = { /* sprite and info */ };
-		this.currentTextBox = { /* rexUI textBox */ };
-    this.backgrounds = new Map();
-    this.uiGroup = [];
   }
 
   init(data) {
     this.lang = data.lang;
+    this.uiGroup = [];
+    this.backgrounds = new Map([]);
+    this.currentCharacter = { /* sprite, intro and academy */ };
+    this.currentTextBox = { /* rexUI textBox */ };
   }
 
-	create() {
+  create() {
     this.initResponsiveScreen();
-		this.fadeIn(1000);
+    this.initCustomAnimation();
+    this.initTextBox();
 
-		this.#initBackground();
-		this.#initCharacterSlot();
-		this.#initArrowButtons();
-		this.#initPlayButton();
+    this.fadeIn(1000);
+
+    this.#initBackground();
+    this.#initCharacterSlot();
+    this.#initArrowButtons();
+    this.#initPlayButton();
     this.#initBackButton();
-	}
 
-	#initBackground() {
-    for (let [key, val] of this.keys.background) {
-      this.backgrounds.set(key,
-        this.add.image(0, 0, val)
-        .setDepth(configs.LAYER_BACKGROUND)
+    setTimeout(() => {
+      this.currentCharacter.data.name.setVisible(true);
+      this.#playTextBox();
+    }, 1000);
+  }
+  
+  #initBackground() {
+    for (let [academyName, imgKey] of this.keys.background) {
+      this.backgrounds.set(academyName,
+        this.add.image(0, 0, imgKey)
+        .setDepth(LAYER_BACKGROUND)
         .setVisible(false)
         .setOrigin(0, 0)
-      )
+      );
     }
-	}
+  }
 
-	#initCharacterSlot() {
+  #initCharacterSlot() {
     this.#createSprite(this.position.slot.x, this.position.slot.y, this.keys.slot);
 
-		const characterSlot = new CharacterSlot();
-
-    gameData.CHARACTER_DATA.forEach((val, key) => {
+    const characterSlot = new CharacterSlot();
+    const characters = this.keyRepo.mainCharacterIDs()
+    
+    for (let id of characters) {
       let sprite = this.#createSprite(
-          this.position.character.x,
-          this.position.character.y,
-          key
-        ).setVisible(false);
+        this.position.character.x,
+        this.position.character.y,
+        id
+      ).setVisible(false);
 
-        characterSlot.addCharacter({ sprite: sprite, info: val });
-    });
+      characterSlot.addCharacter({
+        sprite: sprite,
+        id: id,
+        intro: this.charaRepo.introduction(id, this.lang),
+        academy: this.charaRepo.academy(id),
+        scene: this.charaRepo.stage(id),
+        name: this.createNameTag(
+          this.charaRepo.name(id, this.lang),
+          this.position.nameTag).setVisible(false),
+      });
+    }
 
-		this.currentCharacter = characterSlot.firstCharacter();
-    this.currentTextBox = this.#initTextBox();
-
+    this.currentCharacter = characterSlot.firstCharacter();
+    this.currentTextBox = this.#makeTextBox();
     this.#changeCharacter(true);
-
-		setTimeout(() => { this.#playTextBox(); }, 1000);
 	}
 
-  #initTextBox() {
+  #makeTextBox() {
     const config = {
       x: this.position.textBox.x,
       y: this.position.textBox.y,
       style: {
         fixedWidth: this.position.textBox.w,
         fixedHeight: this.position.textBox.h,
-        color: css.DEFAULT_TEXT_COLOR,
-        fontSize: '18px',
+        color: DEFAULT_TEXT_COLOR,
+        fontSize: '16px',
         maxLines: 4,
-        lineSpacing: css.DEFAULT_LINE_SPACING,
+        lineSpacing: DEFAULT_LINE_SPACING,
         wordWrap: {
           width: this.position.textBox.w,
           useAdvancedWrap: true
         }        
       },
       padding: {
-        y: 3
+        top: 3
       }
     }
 
-    const action = this.add.image(this.position.action.x, this.position.action.y, this.keys.nextPage)
-      .setDepth(configs.LAYER_POPUP_OBJECT)
-      .setTint(css.DEFAULT_MENU_COLOR_RGB)
-      .setOrigin(0, 0)
-      .setVisible(false);
+    const actionConf = this.position.textBoxAction;
 
-    const textbox = this.createTextBox(config, action).setVisible(false);
-    
-    textbox
-      .on('pointerdown', function () {
-        if (this.isTyping) {
-          this.stop(true);
-        } else {
-          action.setVisible(false);
-          // this.resetChildVisibleState(action);
-          this.typeNextPage();
-        }
-      }, textbox, action);
-    
-    return textbox
+    return this.createIntroduceTextBox(config, actionConf).setVisible(true);
   }
 
-	#initArrowButtons() {
+  #initArrowButtons() {
     let x = this.position.arrows.x;
     let y = this.position.arrows.y;
     const arrows = [];
@@ -146,7 +153,7 @@ export default class CharacterSelectionScene extends CharacterSelectionSetting {
           this.currentTextBox.destroy();
 
           this.#setCurrentCharacter(arrowKeys[i]);
-          this.currentTextBox = this.#initTextBox();
+          this.currentTextBox = this.#makeTextBox();
           this.#changeCharacter(true);
           this.#playTextBox();
         });
@@ -164,48 +171,48 @@ export default class CharacterSelectionScene extends CharacterSelectionSetting {
     });
 
     this.uiGroup.push(...arrows);
-	}
+  }
 
-	#initBackButton() {
-		const button = this.#createSprite(this.position.back.x, this.position.back.y, this.keys.back);
-		
-		button
+  #initBackButton() {
+    const button = this.#createSprite(this.position.back.x, this.position.back.y, this.keys.back);
+
+    button
       .setInteractive()
-			.on('pointerdown', () => {
+      .on('pointerdown', () => {
         this.clickAnim(button, false);
-			})
+      })
       .on('pointerout', () => {
         this.clickAnim(button, true);
       })
       .on('pointerup', () => {
         this.clickAnim(button, true);
-        this.#goToNext(configs.SCENE_MAIN, { lang: this.lang });
+        this.#goToNext(SCENE_MAIN, { lang: this.lang });
       });
     
     this.uiGroup.push(button);
-	}
+  }
 
-	#initPlayButton() {
-		const button =  this.#createSprite(this.position.play.x, this.position.play.y, this.keys.play);
-		
-		button
+  #initPlayButton() {
+    const button = this.#createSprite(this.position.play.x, this.position.play.y, this.keys.play);
+    
+    button
       .setInteractive()
-			.on('pointerdown', () => {
+      .on('pointerdown', () => {
         this.clickAnim(button, false);
-			})
+      })
       .on('pointerout', () => {
         this.clickAnim(button, true);
       })
       .on('pointerup', () => {
         this.clickAnim(button, true);
         this.#goToNext(
-          this.currentCharacter.data.info.get('scene'),
-          { lang: this.lang, mainCharacter: this.currentCharacter.data.info }
+          this.currentCharacter.data.scene,
+          { lang: this.lang, mainCharacterID: this.currentCharacter.data.id }
         );
       });
   
     this.uiGroup.push(button);
-	}
+  }
 
   #setCurrentCharacter(key) {
     if(key == this.keys.prev) {
@@ -217,25 +224,32 @@ export default class CharacterSelectionScene extends CharacterSelectionSetting {
 
   #createSprite(x, y, key) {
     return this.add.sprite(x, y, key)
-      .setDepth(configs.LAYER_ON_THE_BACKGROUND)
+      .setDepth(LAYER_ON_THE_BACKGROUND)
       .setOrigin(0, 0);
   }
 
   #changeCharacter(visible) {
     this.currentCharacter.data.sprite.setVisible(visible);
-    this.backgrounds.get(this.currentCharacter.data.info.get('academy')).setVisible(visible);
+    this.currentCharacter.data.name.setVisible(visible);
+    this.backgrounds.get(this.currentCharacter.data.academy).setVisible(visible);
   }
   
-  #diableAllInteractions() {
-    this.uiGroup.forEach((ui) => {
-      ui.disableInteractive();
-    });
-    this.currentTextBox.disableInteractive();
-    this.currentTextBox.pause();
+  #uiGroupInteraction(active) {
+    if (active) {
+      this.uiGroup.forEach((ui) => {
+        ui.setVisible(active);
+      });
+    } else {
+      this.uiGroup.forEach((ui) => {
+        ui.disableInteractive();
+      });
+      this.currentTextBox.disableInteractive();
+      this.currentTextBox.pause();
+    }
   }
 
   #goToNext(nextSceneName, data) {
-    this.#diableAllInteractions();
+    this.#uiGroupInteraction(false);
 
     this.fadeOut(1000);
 
@@ -247,8 +261,6 @@ export default class CharacterSelectionScene extends CharacterSelectionSetting {
   }
 
   #playTextBox() {
-    this.currentTextBox
-      .setVisible(true)
-      .start(this.currentCharacter.data.info.get('intro').get(this.lang), 50);
+    this.currentTextBox.start(this.currentCharacter.data.intro, 50);
   }
 }
