@@ -111,10 +111,10 @@ const STARTING_DIALOGUE_WITH_SACHIE = new Map([
   [
     LANG_EN, [
       [CHARACTER_SACHIE_ID, 'Raimu, you are here!'],
-      [CHARACTER_RAIMU_ID, 'Sachie-oneesama! I\'ve been taking a break. :)'],
-      [CHARACTER_SACHIE_ID, 'Are you? I think I will take a break too.'],
-      [CHARACTER_RAIMU_ID, 'Please sit here!'],
-      [CHARACTER_SACHIE_ID, 'Thank you. :)'],
+      [CHARACTER_RAIMU_ID, 'Sachie-oneesama! I\'ve been taking a break.'],
+      [CHARACTER_SACHIE_ID, 'Are you? I decided to take a break too with you.'],
+      [CHARACTER_RAIMU_ID, 'Oh, really? Please sit here!'],
+      [CHARACTER_SACHIE_ID, 'Thank you.'],
     ]
   ],
 ]);
@@ -139,7 +139,7 @@ const ENDING_DIALOGUE_WITH_SACHIE = new Map([
   [
     LANG_EN, [
       [CHARACTER_SACHIE_ID, 'Raimu, I\'ve gotta bounce to class.'],
-      [CHARACTER_RAIMU_ID, 'Yeap, Sachie-oneesama! I think I would stay here a little bit.'],
+      [CHARACTER_RAIMU_ID, 'OK, Sachie-oneesama. I think I would stay here a little bit.'],
       [CHARACTER_SACHIE_ID, 'I see. See you latter.'],
       [CHARACTER_RAIMU_ID, 'See you, Oneesama!'],
     ]

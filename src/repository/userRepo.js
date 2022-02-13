@@ -10,7 +10,7 @@ export default class UserRepository {
     return USER_DATA.get('to_do_list')
   }
 
-	toDoContent(idx) {
+  toDoContent(idx) {
     return USER_DATA.get('to_do_list')?.[idx]
   }
 

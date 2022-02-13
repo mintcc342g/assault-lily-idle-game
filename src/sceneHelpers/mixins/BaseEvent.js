@@ -90,14 +90,13 @@ export const BaseEventMixin = superclass => class extends superclass {
 
   #getCharacterRandomEvent(event) {
     if (event) {
-      console.log("getCharacterRandomEvent", event)
       return event
     }
 
     const probability = rand(0, 100);
     const events =  this.eventRepo.characterEvents(this.mainCharacterID);
 
-    if (probability <= 90) {
+    if (probability <= EVENT_PROBABILITY_20) {
       event = events.get(EVENT_PROBABILITY_20);
       return this.#getCharacterRandomEvent(event);
     }

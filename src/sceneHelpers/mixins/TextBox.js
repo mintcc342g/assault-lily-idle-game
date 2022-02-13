@@ -9,16 +9,9 @@ export const TextBoxMixin = superclass => class extends superclass {
   initTextBox() {
     this.nextPageKey = NEXT_PAGE_KEY;
     this.defaultConf = {
-      popUp: { x: 40, y: 570, speed: 50 },
-      action: { x: 550, y: 620 },
-      nameTag: {
-        x: 39, y: 543, w: 240, h: 27,
-        fontSize: '16px',
-        padding: { top: 7, left: 7 },
-      },
       box: {
         x: 40,
-        y: 570,
+        y: 600,
         style: {
           fixedWidth: 500,
           fixedHeight: 80,
@@ -32,6 +25,12 @@ export const TextBoxMixin = superclass => class extends superclass {
           }
         },
         padding: { y: 4 }
+      },
+      action: { x: 550, y: 650 },
+      nameTag: {
+        x: 39, y: 573, w: 240, h: 27,
+        fontSize: '16px',
+        padding: { top: 7, left: 7 },
       },
     };
   }
@@ -91,7 +90,7 @@ export const TextBoxMixin = superclass => class extends superclass {
           return
         }
         this.#playActionIcon(action, actionX, actionY);
-				timer = this.#nextPageWithDelay(textBox, action, 4000);
+        timer = this.#nextPageWithDelay(textBox, action, 4000);
       }, this)
       .on('pointerdown', function () {
         if (timer) {
