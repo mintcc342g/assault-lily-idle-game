@@ -1,31 +1,36 @@
-import * as configs from '../consts/configs.js';
-import * as css from '../consts/css.js';
-import * as gameData from '../consts/gameData.js';
-import * as imgKeys from '../consts/imgKeys.js';
-import * as utils from '../utils/utils.js';
-import { YurigaokaGladeSetting } from '../mixins/BaseSetting.js';
+import {
+  SCENE_YURIGAOKA_GLADE, SCENE_UI,
+  BACKGROUND_TILESET_NAME, YURIGAOKA_GLADE_LAYERS, LAYER_ON_THE_BACKGROUND
+} from '../consts/configs.js';
+import {
+  BACKGROUND_TILE_IMG_KEY, YURIGAOKA_GLADE_TILESET_CONFIG_KEY,
+  CAT_01_IMG_KEY, CAT_02_IMG_KEY, CAT_03_IMG_KEY, CAT_04_IMG_KEY, CAT_05_IMG_KEY, CAT_06_IMG_KEY
+} from '../consts/imgKeys.js';
+import { DEFAULT_TEXT_COLOR_RGB } from '../consts/css.js';
+import { shuffle, rand, minToMs } from '../utils/utils.js';
+import { GamePlaySetting } from '../sceneHelpers/BaseSetting.js';
+import Character from '../sceneHelpers/Character.js';
 
-export default class YurigaokaGladeScene extends YurigaokaGladeSetting {
+export default class YurigaokaGladeScene extends GamePlaySetting {
   constructor() {
-    super(configs.SCENE_YURIGAOKA_GLADE);
+    super(SCENE_YURIGAOKA_GLADE);
     this.keys = {
-      layers: configs.YURIGAOKA_GLADE_LAYERS,
+      layers: YURIGAOKA_GLADE_LAYERS,
       tileset: {
-        name: configs.BACKGROUND_TILESET_NAME,
-        img: imgKeys.BACKGROUND_TILE_IMG_KEY,
-        config: imgKeys.YURIGAOKA_GLADE_TILESET_CONFIG_KEY
+        name: BACKGROUND_TILESET_NAME,
+        img: BACKGROUND_TILE_IMG_KEY,
+        config: YURIGAOKA_GLADE_TILESET_CONFIG_KEY
       },
       cats: [
-        imgKeys.CAT_01_IMG_KEY,
-        imgKeys.CAT_02_IMG_KEY,
-        imgKeys.CAT_03_IMG_KEY,
-        imgKeys.CAT_04_IMG_KEY,
-        imgKeys.CAT_05_IMG_KEY,
-        imgKeys.CAT_06_IMG_KEY,
+        CAT_01_IMG_KEY,
+        CAT_02_IMG_KEY,
+        CAT_03_IMG_KEY,
+        CAT_04_IMG_KEY,
+        CAT_05_IMG_KEY,
+        CAT_06_IMG_KEY,
       ]
     };
     this.position = {
-      mainCharacter: { startX: 3, startY: 4, speed: 1 },
       cats: [
         { x: 182, y: 182, w: 148, h: 58 },
         { x: 92, y: 272, w: 238, h: 58 },
@@ -38,24 +43,24 @@ export default class YurigaokaGladeScene extends YurigaokaGladeSetting {
         cat: { w: 40, h: 16 }
       }
     };
-    this.characters = new Map([
-      [imgKeys.CHARACTER_MAI_ID, { /* sprite */ }]
-    ]);
-    this.mainCharacter = { /* map */ };
-    this.eventEmitter = { /* Event instance */ };
+    this.mainCharacterID = '';
+    this.partnerID = '';
   }
 
   init(data) {
     this.lang = data.lang;
-    this.mainCharacter = data.mainCharacter;
+    this.mainCharacterID = data.mainCharacterID;
+    this.characters = new Map([]);
   }
 
   create() {
     this.initResponsiveScreen();
+    this.initTextBox();
+    this.initCustomAnimation();
+    this.initDefaultEvents();
 
-    this.initCharacters();
-    this.#initCats();
-    this.initEvent();
+    this.#prepareScenario();
+    this.initCharacterSprites();
 
     const tileMap = this.createTileMap();
     this.initGridEngine(tileMap);
@@ -63,16 +68,38 @@ export default class YurigaokaGladeScene extends YurigaokaGladeSetting {
     this.#sceneStart();
   }
 
-  #initCats() {
-    utils.shuffle(this.position.cats);
+  #prepareScenario() {
+    switch (this.mainCharacterID) {
+      case this.keyRepo.maiID():
+        this.#createCastsForMai();
+        this.#initCats();
+        break;
     
+      default:
+        break;
+    }
+  }
+
+  #createCastsForMai() {
+    const mai = new Character(this.keyRepo.maiID());
+    mai.addPosition('start', 3, 4, 'down');
+    mai.setSpeed(1);
+
+    this.characters.set(mai.id, mai);
+  }
+
+  #initCats() {
+    shuffle(this.position.cats);
+    
+    const catLine = this.transRepo.catLine(this.lang);
     let i = 0;
-    this.position.cats.forEach((item)=>{
-      let range =  new Phaser.Geom.Rectangle(item.x, item.y, item.w, item.h);
+
+    this.position.cats.forEach((catPos)=>{
+      let range =  new Phaser.Geom.Rectangle(catPos.x, catPos.y, catPos.w, catPos.h);
       let point = range.getRandomPoint();
       
       let cat = this.add.sprite(point.x, point.y, this.keys.cats[i])
-        .setDepth(configs.LAYER_ON_THE_BACKGROUND)
+        .setDepth(LAYER_ON_THE_BACKGROUND)
         .setVisible(true)
         .setOrigin(0, 0)
         .setInteractive();
@@ -97,8 +124,9 @@ export default class YurigaokaGladeScene extends YurigaokaGladeSetting {
               timeline.play();
             });
           
-          bubble.start(gameData.NOTICE.get(this.lang).get('cat'), 50)
+          bubble.start(catLine, 50)
         });
+      
       i++;
     });
   }
@@ -110,7 +138,7 @@ export default class YurigaokaGladeScene extends YurigaokaGladeSetting {
       style: {
         fixedWidth: w,
         fixedHeight: h,
-        color: css.DEFAULT_TEXT_COLOR_RGB,
+        color: DEFAULT_TEXT_COLOR_RGB,
         fontSize: fontSize,
       },
       padding: {
@@ -146,21 +174,23 @@ export default class YurigaokaGladeScene extends YurigaokaGladeSetting {
 
   #setAppearCatAnim(timeline, cat, point) {
     timeline.on('complete', () => {
-      const min = utils.rand(1, 5);
-      const delay = utils.minToMs(min);
+      const min = rand(1, 5);
+      const delay = minToMs(min);
   
       setTimeout(()=>{
-        cat.setPosition(point.x, point.y);
-
-        this.tweens.add(
-          {
-            targets: cat,
-            alpha: { from: 0, to: 1 },
-            duration: 1000,
-          }
-        );
-
-        cat.setInteractive();
+        if (cat.active) {
+          cat.setPosition(point.x, point.y);
+  
+          this.tweens.add(
+            {
+              targets: cat,
+              alpha: { from: 0, to: 1 },
+              duration: 1000,
+            }
+          );
+  
+          cat.setInteractive();
+        }
       }, delay);
     });
   }
@@ -168,14 +198,14 @@ export default class YurigaokaGladeScene extends YurigaokaGladeSetting {
   #sceneStart() {
     this.fadeIn(1000);
 
-    this.characters.get(this.mainCharacter.get('id')).play('sleep');
+    this.characters.get(this.mainCharacterID).setVisible(true).play('sleep', 'down');
 
     setTimeout(()=>{
-      this.scene.launch(configs.SCENE_UI,
+      this.scene.launch(SCENE_UI,
         {
           lang: this.lang,
           sceneName: this.name,
-          academy: this.mainCharacter.get('academy'),
+          academy: this.charaRepo.academy(this.mainCharacterID),
         }
       );
 

@@ -1,26 +1,34 @@
-import * as configs from '../consts/configs.js';
-import * as css from '../consts/css.js';
-import * as gameData from '../consts/gameData.js';
-import * as imgKeys from '../consts/imgKeys.js';
-import { UISetting } from '../mixins/BaseSetting.js';
+import {
+  SCENE_UI, SCENE_CHARACTER_SELECTION, SCENE_MAIN,
+  LAYER_UI, LAYER_POPUP_OBJECT, LAYER_POPUP_OBJECT_CONTENTS
+} from '../consts/configs.js';
+import {
+  DEFAULT_HAND_BOOK_BACKGROUND_COLOR, DEFAULT_TEXT_COLOR,
+  DEFAULT_MENU_COLOR, DEFAULT_MENU_CLICKED_COLOR, DEFAULT_LINE_SPACING
+} from '../consts/css.js';
+import {
+  MENU_BUTTON_KEY, HAND_BOOK_KEY, CLOSE_BUTTON_KEY, LOGO_LINE_KEY, LOGO_KEY,
+  MENU_OPTION_KEYS, MENU_BUTTON_1_KEY, MENU_BUTTON_2_KEY, MENU_BUTTON_3_KEY, MENU_BUTTON_4_KEY
+} from '../consts/imgKeys.js';
+import { UISetting } from '../sceneHelpers/BaseSetting.js';
 
 export default class UIScene extends UISetting {
   constructor() {
-    super(configs.SCENE_UI)
-    this.menuOptionTextSuffix = '_text';
-    this.logoImgPrefix = 'logo_';
+    super(SCENE_UI)
+    this.menuOptionTextSuffix = 'text';
+    this.logoImgPrefix = 'logo';
     this.keys = {
-      menuButton: imgKeys.MENU_BUTTON_KEY,
-      menuOptions: imgKeys.MENU_OPTION_KEYS,
-      handBook: imgKeys.HAND_BOOK_KEY,
-      close: imgKeys.CLOSE_BUTTON_KEY,
-      logoLine: imgKeys.LOGO_LINE_KEY,
-      logo: imgKeys.LOGO_KEY,
+      menuButton: MENU_BUTTON_KEY,
+      menuOptions: MENU_OPTION_KEYS,
+      handBook: HAND_BOOK_KEY,
+      close: CLOSE_BUTTON_KEY,
+      logoLine: LOGO_LINE_KEY,
+      logo: LOGO_KEY,
       toDoListLimit: 8
     },
     this.css = {
       menuButton: { x: 565,  y: 30 },
-      handBook: { x: 0, y: 195, bgColor: css.DEFAULT_HAND_BOOK_BACKGROUND_COLOR },
+      handBook: { x: 0, y: 195, bgColor: DEFAULT_HAND_BOOK_BACKGROUND_COLOR },
       logoLine: { x: 102, y: 214 },
       logo: { x: 124, y: 236 },
       motto: { x: 89, y: 460, w: 210, h: 130, padding: 3 },
@@ -28,11 +36,6 @@ export default class UIScene extends UISetting {
       closeButton: { x: 535, y: 165 },
       toDoList: { x: 120, y: 210, xPlus: 250, yPlus: 95,  w: 170, h: 80, padding: 4 },
     };
-    this.textMaxLength = new Map([
-      [configs.LANG_KR, 27],
-      [configs.LANG_EN, 42],
-      [configs.LANG_JP, 27]
-    ]);
     this.currentSceneName = '';
     this.academy = '';
     this.menuGroup = new Map();
@@ -52,6 +55,7 @@ export default class UIScene extends UISetting {
   
   create() {
     this.initResponsiveScreen();
+    this.initCustomAnimation();
 
     this.#initMenuButton();
     this.#initHandBook();
@@ -66,7 +70,7 @@ export default class UIScene extends UISetting {
         this.css.menuButton.y,
         this.keys.menuButton
       )
-      .setDepth(configs.LAYER_UI)
+      .setDepth(LAYER_UI)
       .setVisible(true)
       .setInteractive()
       .setOrigin(0, 0);
@@ -93,7 +97,7 @@ export default class UIScene extends UISetting {
 
   #initHandBook() {
     this.handBook = this.add.sprite(0, 180, this.keys.handBook)
-      .setDepth(configs.LAYER_POPUP_OBJECT)
+      .setDepth(LAYER_POPUP_OBJECT)
       .setVisible(false)
       .disableInteractive()
       .setOrigin(0, 0);
@@ -107,7 +111,7 @@ export default class UIScene extends UISetting {
         this.css.closeButton.y,
         this.keys.close
       )
-      .setDepth(configs.LAYER_UI)
+      .setDepth(LAYER_UI)
       .setVisible(false)
       .setInteractive()
       .setOrigin(0, 0);
@@ -133,14 +137,14 @@ export default class UIScene extends UISetting {
   }
 
   #initLogo() {
-    const logoImgKey = this.logoImgPrefix + this.academy;
+    const logoImgKey = `${this.logoImgPrefix}_${this.academy}`;
 
     const logoLine =  this.add.sprite(
         this.css.logoLine.x,
         this.css.logoLine.y,
         this.keys.logoLine
       )
-      .setDepth(configs.LAYER_POPUP_OBJECT_CONTENTS)
+      .setDepth(LAYER_POPUP_OBJECT_CONTENTS)
       .setVisible(false)
       .disableInteractive()
       .setOrigin(0, 0);
@@ -150,7 +154,7 @@ export default class UIScene extends UISetting {
         this.css.logo.y,
         logoImgKey
       )
-      .setDepth(configs.LAYER_POPUP_OBJECT_CONTENTS)
+      .setDepth(LAYER_POPUP_OBJECT_CONTENTS)
       .setVisible(false)
       .disableInteractive()
       .setOrigin(0, 0);
@@ -160,7 +164,7 @@ export default class UIScene extends UISetting {
   }
 
   #initLogoTextBox() {
-    const text = gameData.ACADEMY_INFO.get(this.academy).get('motto').get(this.lang);
+    const text = this.transRepo.motto(this.academy, this.lang);
     const textBoxConfig = {
       x: this.css.motto.x,
       y: this.css.motto.y,
@@ -168,10 +172,10 @@ export default class UIScene extends UISetting {
       style: {
         fixedWidth: this.css.motto.w,
         fixedHeight: this.css.motto.h,
-        color: css.DEFAULT_MENU_COLOR,
+        color: DEFAULT_MENU_COLOR,
         fontSize: '12px',
         align: 'left',
-        lineSpacing: css.DEFAULT_LINE_SPACING,
+        lineSpacing: DEFAULT_LINE_SPACING,
         wordWrap: {
           width: this.css.motto.w,
           useAdvancedWrap: true
@@ -183,7 +187,7 @@ export default class UIScene extends UISetting {
     };
       
     let textBox = this.make.text(textBoxConfig)
-      .setDepth(configs.LAYER_POPUP_OBJECT_CONTENTS)
+      .setDepth(LAYER_POPUP_OBJECT_CONTENTS)
       .setVisible(false)
       .setOrigin(0, 0);
   
@@ -203,9 +207,9 @@ export default class UIScene extends UISetting {
     var x = this.css.menuOptions.x;
     var y = this.css.menuOptions.y;
 
-    for (let [key, val] of  this.keys.menuOptions) {
+    for (let key of this.keys.menuOptions) {
       let button = this.add.sprite(x, y, key)
-        .setDepth(configs.LAYER_POPUP_OBJECT_CONTENTS)
+        .setDepth(LAYER_POPUP_OBJECT_CONTENTS)
         .setVisible(false)
         .setInteractive()
         .setOrigin(0, 0);
@@ -213,11 +217,11 @@ export default class UIScene extends UISetting {
       let text = this.make.text({
         x: x,
         y: y,
-        text: val.get(this.lang),
+        text: this.transRepo.translatedMenu(key, this.lang),
         style: {
           fixedWidth: this.css.menuOptions.w,
           fixedHeight: this.css.menuOptions.h,
-          color: css.DEFAULT_MENU_COLOR,
+          color: DEFAULT_MENU_COLOR,
           fontSize: '18px',
           align: 'left'
         },
@@ -226,21 +230,21 @@ export default class UIScene extends UISetting {
           top: this.css.menuOptions.padding.top
         }
       })
-      .setDepth(configs.LAYER_POPUP_OBJECT_CONTENTS)
+      .setDepth(LAYER_POPUP_OBJECT_CONTENTS)
       .setVisible(false)
       .setInteractive()
       .setOrigin(0, 0)
      
       y += this.css.menuOptions.yPlus;
       this.menuGroup.set(key, button);
-      this.menuGroup.set(`${key}${this.menuOptionTextSuffix}`, text);
+      this.menuGroup.set(`${key}_${this.menuOptionTextSuffix}`, text);
     }
   }
 
   #setOpenHandBookButtonAction() {
-    const key = imgKeys.MENU_BUTTON_1_KEY;
+    const key = MENU_BUTTON_1_KEY;
     const button = this.menuGroup.get(key);
-    const text = this.menuGroup.get(`${key}${this.menuOptionTextSuffix}`);
+    const text = this.menuGroup.get(`${key}_${this.menuOptionTextSuffix}`);
 
     text
       .on('pointerout', () => {
@@ -281,7 +285,7 @@ export default class UIScene extends UISetting {
   }
 
   #storeChanedContent(index, content) {
-    const userToDoList = gameData.USER_DATA.get('to_do_list');
+    const userToDoList = this.userRepo.toDoContents();
 
     if (userToDoList[index] == null || userToDoList[index] == undefined) {
       userToDoList[index] = { content: content, time: 0 };
@@ -289,8 +293,8 @@ export default class UIScene extends UISetting {
   }
 
   #getEditorConfig() {
-    const maxTextLength = this.textMaxLength.get(this.lang);
-    const alertText = gameData.NOTICE.get(this.lang).get('todo-alert');
+    const maxTextLength = this.transRepo.maxLength(this.lang)
+    const alertText = this.transRepo.toDoAlert(this.lang);
 
     return {
       backgroundColor: this.css.handBook.bgColor,
@@ -305,9 +309,9 @@ export default class UIScene extends UISetting {
   }
 
   #setCharacterSelectionButtonAction() {
-    const key = imgKeys.MENU_BUTTON_2_KEY;
+    const key = MENU_BUTTON_2_KEY;
     const button = this.menuGroup.get(key);
-    const text = this.menuGroup.get(`${key}${this.menuOptionTextSuffix}`);
+    const text = this.menuGroup.get(`${key}_${this.menuOptionTextSuffix}`);
 
     text
       .on('pointerout', () => {
@@ -321,14 +325,14 @@ export default class UIScene extends UISetting {
       .on('pointerup', () => {
         this.#setDefaultTextColor(text, true);
         this.clickAnim(button, true);
-        this.#goToNext(configs.SCENE_CHARACTER_SELECTION, { lang: this.lang });
+        this.#goToNext(SCENE_CHARACTER_SELECTION, { lang: this.lang });
       });
   }
 
   #setMainSceneButtonAction() {
-    const key = imgKeys.MENU_BUTTON_3_KEY;
+    const key = MENU_BUTTON_3_KEY;
     const button = this.menuGroup.get(key);
-    const text = this.menuGroup.get(`${key}${this.menuOptionTextSuffix}`);
+    const text = this.menuGroup.get(`${key}_${this.menuOptionTextSuffix}`);
 
     text
       .on('pointerout', () => {
@@ -342,14 +346,14 @@ export default class UIScene extends UISetting {
       .on('pointerup', () => {
         this.#setDefaultTextColor(text, true);
         this.clickAnim(button, true);
-        this.#goToNext(configs.SCENE_MAIN, { lang: this.lang });
+        this.#goToNext(SCENE_MAIN, { lang: this.lang });
       });
   }
 
   #setCloseMenuButtonAction() {
-    const key = imgKeys.MENU_BUTTON_4_KEY;
+    const key = MENU_BUTTON_4_KEY;
     const button = this.menuGroup.get(key);
-    const text = this.menuGroup.get(`${key}${this.menuOptionTextSuffix}`);
+    const text = this.menuGroup.get(`${key}_${this.menuOptionTextSuffix}`);
 
     text
       .on('pointerout', () => {
@@ -380,13 +384,14 @@ export default class UIScene extends UISetting {
         y = this.css.toDoList.y;
       }
   
-      let item = gameData.USER_DATA.get('to_do_list')[i];
+      let item = this.userRepo.toDoContent(i);
       this.toDoList[i] = this.#createToDoContent(x, y, item?item.content.text:'').setInteractive();
       this.toDoListNumbers[i] = this.#createToDoContent(x-30, y, `${i+1}. `).disableInteractive();
       
       y += this.css.toDoList.yPlus;
     }
 
+    // TODO: change toDoContent item as a class, not a phaser Text obj
     // TODO: alarming service
   }
 
@@ -398,11 +403,11 @@ export default class UIScene extends UISetting {
       style: {
         fixedWidth: this.css.toDoList.w,
         fixedHeight: this.css.toDoList.h,
-        color: css.DEFAULT_TEXT_COLOR,
+        color: DEFAULT_TEXT_COLOR,
         fontSize: '18px',
         maxLines: 3,
         align: 'left',
-        lineSpacing: css.DEFAULT_LINE_SPACING,
+        lineSpacing: DEFAULT_LINE_SPACING,
         wordWrap: {
           width: this.css.toDoList.w,
           useAdvancedWrap: true
@@ -412,7 +417,7 @@ export default class UIScene extends UISetting {
         y: this.css.toDoList.padding
       }
     })
-    .setDepth(configs.LAYER_POPUP_OBJECT_CONTENTS)
+    .setDepth(LAYER_POPUP_OBJECT_CONTENTS)
     .setVisible(false)
     .setOrigin(0, 0);
   }
@@ -424,9 +429,9 @@ export default class UIScene extends UISetting {
 
   #setDefaultTextColor(textObj, isIdle) {
     if (isIdle) {
-      textObj.setColor(css.DEFAULT_MENU_COLOR);
+      textObj.setColor(DEFAULT_MENU_COLOR);
     } else {
-      textObj.setColor(css.DEFAULT_MENU_CLICKED_COLOR);
+      textObj.setColor(DEFAULT_MENU_CLICKED_COLOR);
     }
   }
 
@@ -452,10 +457,10 @@ export default class UIScene extends UISetting {
     for (let i = 0; i < this.keys.toDoListLimit; i++) {
       let editor = this.toDoListEditors[i];
       if (editor !== undefined && editor !== null) {
-        editor.close();
+        editor.close(); // NOTE: 1) close editor,
       }
 
-      this.toDoList[i].setVisible(false); // the text object must be hidden after closing editor
+      this.toDoList[i].setVisible(false); // NOTE: 2) hide Text Obj. (the order is important.)
       this.toDoListNumbers[i].setVisible(false);
     }
   }

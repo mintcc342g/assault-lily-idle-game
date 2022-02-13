@@ -38,10 +38,10 @@
 
 ## 변경 사항
 
-- v1.0.0
-    - 선택 가능한 릴리 및 관련 이벤트 추가
-    - 새로운 맵 및 상호작용 오브젝트 추가
-    - 메인화면 이동 시 선택했던 언어가 유지되도록 변경
+- v1.1.0
+    - 릴리 대화 이벤트 추가
+    - 마리아의 언덕 이벤트 추가
+    - 이벤트 전용 릴리 추가 (후쿠야마 잔느 사치에)
 
 <br/>
 
@@ -53,7 +53,8 @@
 
 ### 캐릭터
 
-- 휴식 중인 릴리는 가끔 이런저런 생각을 하거나, 학생수첩에 메모된 내용을 상기하곤 합니다.
+- 휴식 중인 릴리는 이런저런 생각을 하거나, 학생수첩에 메모된 내용을 상기하곤 합니다.
+- 가끔 다른 릴리들이 나타나서 휴식 중인 릴리와 대화를 나누곤 합니다.
 - 선택 가능 릴리 목록
     - 키시모토 루치아 라이무
     - 요시무라 Thi 마이
@@ -135,10 +136,10 @@ Lilies have very busy days to fight with Huge, massive beasts that are the prima
 
 ## Change Log
 
-- v1.0.0
-    - add a new Lily and related events
-    - add a new map and interactive objects
-    - change to keep the selected language
+- v1.1.0
+    - add a new event at the maria hill
+    - add a new conversation event
+    - add a new event Lily (Sachie Jeanne Fukuyama)
 
 <br/>
 
@@ -151,8 +152,9 @@ Lilies have very busy days to fight with Huge, massive beasts that are the prima
 ### Characters
 
 - The Lily who is relaxing thinks to herself or remind some memos written on the student's hand book.
+- Sometime, other Lily appear at the map. And she have a conversation with the Lily who have been taking a break at the place.
 - Playerble Lily List
-    - Raimu Ruchia Kishimoto
+    - Raimu Lucia Kishimoto
     - Mai Thi Yoshimura
 
 <br/>
@@ -235,10 +237,10 @@ Lilies have very busy days to fight with Huge, massive beasts that are the prima
 
 ## アップデート
 
-- v1.0.0
-    - 新しいリリィと、そのリリィのイベントの追加
-    - 新しいマップと相互作用可能なオブジェクトの追加
-    - タイトル画面に移っても選択した言語が維持できるように変更
+- v1.1.0
+    - 「マリアの丘」に新しいのイベントの追加
+    - リリィたちの会話イベントの追加
+    - イベント専用の新しいリリィの追加（福山・ジャンヌ・幸恵）
 
 <br/>
 
@@ -251,6 +253,7 @@ Lilies have very busy days to fight with Huge, massive beasts that are the prima
 ### キャラクター
 
 - 休憩中のリリィは時々何かを考えたり、学生手帳に書かれているメモを思い出したりします。
+- 休憩中のリリィの所には時々他のリリィがやって来て、休憩中のリリィと雑談をしたりします。
 - 現在選択可能なリリィ
     - 岸本・ルチア・来夢
     - 吉村・Thi・梅
