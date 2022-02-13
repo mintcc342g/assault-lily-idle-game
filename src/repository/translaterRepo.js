@@ -6,7 +6,7 @@ export default class TranslaterRepository {
    * Menu
    * 
    */
-	menus() {
+  menus() {
     return HAND_BOOK_MENUS
   }
 
@@ -27,21 +27,21 @@ export default class TranslaterRepository {
    * Informations
    * 
    */
-	mainInfo(lang) {
-		return INFORMATION.get(lang).get('main_info')
-	}
+  mainInfo(lang) {
+    return INFORMATION.get(lang).get('main_info')
+  }
 
-	toDoAlert(lang) {
-		return INFORMATION.get(lang).get('todo_alert')
-	}
+  toDoAlert(lang) {
+    return INFORMATION.get(lang).get('todo_alert')
+  }
 
-	toDoLine(lang) {
-		return INFORMATION.get(lang).get('todo_line_prefix')
-	}
+  toDoLine(lang) {
+    return INFORMATION.get(lang).get('todo_line_prefix')
+  }
 
-	catLine(lang) {
-		return INFORMATION.get(lang).get('cat_line')
-	}
+  catLine(lang) {
+    return INFORMATION.get(lang).get('cat_line')
+  }
 
   maxLength(lang) {
     return TEXT_MAX_LENGTH.get(lang)

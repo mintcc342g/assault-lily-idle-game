@@ -45,40 +45,40 @@ export default class CharacterSelectionScene extends CharacterSelectionSetting {
     this.currentTextBox = { /* rexUI textBox */ };
   }
 
-	create() {
+  create() {
     this.initResponsiveScreen();
     this.initCustomAnimation();
     this.initTextBox();
 
-		this.fadeIn(1000);
+    this.fadeIn(1000);
 
-		this.#initBackground();
-		this.#initCharacterSlot();
-		this.#initArrowButtons();
-		this.#initPlayButton();
+    this.#initBackground();
+    this.#initCharacterSlot();
+    this.#initArrowButtons();
+    this.#initPlayButton();
     this.#initBackButton();
 
     setTimeout(() => {
       this.currentCharacter.data.name.setVisible(true);
       this.#playTextBox();
     }, 1000);
-	}
+  }
   
-	#initBackground() {
+  #initBackground() {
     for (let [academyName, imgKey] of this.keys.background) {
       this.backgrounds.set(academyName,
         this.add.image(0, 0, imgKey)
         .setDepth(LAYER_BACKGROUND)
         .setVisible(false)
         .setOrigin(0, 0)
-      )
+      );
     }
-	}
+  }
 
-	#initCharacterSlot() {
+  #initCharacterSlot() {
     this.#createSprite(this.position.slot.x, this.position.slot.y, this.keys.slot);
 
-		const characterSlot = new CharacterSlot();
+    const characterSlot = new CharacterSlot();
     const characters = this.keyRepo.mainCharacterIDs()
     
     for (let id of characters) {
@@ -100,7 +100,7 @@ export default class CharacterSelectionScene extends CharacterSelectionSetting {
       });
     }
 
-		this.currentCharacter = characterSlot.firstCharacter();
+    this.currentCharacter = characterSlot.firstCharacter();
     this.currentTextBox = this.#makeTextBox();
     this.#changeCharacter(true);
 	}
@@ -131,7 +131,7 @@ export default class CharacterSelectionScene extends CharacterSelectionSetting {
     return this.createIntroduceTextBox(config, actionConf).setVisible(true);
   }
 
-	#initArrowButtons() {
+  #initArrowButtons() {
     let x = this.position.arrows.x;
     let y = this.position.arrows.y;
     const arrows = [];
@@ -171,16 +171,16 @@ export default class CharacterSelectionScene extends CharacterSelectionSetting {
     });
 
     this.uiGroup.push(...arrows);
-	}
+  }
 
-	#initBackButton() {
-		const button = this.#createSprite(this.position.back.x, this.position.back.y, this.keys.back);
-		
-		button
+  #initBackButton() {
+    const button = this.#createSprite(this.position.back.x, this.position.back.y, this.keys.back);
+
+    button
       .setInteractive()
-			.on('pointerdown', () => {
+      .on('pointerdown', () => {
         this.clickAnim(button, false);
-			})
+      })
       .on('pointerout', () => {
         this.clickAnim(button, true);
       })
@@ -190,16 +190,16 @@ export default class CharacterSelectionScene extends CharacterSelectionSetting {
       });
     
     this.uiGroup.push(button);
-	}
+  }
 
-	#initPlayButton() {
-		const button =  this.#createSprite(this.position.play.x, this.position.play.y, this.keys.play);
-		
-		button
+  #initPlayButton() {
+    const button = this.#createSprite(this.position.play.x, this.position.play.y, this.keys.play);
+    
+    button
       .setInteractive()
-			.on('pointerdown', () => {
+      .on('pointerdown', () => {
         this.clickAnim(button, false);
-			})
+      })
       .on('pointerout', () => {
         this.clickAnim(button, true);
       })
@@ -212,7 +212,7 @@ export default class CharacterSelectionScene extends CharacterSelectionSetting {
       });
   
     this.uiGroup.push(button);
-	}
+  }
 
   #setCurrentCharacter(key) {
     if(key == this.keys.prev) {

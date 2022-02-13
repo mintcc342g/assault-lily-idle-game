@@ -83,11 +83,11 @@ export default class TheHillOfMariaScene extends GamePlaySetting {
     this.partnerID = sachie.id // TODO: set partnerID using events
   }
 
-	#createEventsForRaimu() {
-		this.addEvent(EVENT_APPEAR_SACHIE, () => { this.appearPartner() });
-		this.addEvent('go_to_bench', (eventName) => { this.endConversation(eventName) });
-		this.addEvent(EVENT_CONVERSATION_DONE, (eventName) => { this.endConversation(eventName) });
-	}
+  #createEventsForRaimu() {
+    this.addEvent(EVENT_APPEAR_SACHIE, () => { this.appearPartner() });
+    this.addEvent('go_to_bench', (eventName) => { this.endConversation(eventName) });
+    this.addEvent(EVENT_CONVERSATION_DONE, (eventName) => { this.endConversation(eventName) });
+  }
 
   appearPartner() {
     const partner = this.characters.get(this.partnerID);
