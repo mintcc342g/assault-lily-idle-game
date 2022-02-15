@@ -48,6 +48,7 @@
 ## 플레이 가이드
 
 - 이 게임은 방치형 스타일로, 기본적으로 캐릭터의 조작은 불가능합니다.
+- 단, 맵에는 간혹 상호작용이 가능한 오브젝트가 존재합니다.
 
 <br/>
 
@@ -146,6 +147,7 @@ Lilies have very busy days to fight with Huge, massive beasts that are the prima
 ## Play Guide
 
 - This is a idle game. That means you cannot control the character.
+- However, there are interactive ojects in some maps.
 
 <br/>
 
@@ -247,6 +249,7 @@ Lilies have very busy days to fight with Huge, massive beasts that are the prima
 ## プレイガイド
 
 - このゲームは放置系なので、基本的にキャラクターの操作はできません。
+- しかし、一部マップには相互作用できるオブジェクトがあります。
 
 <br/>
 
