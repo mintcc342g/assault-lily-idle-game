@@ -1,7 +1,7 @@
-export const DEFAULT_BACKGROUND_COLOR = '#222';
-export const DEFAULT_BACKGROUND_COLOR_RED = 34;
-export const DEFAULT_BACKGROUND_COLOR_GREEN = 34;
-export const DEFAULT_BACKGROUND_COLOR_BLUE = 34;
+export const DEFAULT_BG_COLOR = '#222';
+export const DEFAULT_BG_COLOR_R = 34;
+export const DEFAULT_BG_COLOR_G = 34;
+export const DEFAULT_BG_COLOR_B = 34;
 
 export const DEFAULT_BOX_CONFIG = { wrapWidth: 500, fixedWidth: 500, fixedHeight: 80 };
 

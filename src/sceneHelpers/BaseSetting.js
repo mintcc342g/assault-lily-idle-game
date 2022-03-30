@@ -8,9 +8,9 @@ import { TextBoxMixin } from './mixins/TextBox.js';
 import CharacterRepository from '../repository/characterRepo.js';
 import DialogueRepository from '../repository/dialogueRepo.js';
 import EventRepository from '../repository/eventRepo.js';
-import KeyRepository from '../repository/keyRepo.js';
 import TranslaterRepository from '../repository/translaterRepo.js';
 import UserRepository from '../repository/userRepo.js';
+import { LANG_KR } from '../consts/keys.js';
 
 class BaseSetting extends CameraMixin(Phaser.Scene) {
   constructor(name) {
@@ -18,11 +18,10 @@ class BaseSetting extends CameraMixin(Phaser.Scene) {
     this.name = name;
     this.charaRepo = new CharacterRepository();
     this.dialRepo = new DialogueRepository();
-    this.keyRepo = new KeyRepository();
     this.transRepo = new TranslaterRepository();
     this.userRepo = new UserRepository();
     this.eventRepo = new EventRepository();
-    this.lang = this.keyRepo.kr(); // NOTE: default lang
+    this.lang = LANG_KR; // NOTE: default lang
   }
 }
 

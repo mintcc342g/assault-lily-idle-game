@@ -30,12 +30,12 @@ export const GRID_ENGINE_MOVEMENT_DIRECTION = 4;
  * Scene Names
  * 
  */
-export const SCENE_BOOT = 'BootScene';
-export const SCENE_MAIN = 'MainScene';
-export const SCENE_UI = 'UIScene';
-export const SCENE_CHARACTER_SELECTION = 'CharacterSelectionScene';
-export const SCENE_THE_HILL_OF_MARIA = 'TheHillOfMariaScene'; // NOTE: ../repository/data/characters.js
-export const SCENE_YURIGAOKA_GLADE = 'YurigaokaGladeScene';
+export const SCENE_KEY_BOOT = 'BootScene';
+export const SCENE_KEY_MAIN = 'MainScene';
+export const SCENE_KEY_UI = 'UIScene';
+export const SCENE_KEY_CHARACTER_SELECTION = 'CharacterSelectionScene';
+export const SCENE_KEY_THE_HILL_OF_MARIA = 'TheHillOfMariaScene'; // NOTE: ../repository/data/characters.js
+export const SCENE_KEY_YURIGAOKA_GLADE = 'YurigaokaGladeScene';
 
 
 /**
@@ -77,3 +77,13 @@ export const YURIGAOKA_GLADE_LAYERS = [GLADE_LAYER_GROUND, GLADE_LAYER_TREE, GLA
 export const BACKGROUND_TILE_IMG_KEY = 'background_tileset';
 export const MARIA_HILL_TILESET_CONFIG_KEY = 'map_maria_hill';
 export const YURIGAOKA_GLADE_TILESET_CONFIG_KEY = 'map_yurigaoka_glade';
+
+/**
+ * Probability
+ * 
+ */
+export const PROBABILITY_MAX = 100;
+export const PROBABILITY_MIN = 0;
+export const PROBABILITY_20 = 20;
+export const PROBABILITY_30 = 30;
+export const PROBABILITY_90 = 90;

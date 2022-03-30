@@ -1,4 +1,4 @@
-import { DEFAULT_BACKGROUND_COLOR_RED, DEFAULT_BACKGROUND_COLOR_GREEN, DEFAULT_BACKGROUND_COLOR_BLUE } from '../../consts/css.js';
+import { DEFAULT_BG_COLOR_R, DEFAULT_BG_COLOR_G, DEFAULT_BG_COLOR_B } from '../../consts/css.js';
 
 export const CameraMixin = superclass => class extends superclass {
   initResponsiveScreen() {
@@ -7,17 +7,21 @@ export const CameraMixin = superclass => class extends superclass {
 
   fadeIn(delay) {
     this.cameras.main.fadeIn(delay,
-      DEFAULT_BACKGROUND_COLOR_RED,
-      DEFAULT_BACKGROUND_COLOR_GREEN,
-      DEFAULT_BACKGROUND_COLOR_BLUE
+      DEFAULT_BG_COLOR_R,
+      DEFAULT_BG_COLOR_G,
+      DEFAULT_BG_COLOR_B
     );
   }
 
   fadeOut(delay) {
     this.cameras.main.fadeOut(delay,
-      DEFAULT_BACKGROUND_COLOR_RED,
-      DEFAULT_BACKGROUND_COLOR_GREEN,
-      DEFAULT_BACKGROUND_COLOR_BLUE
+      DEFAULT_BG_COLOR_R,
+      DEFAULT_BG_COLOR_G,
+      DEFAULT_BG_COLOR_B
     );
+  }
+
+  sceneStart(name, data) {
+    this.scene.start(name, data);
   }
 }

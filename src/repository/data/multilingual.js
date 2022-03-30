@@ -1,4 +1,4 @@
-import { LANG_KR, LANG_EN, LANG_JP, ACADEMY_LUDOVIC, ACADEMY_YURIGAOKA } from './ids.js';
+import { LANG_KR, LANG_EN, LANG_JP, ACADEMY_LUDOVIC, ACADEMY_YURIGAOKA } from '../../consts/keys.js';
 
 export const HAND_BOOK_MENUS = new Map([
   ['open_handbook', new Map([
