@@ -1,12 +1,15 @@
-import { SCENE_THE_HILL_OF_MARIA, SCENE_UI, MARIA_HILL_LAYERS, BACKGROUND_TILESET_NAME } from '../consts/configs.js';
+import { SCENE_KEY_THE_HILL_OF_MARIA, SCENE_KEY_UI, MARIA_HILL_LAYERS, BACKGROUND_TILESET_NAME } from '../consts/configs.js';
 import { EVENT_THINKING, EVENT_APPEAR_SACHIE, EVENT_CONVERSATION, EVENT_CONVERSATION_DONE } from '../consts/events.js';
-import { BACKGROUND_TILE_IMG_KEY, MARIA_HILL_TILESET_CONFIG_KEY } from '../consts/imgKeys.js';
+import { 
+  BACKGROUND_TILE_IMG_KEY, MARIA_HILL_TILESET_CONFIG_KEY,
+  CHARACTER_ID_RAIMU, CHARACTER_ID_SACHIE
+} from '../consts/keys.js';
 import { GamePlaySetting } from '../sceneHelpers/BaseSetting.js';
 import Character from '../sceneHelpers/Character.js';
 
 export default class TheHillOfMariaScene extends GamePlaySetting {
   constructor() {
-    super(SCENE_THE_HILL_OF_MARIA);
+    super(SCENE_KEY_THE_HILL_OF_MARIA);
     this.keys = {
       layers: MARIA_HILL_LAYERS,
       tileset: {
@@ -54,7 +57,7 @@ export default class TheHillOfMariaScene extends GamePlaySetting {
 
   #prepareScenario() {
     switch (this.mainCharacterID) {
-      case this.keyRepo.raimuID():
+      case CHARACTER_ID_RAIMU:
         this.#createCastsForRaimu();
         this.#createEventsForRaimu();
         break;
@@ -65,12 +68,12 @@ export default class TheHillOfMariaScene extends GamePlaySetting {
   }
 
   #createCastsForRaimu() {
-    const raimu = new Character(this.keyRepo.raimuID());
+    const raimu = new Character(CHARACTER_ID_RAIMU);
     raimu.addPosition('start', 5, 0);
     raimu.addPosition('fixed', 1, 5);
     raimu.setSpeed(1);
 
-    const sachie = new Character(this.keyRepo.sachieID());
+    const sachie = new Character(CHARACTER_ID_SACHIE);
     sachie.addPosition('start', 5, 0);
     sachie.addPosition('meet_raimu', 5, 5);
     sachie.addPosition('go_to_bench', 2, 5);
@@ -143,7 +146,7 @@ export default class TheHillOfMariaScene extends GamePlaySetting {
   #startScene(characterID) {
     this.eventHandler(1000, EVENT_THINKING);
 
-    this.scene.launch(SCENE_UI,
+    this.scene.launch(SCENE_KEY_UI,
       {
         lang: this.lang,
         sceneName: this.name,

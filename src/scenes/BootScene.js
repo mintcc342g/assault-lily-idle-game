@@ -49,13 +49,13 @@ import MenuButtonFourthImg from '../assets/ui/menu_select_button_4.png';
 import MariaHillJSON from '../assets/maps/map_maria_hill.json';
 import GladeJSON from '../assets/maps/map_yurigaoka_glade.json';
 
-import * as imgKeys from '../consts/imgKeys.js';
-import { SCENE_BOOT, SCENE_MAIN } from '../consts/configs.js';
+import * as keys from '../consts/keys.js';
+import { SCENE_KEY_BOOT, SCENE_KEY_MAIN } from '../consts/configs.js';
 import { BaseSetting } from '../sceneHelpers/BaseSetting.js';
 
 export default class BootScene extends BaseSetting {
   constructor() {
-    super(SCENE_BOOT);
+    super(SCENE_KEY_BOOT);
   }
 
   preload() {
@@ -70,7 +70,7 @@ export default class BootScene extends BaseSetting {
 
   create() {
     this.initResponsiveScreen();
-    this.scene.start(SCENE_MAIN);
+    this.sceneStart(SCENE_KEY_MAIN);
   }
 
   // see https://gamedevacademy.org/creating-a-preloading-screen-in-phaser-3/?a=13
@@ -131,55 +131,55 @@ export default class BootScene extends BaseSetting {
   }
 
   #loadCharacterImgs() {
-    this.load.atlas(this.keyRepo.raimuID(), CharacterRaimuImg, CharacterRaimuJSON);
-    this.load.atlas(this.keyRepo.maiID(), CharacterMaiImg, CharacterMaiJSON);
-    this.load.atlas(this.keyRepo.sachieID(), CharacterSachieImg, CharacterSachieJSON);
+    this.load.atlas(keys.CHARACTER_ID_RAIMU, CharacterRaimuImg, CharacterRaimuJSON);
+    this.load.atlas(keys.CHARACTER_ID_MAI, CharacterMaiImg, CharacterMaiJSON);
+    this.load.atlas(keys.CHARACTER_ID_SACHIE, CharacterSachieImg, CharacterSachieJSON);
   }
 
   #loadMapImgs() {
-    this.load.image(imgKeys.BACKGROUND_TILE_IMG_KEY, BackgroundTileImage);
-    this.load.tilemapTiledJSON(imgKeys.MARIA_HILL_TILESET_CONFIG_KEY, MariaHillJSON);
-    this.load.tilemapTiledJSON(imgKeys.YURIGAOKA_GLADE_TILESET_CONFIG_KEY, GladeJSON);
+    this.load.image(keys.BACKGROUND_TILE_IMG_KEY, BackgroundTileImage);
+    this.load.tilemapTiledJSON(keys.MARIA_HILL_TILESET_CONFIG_KEY, MariaHillJSON);
+    this.load.tilemapTiledJSON(keys.YURIGAOKA_GLADE_TILESET_CONFIG_KEY, GladeJSON);
   }
   
   #loadObjectImgs() {
-    this.load.image(imgKeys.CAT_01_IMG_KEY, CatImage01);
-    this.load.image(imgKeys.CAT_02_IMG_KEY, CatImage02);
-    this.load.image(imgKeys.CAT_03_IMG_KEY, CatImage03);
-    this.load.image(imgKeys.CAT_04_IMG_KEY, CatImage04);
-    this.load.image(imgKeys.CAT_05_IMG_KEY, CatImage05);
-    this.load.image(imgKeys.CAT_06_IMG_KEY, CatImage06);
+    this.load.image(keys.CAT_IMG_KEY+'1', CatImage01);
+    this.load.image(keys.CAT_IMG_KEY+'2', CatImage02);
+    this.load.image(keys.CAT_IMG_KEY+'3', CatImage03);
+    this.load.image(keys.CAT_IMG_KEY+'4', CatImage04);
+    this.load.image(keys.CAT_IMG_KEY+'5', CatImage05);
+    this.load.image(keys.CAT_IMG_KEY+'6', CatImage06);
   }
 
   #loadMainSceneImgs() {
-    this.load.image(imgKeys.MAIN_BACKGROUND_KEY, MainImg);
-    this.load.spritesheet(imgKeys.START_BUTTON_KEY, StartButtonImg, { frameWidth: 188, frameHeight: 92 });
-    this.load.spritesheet(this.keyRepo.kr(), KrButtonImg, { frameWidth: 100, frameHeight: 64 });
-    this.load.spritesheet(this.keyRepo.en(), EnButtonImg, { frameWidth: 100, frameHeight: 64 });
-    this.load.spritesheet(this.keyRepo.jp(), JpButtonImg, { frameWidth: 100, frameHeight: 64 });
+    this.load.image(keys.MAIN_BACKGROUND_KEY, MainImg);
+    this.load.spritesheet(keys.START_BUTTON_KEY, StartButtonImg, { frameWidth: 188, frameHeight: 92 });
+    this.load.spritesheet(keys.LANG_KR, KrButtonImg, { frameWidth: 100, frameHeight: 64 });
+    this.load.spritesheet(keys.LANG_EN, EnButtonImg, { frameWidth: 100, frameHeight: 64 });
+    this.load.spritesheet(keys.LANG_JP, JpButtonImg, { frameWidth: 100, frameHeight: 64 });
   }
 
   #loadSelectionSceneImgs() {
-    this.load.image(imgKeys.LUDOVIC_HANDBOOK_IMG_KEY, SelectionBackgroundImgLudovic);
-    this.load.image(imgKeys.YURIGAOKA_HANDBOOK_IMG_KEY, SelectionBackgroundImgYurigaoka);
-    this.load.image(imgKeys.CHARACTER_SLOT_KEY, CharacterSlotImg);
-    this.load.image(imgKeys.NEXT_PAGE_KEY, 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/assets/images/arrow-down-left.png');
-    this.load.spritesheet(imgKeys.PREV_BUTTON_KEY, PrevButtonImg, { frameWidth: 36, frameHeight: 42 });
-    this.load.spritesheet(imgKeys.NEXT_BUTTON_KEY, NextButtonImg, { frameWidth: 36, frameHeight: 42 });
-    this.load.spritesheet(imgKeys.PLAY_BUTTON_KEY, PlayButtonImg, { frameWidth: 114, frameHeight: 50 });
-    this.load.spritesheet(imgKeys.BACK_BUTTON_KEY, BackButtonImg, { frameWidth: 114, frameHeight: 50 });
+    this.load.image(keys.LUDOVIC_HANDBOOK_IMG_KEY, SelectionBackgroundImgLudovic);
+    this.load.image(keys.YURIGAOKA_HANDBOOK_IMG_KEY, SelectionBackgroundImgYurigaoka);
+    this.load.image(keys.CHARACTER_SLOT_KEY, CharacterSlotImg);
+    this.load.image(keys.NEXT_PAGE_KEY, 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/assets/images/arrow-down-left.png');
+    this.load.spritesheet(keys.PREV_BUTTON_KEY, PrevButtonImg, { frameWidth: 36, frameHeight: 42 });
+    this.load.spritesheet(keys.NEXT_BUTTON_KEY, NextButtonImg, { frameWidth: 36, frameHeight: 42 });
+    this.load.spritesheet(keys.PLAY_BUTTON_KEY, PlayButtonImg, { frameWidth: 114, frameHeight: 50 });
+    this.load.spritesheet(keys.BACK_BUTTON_KEY, BackButtonImg, { frameWidth: 114, frameHeight: 50 });
   }
 
   #loadUISceneImgs() {
-    this.load.image(imgKeys.HAND_BOOK_KEY, HandBookImg);
-    this.load.image(imgKeys.LOGO_LINE_KEY, LogoLineImg);
-    this.load.image(imgKeys.LOGO_LUDOVIC_KEY, LogoLudovicImg);
-    this.load.image(imgKeys.LOGO_YURIGAOKA_KEY, LogoYurigaokaImg);
-    this.load.spritesheet(imgKeys.CLOSE_BUTTON_KEY, CloseButtonImg, { frameWidth: 45, frameHeight: 45 });
-    this.load.spritesheet(imgKeys.MENU_BUTTON_KEY, MenuButtonImg, { frameWidth: 39, frameHeight: 54 });
-    this.load.spritesheet(imgKeys.MENU_BUTTON_1_KEY, MenuButtonFirstImg, { frameWidth: 198, frameHeight: 50 });
-    this.load.spritesheet(imgKeys.MENU_BUTTON_2_KEY, MenuButtonSecondImg, { frameWidth: 198, frameHeight: 50 });
-    this.load.spritesheet(imgKeys.MENU_BUTTON_3_KEY, MenuButtonThirdImg, { frameWidth: 198, frameHeight: 50 });
-    this.load.spritesheet(imgKeys.MENU_BUTTON_4_KEY, MenuButtonFourthImg, { frameWidth: 198, frameHeight: 50 });
+    this.load.image(keys.HAND_BOOK_KEY, HandBookImg);
+    this.load.image(keys.LOGO_LINE_KEY, LogoLineImg);
+    this.load.image(keys.LOGO_LUDOVIC_KEY, LogoLudovicImg);
+    this.load.image(keys.LOGO_YURIGAOKA_KEY, LogoYurigaokaImg);
+    this.load.spritesheet(keys.CLOSE_BUTTON_KEY, CloseButtonImg, { frameWidth: 45, frameHeight: 45 });
+    this.load.spritesheet(keys.MENU_BUTTON_KEY, MenuButtonImg, { frameWidth: 39, frameHeight: 54 });
+    this.load.spritesheet(keys.MENU_BUTTON_1_KEY, MenuButtonFirstImg, { frameWidth: 198, frameHeight: 50 });
+    this.load.spritesheet(keys.MENU_BUTTON_2_KEY, MenuButtonSecondImg, { frameWidth: 198, frameHeight: 50 });
+    this.load.spritesheet(keys.MENU_BUTTON_3_KEY, MenuButtonThirdImg, { frameWidth: 198, frameHeight: 50 });
+    this.load.spritesheet(keys.MENU_BUTTON_4_KEY, MenuButtonFourthImg, { frameWidth: 198, frameHeight: 50 });
   }
 }

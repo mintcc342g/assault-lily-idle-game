@@ -1,19 +1,20 @@
 import { 
-  SCENE_MAIN, SCENE_CHARACTER_SELECTION,
+  SCENE_KEY_MAIN, SCENE_KEY_CHARACTER_SELECTION,
   LAYER_BACKGROUND, LAYER_ON_THE_BACKGROUND, LAYER_HIDDEN_ITEM, LAYER_UI,
 } from '../consts/configs.js';
-import { MAIN_BACKGROUND_KEY, START_BUTTON_KEY } from '../consts/imgKeys.js';
+import { LANG_KR, LANG_EN, LANG_JP } from '../consts/keys.js';
+import { MAIN_BACKGROUND_KEY, START_BUTTON_KEY } from '../consts/keys.js';
 import { UISetting } from '../sceneHelpers/BaseSetting.js';
 
 export default class MainScene extends UISetting {
   constructor() {
-    super(SCENE_MAIN);
+    super(SCENE_KEY_MAIN);
     this.keys = {
       background: MAIN_BACKGROUND_KEY,
       start: START_BUTTON_KEY,
-      kr: this.keyRepo.kr(),
-      en: this.keyRepo.en(),
-      jp: this.keyRepo.jp(),
+      kr: LANG_KR,
+      en: LANG_EN,
+      jp: LANG_JP,
     };
     this.position = {
       start: { x: 225, y: 532 },
@@ -161,7 +162,7 @@ export default class MainScene extends UISetting {
 
     this.cameras.main.once('camerafadeoutcomplete', (cam, effect) => {
       this.time.delayedCall(1000, () => {
-        this.scene.start(SCENE_CHARACTER_SELECTION, { lang: this.lang });
+        this.scene.start(SCENE_KEY_CHARACTER_SELECTION, { lang: this.lang });
       });
     });
   }

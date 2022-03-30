@@ -1,15 +1,16 @@
 import {
   LUDOVIC_HANDBOOK_IMG_KEY, YURIGAOKA_HANDBOOK_IMG_KEY,
-  CHARACTER_SLOT_KEY, PREV_BUTTON_KEY, NEXT_BUTTON_KEY, PLAY_BUTTON_KEY, BACK_BUTTON_KEY
-} from '../consts/imgKeys.js';
-import { SCENE_CHARACTER_SELECTION, SCENE_MAIN, LAYER_BACKGROUND, LAYER_ON_THE_BACKGROUND } from '../consts/configs.js';
+  CHARACTER_SLOT_KEY, PREV_BUTTON_KEY, NEXT_BUTTON_KEY, PLAY_BUTTON_KEY, BACK_BUTTON_KEY,
+  ACADEMY_LUDOVIC, ACADEMY_YURIGAOKA, MAIN_CHARACTER_IDS
+} from '../consts/keys.js';
+import { SCENE_KEY_CHARACTER_SELECTION, SCENE_KEY_MAIN, LAYER_BACKGROUND, LAYER_ON_THE_BACKGROUND } from '../consts/configs.js';
 import { DEFAULT_TEXT_COLOR, DEFAULT_LINE_SPACING } from '../consts/css.js';
 import { CharacterSelectionSetting } from '../sceneHelpers/BaseSetting.js'
 import CharacterSlot from '../sceneHelpers/CharacterSlot.js';
 
 export default class CharacterSelectionScene extends CharacterSelectionSetting {
   constructor() {
-    super(SCENE_CHARACTER_SELECTION);
+    super(SCENE_KEY_CHARACTER_SELECTION);
     this.keys = {
       slot: CHARACTER_SLOT_KEY,
       prev: PREV_BUTTON_KEY,
@@ -17,8 +18,8 @@ export default class CharacterSelectionScene extends CharacterSelectionSetting {
       play: PLAY_BUTTON_KEY,
       back: BACK_BUTTON_KEY,
       background: new Map([
-        [this.keyRepo.ludovic(), LUDOVIC_HANDBOOK_IMG_KEY],
-        [this.keyRepo.yurigaoka(), YURIGAOKA_HANDBOOK_IMG_KEY],
+        [ACADEMY_LUDOVIC, LUDOVIC_HANDBOOK_IMG_KEY],
+        [ACADEMY_YURIGAOKA, YURIGAOKA_HANDBOOK_IMG_KEY],
       ])
     };
     this.position = {
@@ -79,7 +80,7 @@ export default class CharacterSelectionScene extends CharacterSelectionSetting {
     this.#createSprite(this.position.slot.x, this.position.slot.y, this.keys.slot);
 
     const characterSlot = new CharacterSlot();
-    const characters = this.keyRepo.mainCharacterIDs()
+    const characters = MAIN_CHARACTER_IDS;
     
     for (let id of characters) {
       let sprite = this.#createSprite(
@@ -186,7 +187,7 @@ export default class CharacterSelectionScene extends CharacterSelectionSetting {
       })
       .on('pointerup', () => {
         this.clickAnim(button, true);
-        this.#goToNext(SCENE_MAIN, { lang: this.lang });
+        this.#goToNext(SCENE_KEY_MAIN, { lang: this.lang });
       });
     
     this.uiGroup.push(button);

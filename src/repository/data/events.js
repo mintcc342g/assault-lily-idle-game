@@ -1,4 +1,6 @@
-import { CHARACTER_RAIMU_ID, CHARACTER_MAI_ID } from './ids.js';
+import {
+  CHARACTER_ID_RAIMU, CHARACTER_ID_MAI
+} from '../../consts/keys.js';
 
 /**
  * Character Event List
@@ -25,8 +27,8 @@ const EVENT_LIST_MAI = new Map([
  */
 
 export const CHARACTER_EVENT_LIST = new Map([
-  [CHARACTER_RAIMU_ID, EVENT_LIST_RAIMU],
-  [CHARACTER_MAI_ID, EVENT_LIST_MAI],
+  [CHARACTER_ID_RAIMU, EVENT_LIST_RAIMU],
+  [CHARACTER_ID_MAI, EVENT_LIST_MAI],
 ]);
 
 export const PROBABILITIES = [20, 30, 90];

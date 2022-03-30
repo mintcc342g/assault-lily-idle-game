@@ -1,4 +1,14 @@
 /**
+ * Languages
+ * 
+ */ 
+export const LANG_KR = 'kr';
+export const LANG_EN = 'en';
+export const LANG_JP = 'jp';
+
+
+
+/**
  * Map
  * 
  */ 
@@ -7,16 +17,42 @@ export const MARIA_HILL_TILESET_CONFIG_KEY = 'map_maria_hill';
 export const YURIGAOKA_GLADE_TILESET_CONFIG_KEY = 'map_yurigaoka_glade';
 
 
+
 /**
  * Objects
  * 
  */
-export const CAT_01_IMG_KEY = 'cat_01';
-export const CAT_02_IMG_KEY = 'cat_02';
-export const CAT_03_IMG_KEY = 'cat_03';
-export const CAT_04_IMG_KEY = 'cat_04';
-export const CAT_05_IMG_KEY = 'cat_05';
-export const CAT_06_IMG_KEY = 'cat_06';
+// export const CAT_01_IMG_KEY = 'cat_01';
+// export const CAT_02_IMG_KEY = 'cat_02';
+// export const CAT_03_IMG_KEY = 'cat_03';
+// export const CAT_04_IMG_KEY = 'cat_04';
+// export const CAT_05_IMG_KEY = 'cat_05';
+// export const CAT_06_IMG_KEY = 'cat_06';
+export const CAT_IMG_KEY = 'cat_0';
+
+
+
+/**
+ * Characters
+ * 
+ */
+export const CHARACTER_ID_RAIMU = 'character_raimu';
+export const CHARACTER_ID_MAI = 'character_mai';
+export const CHARACTER_ID_SACHIE = 'character_sachie';
+export const MAIN_CHARACTER_IDS = [
+    CHARACTER_ID_RAIMU,
+    CHARACTER_ID_MAI
+];
+
+
+
+/**
+ * Academies
+ * 
+ */
+export const ACADEMY_LUDOVIC = 'ludovic';
+export const ACADEMY_YURIGAOKA = 'yurigaoka';
+
 
 
 /**
@@ -25,6 +61,7 @@ export const CAT_06_IMG_KEY = 'cat_06';
  */
 export const MAIN_BACKGROUND_KEY = 'main_background';
 export const START_BUTTON_KEY = 'start_button';
+
 
 
 /**
@@ -39,6 +76,7 @@ export const PREV_BUTTON_KEY = 'prev_button';
 export const NEXT_BUTTON_KEY = 'next_button';
 export const PLAY_BUTTON_KEY = 'play_button';
 export const BACK_BUTTON_KEY = 'back_button';
+
 
 
 /**

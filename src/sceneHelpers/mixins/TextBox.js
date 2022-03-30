@@ -3,7 +3,7 @@ import {
   DEFAULT_TEXTBOX_BACKGROUND_COLOR_RGB, DEFAULT_LINE_SPACING
 } from '../../consts/css.js';
 import { LAYER_TEXTBOX } from '../../consts/configs.js';
-import { NEXT_PAGE_KEY } from '../../consts/imgKeys.js';
+import { NEXT_PAGE_KEY } from '../../consts/keys.js';
 
 export const TextBoxMixin = superclass => class extends superclass {
   initTextBox() {
@@ -40,7 +40,7 @@ export const TextBoxMixin = superclass => class extends superclass {
     const actionX = actionConf?actionConf.x:this.defaultConf.action.x;
     const actionY = actionConf?actionConf.y:this.defaultConf.action.y;
     const textBox = this.rexUI.add.textBox(this.#createBoxConfig(boxConf, action));
-    let timer = null;
+    let timer = false;
 
     textBox
       .setOrigin(0, 0)
@@ -51,7 +51,7 @@ export const TextBoxMixin = superclass => class extends superclass {
         if (textBox.isLastPage) {
           return
         }
-        this.#playActionIcon(action, actionX, actionY)
+        this.#playActionIcon(action, actionX, actionY);
         timer = this.#nextPageWithDelay(textBox, action, 3000);
       }, this)
       .on('pointerdown', function () {
@@ -78,7 +78,7 @@ export const TextBoxMixin = superclass => class extends superclass {
     const actionX = actionConf?actionConf.x:this.defaultConf.action.x;
     const actionY = actionConf?actionConf.y:this.defaultConf.action.y;
     const textBox = this.rexUI.add.textBox(this.#createBoxConfig(boxConf, action));
-    let timer = null;
+    let timer = false;
 
     textBox
       .setOrigin(0, 0)

@@ -1,11 +1,11 @@
 import {
-  SCENE_YURIGAOKA_GLADE, SCENE_UI,
+  SCENE_KEY_YURIGAOKA_GLADE, SCENE_KEY_UI,
   BACKGROUND_TILESET_NAME, YURIGAOKA_GLADE_LAYERS, LAYER_ON_THE_BACKGROUND
 } from '../consts/configs.js';
 import {
   BACKGROUND_TILE_IMG_KEY, YURIGAOKA_GLADE_TILESET_CONFIG_KEY,
-  CAT_01_IMG_KEY, CAT_02_IMG_KEY, CAT_03_IMG_KEY, CAT_04_IMG_KEY, CAT_05_IMG_KEY, CAT_06_IMG_KEY
-} from '../consts/imgKeys.js';
+  CAT_IMG_KEY, CHARACTER_ID_MAI
+} from '../consts/keys.js';
 import { DEFAULT_TEXT_COLOR_RGB } from '../consts/css.js';
 import { shuffle, rand, minToMs } from '../utils/utils.js';
 import { GamePlaySetting } from '../sceneHelpers/BaseSetting.js';
@@ -13,7 +13,7 @@ import Character from '../sceneHelpers/Character.js';
 
 export default class YurigaokaGladeScene extends GamePlaySetting {
   constructor() {
-    super(SCENE_YURIGAOKA_GLADE);
+    super(SCENE_KEY_YURIGAOKA_GLADE);
     this.keys = {
       layers: YURIGAOKA_GLADE_LAYERS,
       tileset: {
@@ -21,14 +21,7 @@ export default class YurigaokaGladeScene extends GamePlaySetting {
         img: BACKGROUND_TILE_IMG_KEY,
         config: YURIGAOKA_GLADE_TILESET_CONFIG_KEY
       },
-      cats: [
-        CAT_01_IMG_KEY,
-        CAT_02_IMG_KEY,
-        CAT_03_IMG_KEY,
-        CAT_04_IMG_KEY,
-        CAT_05_IMG_KEY,
-        CAT_06_IMG_KEY,
-      ]
+      cat: CAT_IMG_KEY,
     };
     this.position = {
       cats: [
@@ -70,7 +63,7 @@ export default class YurigaokaGladeScene extends GamePlaySetting {
 
   #prepareScenario() {
     switch (this.mainCharacterID) {
-      case this.keyRepo.maiID():
+      case CHARACTER_ID_MAI:
         this.#createCastsForMai();
         this.#initCats();
         break;
@@ -81,7 +74,7 @@ export default class YurigaokaGladeScene extends GamePlaySetting {
   }
 
   #createCastsForMai() {
-    const mai = new Character(this.keyRepo.maiID());
+    const mai = new Character(CHARACTER_ID_MAI);
     mai.addPosition('start', 3, 4, 'down');
     mai.setSpeed(1);
 
@@ -98,7 +91,7 @@ export default class YurigaokaGladeScene extends GamePlaySetting {
       let range =  new Phaser.Geom.Rectangle(catPos.x, catPos.y, catPos.w, catPos.h);
       let point = range.getRandomPoint();
       
-      let cat = this.add.sprite(point.x, point.y, this.keys.cats[i])
+      let cat = this.add.sprite(point.x, point.y, this.keys.cat+`${i}`)
         .setDepth(LAYER_ON_THE_BACKGROUND)
         .setVisible(true)
         .setOrigin(0, 0)
@@ -201,7 +194,7 @@ export default class YurigaokaGladeScene extends GamePlaySetting {
     this.characters.get(this.mainCharacterID).setVisible(true).play('sleep', 'down');
 
     setTimeout(()=>{
-      this.scene.launch(SCENE_UI,
+      this.scene.launch(SCENE_KEY_UI,
         {
           lang: this.lang,
           sceneName: this.name,

@@ -1,5 +1,5 @@
 import {
-  SCENE_UI, SCENE_CHARACTER_SELECTION, SCENE_MAIN,
+  SCENE_KEY_UI, SCENE_KEY_CHARACTER_SELECTION, SCENE_KEY_MAIN,
   LAYER_UI, LAYER_POPUP_OBJECT, LAYER_POPUP_OBJECT_CONTENTS
 } from '../consts/configs.js';
 import {
@@ -9,12 +9,12 @@ import {
 import {
   MENU_BUTTON_KEY, HAND_BOOK_KEY, CLOSE_BUTTON_KEY, LOGO_LINE_KEY, LOGO_KEY,
   MENU_OPTION_KEYS, MENU_BUTTON_1_KEY, MENU_BUTTON_2_KEY, MENU_BUTTON_3_KEY, MENU_BUTTON_4_KEY
-} from '../consts/imgKeys.js';
+} from '../consts/keys.js';
 import { UISetting } from '../sceneHelpers/BaseSetting.js';
 
 export default class UIScene extends UISetting {
   constructor() {
-    super(SCENE_UI)
+    super(SCENE_KEY_UI)
     this.menuOptionTextSuffix = 'text';
     this.logoImgPrefix = 'logo';
     this.keys = {
@@ -325,7 +325,7 @@ export default class UIScene extends UISetting {
       .on('pointerup', () => {
         this.#setDefaultTextColor(text, true);
         this.clickAnim(button, true);
-        this.#goToNext(SCENE_CHARACTER_SELECTION, { lang: this.lang });
+        this.#goToNext(SCENE_KEY_CHARACTER_SELECTION, { lang: this.lang });
       });
   }
 
@@ -346,7 +346,7 @@ export default class UIScene extends UISetting {
       .on('pointerup', () => {
         this.#setDefaultTextColor(text, true);
         this.clickAnim(button, true);
-        this.#goToNext(SCENE_MAIN, { lang: this.lang });
+        this.#goToNext(SCENE_KEY_MAIN, { lang: this.lang });
       });
   }
 

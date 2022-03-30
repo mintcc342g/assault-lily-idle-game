@@ -1,7 +1,7 @@
 import {
   LANG_KR, LANG_EN, LANG_JP, ACADEMY_LUDOVIC, ACADEMY_YURIGAOKA,
-  CHARACTER_RAIMU_ID, CHARACTER_MAI_ID, CHARACTER_SACHIE_ID
-} from './ids.js';
+  CHARACTER_ID_RAIMU, CHARACTER_ID_MAI, CHARACTER_ID_SACHIE
+} from '../../consts/keys.js';
 
 const INTRODUCTION_RAIMU = new Map([
   [LANG_KR, '사립 루도비코 여학원의 1학년생. 소속 레기온은 \'아이언 사이드\'. 언니의 의지를 이어 릴리가 되었다. 전사한 릴리들이 잠들어 있는 마리아 언덕에 자주 가는 듯 하다.'],
@@ -17,7 +17,7 @@ const INTRODUCTION_MAI = new Map([
 
 export const CHARACTER_INFO = new Map([
   [
-    CHARACTER_RAIMU_ID, new Map([
+    CHARACTER_ID_RAIMU, new Map([
       ['name', new Map([ [LANG_KR, '키시모토 루치아 라이무'], [LANG_EN, 'Raimu Lucia Kishimoto'], [LANG_JP, '岸本・ルチア・来夢'] ])],
       ['stage', 'TheHillOfMariaScene'],
       ['intro', INTRODUCTION_RAIMU],
@@ -25,7 +25,7 @@ export const CHARACTER_INFO = new Map([
     ])
   ],
   [
-    CHARACTER_MAI_ID, new Map([
+    CHARACTER_ID_MAI, new Map([
       ['name', new Map([ [LANG_KR, '요시무라 Thi 마이'], [LANG_EN, 'Mai Thi Yoshimura'], [LANG_JP, '吉村・Thi・梅'] ])],
       ['stage', 'YurigaokaGladeScene'],
       ['intro', INTRODUCTION_MAI],
@@ -33,7 +33,7 @@ export const CHARACTER_INFO = new Map([
     ])
   ],
   [
-    CHARACTER_SACHIE_ID, new Map([
+    CHARACTER_ID_SACHIE, new Map([
       ['name', new Map([ [LANG_KR, '후쿠야마 잔느 사치에'], [LANG_EN, 'Sachie Jeanne Fukuyama'], [LANG_JP, '福山・ジャンヌ・幸恵'] ])],
       ['stage', ''],
       ['intro', ''],
