@@ -1,4 +1,4 @@
-import Phaser from 'phaser';
+import { GameEngine } from './GameEngine.js';
 import compose from 'lodash/fp/compose';
 import { AnimMixin } from './mixins/Animation.js';
 import { BaseEventMixin } from './mixins/BaseEvent.js';
@@ -12,7 +12,7 @@ import TranslaterRepository from '../repository/translaterRepo.js';
 import UserRepository from '../repository/userRepo.js';
 import { LANG_KR } from '../consts/keys.js';
 
-class BaseSetting extends CameraMixin(Phaser.Scene) {
+class BaseSetting extends CameraMixin(GameEngine) {
   constructor(name) {
     super(name);
     this.name = name;

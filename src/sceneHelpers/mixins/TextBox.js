@@ -221,14 +221,13 @@ export const TextBoxMixin = superclass => class extends superclass {
   }
 
   #createActionIcon(conf) {
-    return this.add.image(
-      conf?conf.x:this.defaultConf.action.x,
-      conf?conf.y:this.defaultConf.action.y,
-      this.nextPageKey
-    )
-    .setTint(DEFAULT_MENU_COLOR_RGB)
-    .setOrigin(0, 0)
-    .setVisible(false);
+    return this.addImage({
+      x: conf?conf.x:this.defaultConf.action.x,
+      y: conf?conf.y:this.defaultConf.action.y,
+      key: this.nextPageKey,
+      tint: DEFAULT_MENU_COLOR_RGB,
+      visible: false,
+    });
   }
 
   createSpeechBubble(boxX, boxY, textConf) {
