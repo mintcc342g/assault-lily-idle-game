@@ -221,7 +221,7 @@ export const TextBoxMixin = superclass => class extends superclass {
   }
 
   #createActionIcon(conf) {
-    return this.addImage({
+    return this.makeImage({
       x: conf?conf.x:this.defaultConf.action.x,
       y: conf?conf.y:this.defaultConf.action.y,
       key: this.nextPageKey,

@@ -65,15 +65,14 @@ export default class UIScene extends UISetting {
   }
 
   #initMenuButton() {
-    this.menuButton = this.add.sprite(
-        this.css.menuButton.x,
-        this.css.menuButton.y,
-        this.keys.menuButton
-      )
-      .setDepth(LAYER_UI)
-      .setVisible(true)
-      .setInteractive()
-      .setOrigin(0, 0);
+    this.menuButton = this.makeSprite({
+      x: this.css.menuButton.x,
+      y: this.css.menuButton.y,
+      key: this.keys.menuButton,
+      depth: LAYER_UI,
+      visible: true,
+      interactive: true,
+    });
 
     this.menuButton
       .on('pointerout', () => {
@@ -96,25 +95,26 @@ export default class UIScene extends UISetting {
   }
 
   #initHandBook() {
-    this.handBook = this.add.sprite(0, 180, this.keys.handBook)
-      .setDepth(LAYER_POPUP_OBJECT)
-      .setVisible(false)
-      .disableInteractive()
-      .setOrigin(0, 0);
+    this.handBook = this.makeSprite({
+      y: 180,
+      key: this.keys.handBook,
+      depth: LAYER_POPUP_OBJECT,
+      visible: false,
+      interactive: false,
+    });
     
     this.#initCloseHandbookButton();
   }
 
   #initCloseHandbookButton() {
-    this.closeButton = this.add.sprite(
-        this.css.closeButton.x,
-        this.css.closeButton.y,
-        this.keys.close
-      )
-      .setDepth(LAYER_UI)
-      .setVisible(false)
-      .setInteractive()
-      .setOrigin(0, 0);
+    this.closeButton = this.makeSprite({
+      x: this.css.closeButton.x,
+      y: this.css.closeButton.y,
+      key: this.keys.close,
+      depth: LAYER_UI,
+      visible: false,
+      interactive: true,
+    });
     
     this.closeButton
       .on('pointerout', () => {
@@ -139,25 +139,23 @@ export default class UIScene extends UISetting {
   #initLogo() {
     const logoImgKey = `${this.logoImgPrefix}_${this.academy}`;
 
-    const logoLine =  this.add.sprite(
-        this.css.logoLine.x,
-        this.css.logoLine.y,
-        this.keys.logoLine
-      )
-      .setDepth(LAYER_POPUP_OBJECT_CONTENTS)
-      .setVisible(false)
-      .disableInteractive()
-      .setOrigin(0, 0);
+    const logoLine = this.makeSprite({
+      x: this.css.logoLine.x,
+      y: this.css.logoLine.y,
+      key: this.keys.logoLine,
+      depth: LAYER_POPUP_OBJECT_CONTENTS,
+      visible: false,
+      interactive: false,
+    });
 
-    const logo = this.add.sprite(
-        this.css.logo.x,
-        this.css.logo.y,
-        logoImgKey
-      )
-      .setDepth(LAYER_POPUP_OBJECT_CONTENTS)
-      .setVisible(false)
-      .disableInteractive()
-      .setOrigin(0, 0);
+    const logo = this.makeSprite({
+      x: this.css.logo.x,
+      y: this.css.logo.y,
+      key: logoImgKey,
+      depth: LAYER_POPUP_OBJECT_CONTENTS,
+      visible: false,
+      interactive: false,
+    });
 
     this.menuGroup.set(this.keys.logoLine, logoLine);
     this.menuGroup.set(this.keys.logo, logo);
@@ -208,11 +206,10 @@ export default class UIScene extends UISetting {
     var y = this.css.menuOptions.y;
 
     for (let key of this.keys.menuOptions) {
-      let button = this.add.sprite(x, y, key)
-        .setDepth(LAYER_POPUP_OBJECT_CONTENTS)
-        .setVisible(false)
-        .setInteractive()
-        .setOrigin(0, 0);
+      let button = this.makeSprite({ x: x, y: y, key: key,
+        depth: LAYER_POPUP_OBJECT_CONTENTS,
+        visible: false, interactive: true,
+      });
 
       let text = this.make.text({
         x: x,

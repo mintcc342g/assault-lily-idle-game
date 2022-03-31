@@ -22,8 +22,7 @@ export const GraphicMixin = superclass => class extends superclass {
 
   initCharacterSprites() {
     for(let characterID of this.characters.keys()) {
-      let sprite = this.add.sprite(0, 0, characterID).setOrigin(0, 0).setVisible(false);
-
+      let sprite = this.makeSprite({ key: characterID, visible: false });
       this.characters.get(characterID).setSprite(sprite);
       this.#createAnimFrame(characterID, CHARACTER_ANIM_KEYS, DEFAULT_ANIM_FRAME_DURATION, -1);
     }
