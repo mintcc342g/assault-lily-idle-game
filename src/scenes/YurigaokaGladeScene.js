@@ -85,17 +85,15 @@ export default class YurigaokaGladeScene extends GamePlaySetting {
     shuffle(this.position.cats);
     
     const catLine = this.transRepo.catLine(this.lang);
-    let i = 0;
+    let i = 1;
 
     this.position.cats.forEach((catPos)=>{
       let range =  new Phaser.Geom.Rectangle(catPos.x, catPos.y, catPos.w, catPos.h);
       let point = range.getRandomPoint();
       
-      let cat = this.add.sprite(point.x, point.y, this.keys.cat+`${i}`)
-        .setDepth(LAYER_ON_THE_BACKGROUND)
-        .setVisible(true)
-        .setOrigin(0, 0)
-        .setInteractive();
+      let cat = this.makeSprite({ x: point.x, y: point.y, key: this.keys.cat+`${i}`,
+        depth: LAYER_ON_THE_BACKGROUND, visible: true, interactive: true,
+      });
 
       cat
         .on('pointerdown', () => {

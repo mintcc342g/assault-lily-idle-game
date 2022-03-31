@@ -46,7 +46,7 @@ export default class MainScene extends UISetting {
   }
 
   #initBackground() {
-    this.addImage({ key: this.keys.background, depth: LAYER_BACKGROUND });
+    this.makeImage({ key: this.keys.background, depth: LAYER_BACKGROUND });
   }
 
   #initInfoText() {
@@ -99,7 +99,13 @@ export default class MainScene extends UISetting {
   }
 
   #initStartButton() {
-    const startButton = this.#createButton(this.keys.start, this.position.start.x, this.position.start.y);
+    const startButton = this.makeSprite({
+      x: this.position.start.x,
+      y: this.position.start.y,
+      key: this.keys.start,
+      depth: LAYER_UI,
+      interactive: true
+    });
 
     startButton
       .on('pointerdown', () => {
@@ -120,20 +126,16 @@ export default class MainScene extends UISetting {
     var y = this.position.lang.y;
 
     for (let key of this.langButtons.keys()) {
-      this.langButtons.get(key)
-        .set('button', this.#setButtonInteraction(this.#createButton(key, x, y)));
+      let langButton = this.makeSprite({ x: x, y: y,
+        key: key, depth: LAYER_UI, interactive: true,
+      });
 
+      this.langButtons.get(key).set('button', this.#setButtonInteraction(langButton));
+      
       x += this.position.lang.plus;
     }
 
     this.clickAnim(this.langButtons.get(this.lang).get('button'), false);
-  }
-
-  #createButton(buttonKey, x, y) {
-    return this.add.sprite(x, y, buttonKey)
-      .setDepth(LAYER_UI)
-      .setInteractive()
-      .setOrigin(0, 0);
   }
 
   #setButtonInteraction(button) {

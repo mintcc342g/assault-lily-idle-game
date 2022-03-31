@@ -69,23 +69,30 @@ export default class CharacterSelectionScene extends CharacterSelectionSetting {
     for (let [academyName, imgKey] of this.keys.background) {
       this.backgrounds.set(
         academyName,
-        this.addImage({ key: imgKey, depth: LAYER_BACKGROUND, visible: false })
+        this.makeImage({ key: imgKey, depth: LAYER_BACKGROUND, visible: false })
       );
     }
   }
 
   #initCharacterSlot() {
-    this.#createSprite(this.position.slot.x, this.position.slot.y, this.keys.slot);
+    this.makeSprite({
+      x: this.position.slot.x,
+      y: this.position.slot.y,
+      key: this.keys.slot,
+      depth: LAYER_ON_THE_BACKGROUND,
+    });
 
     const characterSlot = new CharacterSlot();
     const characters = MAIN_CHARACTER_IDS;
     
     for (let id of characters) {
-      let sprite = this.#createSprite(
-        this.position.character.x,
-        this.position.character.y,
-        id
-      ).setVisible(false);
+      let sprite = this.makeSprite({
+        x: this.position.character.x,
+        y: this.position.character.y,
+        key: id,
+        depth: LAYER_ON_THE_BACKGROUND,
+        visible: false,
+      });
 
       characterSlot.addCharacter({
         sprite: sprite,
@@ -137,7 +144,7 @@ export default class CharacterSelectionScene extends CharacterSelectionSetting {
     const arrowKeys = [this.keys.prev, this.keys.next];
 
     for (let i = 0; i < arrowKeys.length; i++) {
-      let arrow = this.#createSprite(x, y, arrowKeys[i]);
+      let arrow = this.makeSprite({ x: x, y: y, key: arrowKeys[i], depth: LAYER_ON_THE_BACKGROUND });
 
       arrow
         .setInteractive()
@@ -173,7 +180,12 @@ export default class CharacterSelectionScene extends CharacterSelectionSetting {
   }
 
   #initBackButton() {
-    const button = this.#createSprite(this.position.back.x, this.position.back.y, this.keys.back);
+    const button = this.makeSprite({
+      x: this.position.back.x,
+      y: this.position.back.y,
+      key: this.keys.back,
+      depth: LAYER_ON_THE_BACKGROUND,
+    });
 
     button
       .setInteractive()
@@ -192,7 +204,12 @@ export default class CharacterSelectionScene extends CharacterSelectionSetting {
   }
 
   #initPlayButton() {
-    const button = this.#createSprite(this.position.play.x, this.position.play.y, this.keys.play);
+    const button = this.makeSprite({
+      x: this.position.play.x,
+      y: this.position.play.y,
+      key: this.keys.play,
+      depth: LAYER_ON_THE_BACKGROUND,
+    });
     
     button
       .setInteractive()
@@ -219,12 +236,6 @@ export default class CharacterSelectionScene extends CharacterSelectionSetting {
     } else {
       this.currentCharacter = this.currentCharacter.next;
     }
-  }
-
-  #createSprite(x, y, key) {
-    return this.add.sprite(x, y, key)
-      .setDepth(LAYER_ON_THE_BACKGROUND)
-      .setOrigin(0, 0);
   }
 
   #changeCharacter(visible) {
