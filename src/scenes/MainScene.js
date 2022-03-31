@@ -46,9 +46,7 @@ export default class MainScene extends UISetting {
   }
 
   #initBackground() {
-    this.add.image(0, 0, this.keys.background)
-      .setDepth(LAYER_BACKGROUND)
-      .setOrigin(0, 0);
+    this.addImage({ key: this.keys.background, depth: LAYER_BACKGROUND });
   }
 
   #initInfoText() {

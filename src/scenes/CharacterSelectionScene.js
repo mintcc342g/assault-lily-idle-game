@@ -67,11 +67,9 @@ export default class CharacterSelectionScene extends CharacterSelectionSetting {
   
   #initBackground() {
     for (let [academyName, imgKey] of this.keys.background) {
-      this.backgrounds.set(academyName,
-        this.add.image(0, 0, imgKey)
-        .setDepth(LAYER_BACKGROUND)
-        .setVisible(false)
-        .setOrigin(0, 0)
+      this.backgrounds.set(
+        academyName,
+        this.addImage({ key: imgKey, depth: LAYER_BACKGROUND, visible: false })
       );
     }
   }
