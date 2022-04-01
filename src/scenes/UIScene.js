@@ -184,10 +184,11 @@ export default class UIScene extends UISetting {
       }
     };
       
-    let textBox = this.make.text(textBoxConfig)
-      .setDepth(LAYER_POPUP_OBJECT_CONTENTS)
-      .setVisible(false)
-      .setOrigin(0, 0);
+    let textBox = this.makeText({
+      textStyle: textBoxConfig,
+      depth: LAYER_POPUP_OBJECT_CONTENTS,
+      visible: false,
+    });
   
     this.menuGroup.set('motto', textBox);
   }
@@ -211,26 +212,27 @@ export default class UIScene extends UISetting {
         visible: false, interactive: true,
       });
 
-      let text = this.make.text({
-        x: x,
-        y: y,
-        text: this.transRepo.translatedMenu(key, this.lang),
-        style: {
-          fixedWidth: this.css.menuOptions.w,
-          fixedHeight: this.css.menuOptions.h,
-          color: DEFAULT_MENU_COLOR,
-          fontSize: '18px',
-          align: 'left'
+      let text = this.makeText({
+        textStyle: {
+          x: x,
+          y: y,
+          text: this.transRepo.translatedMenu(key, this.lang),
+          style: {
+            fixedWidth: this.css.menuOptions.w,
+            fixedHeight: this.css.menuOptions.h,
+            color: DEFAULT_MENU_COLOR,
+            fontSize: '18px',
+            align: 'left'
+          },
+          padding: {
+            left: this.css.menuOptions.padding.left,
+            top: this.css.menuOptions.padding.top
+          }
         },
-        padding: {
-          left: this.css.menuOptions.padding.left,
-          top: this.css.menuOptions.padding.top
-        }
+        depth: LAYER_POPUP_OBJECT_CONTENTS,
+        visible: false,
+        interactive: true,
       })
-      .setDepth(LAYER_POPUP_OBJECT_CONTENTS)
-      .setVisible(false)
-      .setInteractive()
-      .setOrigin(0, 0)
      
       y += this.css.menuOptions.yPlus;
       this.menuGroup.set(key, button);
@@ -393,30 +395,31 @@ export default class UIScene extends UISetting {
   }
 
   #createToDoContent(x, y, text) {
-    return this.make.text({
-      x: x,
-      y: y,
-      text: text,
-      style: {
-        fixedWidth: this.css.toDoList.w,
-        fixedHeight: this.css.toDoList.h,
-        color: DEFAULT_TEXT_COLOR,
-        fontSize: '18px',
-        maxLines: 3,
-        align: 'left',
-        lineSpacing: DEFAULT_LINE_SPACING,
-        wordWrap: {
-          width: this.css.toDoList.w,
-          useAdvancedWrap: true
+    return this.makeText({
+      textStyle: {
+        x: x,
+        y: y,
+        text: text,
+        style: {
+          fixedWidth: this.css.toDoList.w,
+          fixedHeight: this.css.toDoList.h,
+          color: DEFAULT_TEXT_COLOR,
+          fontSize: '18px',
+          maxLines: 3,
+          align: 'left',
+          lineSpacing: DEFAULT_LINE_SPACING,
+          wordWrap: {
+            width: this.css.toDoList.w,
+            useAdvancedWrap: true
+          },
         },
+        padding: {
+          y: this.css.toDoList.padding
+        }
       },
-      padding: {
-        y: this.css.toDoList.padding
-      }
+      depth: LAYER_POPUP_OBJECT_CONTENTS,
+      visible: false,
     })
-    .setDepth(LAYER_POPUP_OBJECT_CONTENTS)
-    .setVisible(false)
-    .setOrigin(0, 0);
   }
 
   #activeMenuButton(isActive) {

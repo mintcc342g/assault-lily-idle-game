@@ -87,13 +87,13 @@ export default class MainScene extends UISetting {
     };
 
     conf.text = this.transRepo.mainInfo(this.keys.en);
-    result.push(this.make.text(conf).setOrigin(0, 0).setDepth(LAYER_ON_THE_BACKGROUND));
+    result.push(this.makeText({ textStyle: conf, depth: LAYER_ON_THE_BACKGROUND }));
 
     conf.text = this.transRepo.mainInfo(this.keys.kr);
-    result.push(this.make.text(conf).setOrigin(0, 0).setDepth(LAYER_HIDDEN_ITEM));
+    result.push(this.makeText({ textStyle: conf, depth: LAYER_HIDDEN_ITEM }));
 
     conf.text = this.transRepo.mainInfo(this.keys.jp);
-    result.push(this.make.text(conf).setOrigin(0, 0).setDepth(LAYER_HIDDEN_ITEM));
+    result.push(this.makeText({ textStyle: conf, depth: LAYER_HIDDEN_ITEM }));
 
     return result
   }

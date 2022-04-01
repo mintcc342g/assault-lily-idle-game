@@ -82,7 +82,8 @@ export default class BootScene extends BaseSetting {
     
     var width = this.rexScaleOuter.innerViewport.width;
     var height = this.rexScaleOuter.innerViewport.height;
-    var loadingText = this.make.text({
+    var loadingText = this.makeText({
+      textStyle: {
         x: width / 2,
         y: height / 2 - 50,
         text: 'Loading...',
@@ -90,10 +91,12 @@ export default class BootScene extends BaseSetting {
             font: '20px monospace',
             fill: '#ffffff'
         }
+      },
+      originX: 0.5, originY: 0.5,
     });
-    loadingText.setOrigin(0.5, 0.5);
     
-    var percentText = this.make.text({
+    var percentText = this.makeText({
+      textStyle: {
         x: width / 2,
         y: height / 2 - 5,
         text: '0%',
@@ -101,10 +104,12 @@ export default class BootScene extends BaseSetting {
             font: '18px monospace',
             fill: '#ffffff'
         }
+      },
+      originX: 0.5, originY: 0.5,
     });
-    percentText.setOrigin(0.5, 0.5);
     
-    var assetText = this.make.text({
+    var assetText = this.makeText({
+      textStyle: {
         x: width / 2,
         y: height / 2 + 50,
         text: '',
@@ -112,8 +117,9 @@ export default class BootScene extends BaseSetting {
             font: '18px monospace',
             fill: '#ffffff'
         }
+      },
+      originX: 0.5, originY: 0.5,
     });
-    assetText.setOrigin(0.5, 0.5);
     
     this.load.on('progress', function (value) {
         percentText.setText(parseInt(value * 100) + '%');
