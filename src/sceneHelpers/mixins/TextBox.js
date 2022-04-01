@@ -52,7 +52,7 @@ export const TextBoxMixin = superclass => class extends superclass {
           return
         }
         this.#playActionIcon(action, actionX, actionY);
-        timer = this.#nextPageWithDelay(textBox, action, 3000);
+        timer = this.#nextPageWithDelay(textBox, action, 4000);
       }, this)
       .on('pointerdown', function () {
         if (timer) {
@@ -142,7 +142,7 @@ export const TextBoxMixin = superclass => class extends superclass {
   }
 
   createNameTag(name, config) {
-    const conf = {
+    const textConf = {
       x: config.x,
       y: config.y,
       text: name,
@@ -157,7 +157,7 @@ export const TextBoxMixin = superclass => class extends superclass {
       padding: config.padding,
     }
 
-    return this.make.text(conf).setOrigin(0, 0).setDepth(LAYER_TEXTBOX);
+    return this.makeText(textConf, { depth: LAYER_TEXTBOX });
   }
 
   createConversationTextBox(scriptReader) {
@@ -211,7 +211,7 @@ export const TextBoxMixin = superclass => class extends superclass {
         .setOrigin(0, 0)
         .setAlpha(0.85)
         .setStrokeStyle(2, DEFAULT_MENU_COLOR_RGB),
-      text: this.make.text(conf?conf:this.defaultConf.box).setOrigin(0, 0),
+      text: this.makeText({ textStyle: conf?conf:this.defaultConf.box }),
       action: action,
       space: {
         left: 20, right: 20, top: 20, bottom: 20,
@@ -235,7 +235,7 @@ export const TextBoxMixin = superclass => class extends superclass {
       x: boxX,
       y: boxY,
       background: this.#createSpeechBubbleShape(DEFAULT_TEXTBOX_BACKGROUND_COLOR_RGB, DEFAULT_MENU_COLOR_RGB),
-      text: this.make.text(textConf).setOrigin(0, 0), // NOTE: don't set the text field before the background field.
+      text: this.makeText({ textStyle: textConf }), // NOTE: don't set the text property before the background property.
       space: {
         left: 10, right: 10, top: 10, bottom: 25,
         text: 10,

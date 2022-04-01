@@ -31,33 +31,29 @@ export class GameEngine extends Phaser.Scene {
     );
   }
 
-  /**
-   * config object properties
-   * @x int, default 0
-   * @y int, default 0
-   * @key string, image key
-   * @originX int, default 0
-   * @originY int, default 0
-   * @depth int
-   * @visible bool
-   * @tint hexadecimal color, e.g. 0x7c6953
-   */
   makeImage(config) {
-    const image = this.add.image(config.x?config.x:0, config.y?config.y:0, config.key);
-
-    if (config.hasOwnProperty('depth')) {
-      image.setDepth(config.depth);
-    }
-    if (config.hasOwnProperty('visible')) {
-      image.setVisible(config.visible);
-    }
-    if (config.hasOwnProperty('tint')) {
-      image.setTint(config.tint);
-    }
-
-    image.setOrigin(config.originX?config.originX:0, config.originY?config.originY:0);
+    let image = this.add.image(config.x?config.x:0, config.y?config.y:0, config.key);
+    image = this.setGameObjectObtions(image, config);
     
     return image
+  }
+
+  makeSprite(config) {
+    let sprite = this.add.sprite(config.x?config.x:0, config.y?config.y:0, config.key);
+    sprite = this.setGameObjectObtions(sprite, config);
+    
+    return sprite
+  }
+
+  /**
+   * params
+   * @textStyle an object for Phaser3 Text
+   */
+  makeText(config) {
+    let text = this.make.text(config.textStyle);
+    text = this.setGameObjectObtions(text, config);
+
+    return text
   }
 
   /**
@@ -70,22 +66,24 @@ export class GameEngine extends Phaser.Scene {
    * @depth int
    * @visible bool
    * @interactive bool
+   * @tint hexadecimal color, e.g. 0x7c6953
    */
-  makeSprite(config) {
-    const sprite = this.add.sprite(config.x?config.x:0, config.y?config.y:0, config.key);
-
+  setGameObjectObtions(gameObj, config) {
     if (config.hasOwnProperty('depth')) {
-      sprite.setDepth(config.depth);
+      gameObj.setDepth(config.depth);
     }
     if (config.hasOwnProperty('visible')) {
-      sprite.setVisible(config.visible);
+      gameObj.setVisible(config.visible);
+    }
+    if (config.hasOwnProperty('tint')) {
+      gameObj.setTint(config.tint);
     }
     if (config.hasOwnProperty('interactive')) {
-      config.interactive?sprite.setInteractive():sprite.disableInteractive();
+      config.interactive?gameObj.setInteractive():gameObj.disableInteractive();
     }
 
-    sprite.setOrigin(config.originX?config.originX:0, config.originY?config.originY:0);
-    
-    return sprite
+    gameObj.setOrigin(config.originX?config.originX:0, config.originY?config.originY:0);
+
+    return gameObj
   }
 }
